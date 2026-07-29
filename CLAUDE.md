@@ -57,6 +57,42 @@
  x -  y + 2z = 5
 ```
 
+## GitHub 배포 (2026-07-29 설정)
+
+- 저장소: **https://github.com/yakimbss26/numpy-lab** (public)
+- 배포 사이트: **https://yakimbss26.github.io/numpy-lab/** (GitHub Pages, `main` 브랜치 루트)
+
+```bash
+npm run build          # index.html / numpy-lab.html / data.js 갱신
+git add -A && git commit -m "..." && git push
+# 1~2분 뒤 Pages 가 자동으로 다시 배포된다
+```
+
+**빌드 산출물을 반드시 커밋해야 한다.** Pages 는 정적 파일만 서빙하므로 `index.html`,
+`numpy-lab.html`, `webapp/src/core/data.js` 가 저장소에 있어야 사이트가 동작한다.
+소스만 고치고 `npm run build` 없이 푸시하면 배포 사이트는 그대로다.
+
+### 저장소에서 제외한 것과 그 이유
+
+`수업자료/` 는 `.gitignore` 로 제외했다. 공개 저장소라서다.
+
+| 파일 | 사유 |
+|:---|:---|
+| `1.벡터와행렬.pptx` | 출판 교재에서 온 슬라이드로 보인다(바닥글에 교재 장 번호, 본문에 `[그림 6.17]`) |
+| `ra.csv` (MovieLens) | 라이선스가 재배포를 금지한다 |
+| 노트북 2개 | 수업 원본이라 공개 대상이 아니다 |
+
+`lab_inflammation-01.csv` 는 Software Carpentry 자료(CC-BY 4.0)라 재배포가 허용된다.
+**값이 `webapp/src/core/data.js` 에 들어 있고 그 파일은 커밋한다** — 그래서 수업자료 폴더 없이도 앱이 동작한다.
+
+**MovieLens 는 합성 데이터로 대체했다.** `build.js` 가 고정 시드로 1,200행을 만든다. 열 구성과 값의
+범위만 실제와 같고 내용은 다르다. 3·5·9장 화면에 합성이라는 사실을 밝혀 두었다. 집계값(사용자 610명,
+영화 9,724편, 평균 3.501557, 분포)은 데이터가 아니라 사실 요약이므로 그대로 적었다.
+
+> **함정**: `build.js` 는 `수업자료/` 가 없으면 **기존 `data.js` 를 그대로 둔다.** 이 방어가 없으면
+> 클론한 사람이 `npm run build` 를 돌리는 순간 실습 데이터가 전부 null 로 덮어써진다.
+> `buildData()` 가 `null` 을 반환하는 분기가 그 역할이다 — 지우지 마라.
+
 ## 개발 명령
 
 ```bash
