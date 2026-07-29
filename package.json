@@ -1,0 +1,27 @@
+{
+  "name": "numpy-lab",
+  "version": "1.0.0",
+  "private": true,
+  "description": "NumPy Lab — 과학고 1학년용 NumPy 심화 학습 웹앱. 브라우저에서 도는 미니 NumPy 엔진과 시뮬레이터로 배운다.",
+  "keywords": ["numpy", "education", "visualization", "simulator", "korean"],
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "node webapp/build.js",
+    "start": "npm run build && http-server . -p 5173 -c-1 -o /index.html",
+    "serve": "http-server . -p 5173 -c-1",
+    "dev": "npm run build && concurrently -k -n build,serve -c blue,green \"node webapp/build.js --watch\" \"http-server . -p 5173 -c-1 -o /index.html\"",
+    "test": "node webapp/test/nd.test.js && node webapp/test/cross.test.js",
+    "test:unit": "node webapp/test/nd.test.js",
+    "test:cross": "node webapp/test/cross.test.js",
+    "test:gen": "\"C:/Users/user/AppData/Local/Programs/Python/Python313/python.exe\" webapp/test/gen_expected.py",
+    "check": "node webapp/build.js --check",
+    "clean": "node -e \"const fs=require('fs');['index.html','numpy-lab.html','webapp/src/core/data.js'].forEach(f=>{try{fs.unlinkSync(f);console.log('removed '+f)}catch(e){}})\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "http-server": "^14.1.1"
+  }
+}

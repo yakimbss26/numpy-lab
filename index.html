@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>NumPy Lab — 과학고 NumPy 심화 학습</title>
+<meta name="description" content="브라우저에서 도는 미니 NumPy 엔진과 시뮬레이터로 배우는 NumPy 심화 학습 실습장.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232a78d6'/%3E%3Ctext x='16' y='22' font-family='monospace' font-size='15' font-weight='bold' fill='white' text-anchor='middle'%3Enp%3C/text%3E%3C/svg%3E">
+<!--
+  이 파일은 자동 생성된다.  다시 만들기: npm run build
+  소스는 webapp/src/ 에 있고 아래에서 각각 불러온다.
+  소스를 고쳤으면 브라우저 새로고침만 하면 된다(모듈 파일을 새로 추가했을 때만 다시 빌드).
+-->
+<link rel="stylesheet" href="webapp/src/theme.css">
+<link rel="stylesheet" href="webapp/src/app.css">
+</head>
+<body>
+<noscript><p style="padding:2rem;font:15px system-ui,sans-serif">이 실습장은 자바스크립트가 필요하다. 브라우저에서 자바스크립트를 켜라.</p></noscript>
+<script src="webapp/src/core/nd.js"></script>
+<script src="webapp/src/core/ui.js"></script>
+<script src="webapp/src/core/data.js"></script>
+<script src="webapp/src/core/app.js"></script>
+<script src="webapp/src/modules/ch01-why.js"></script>
+<script src="webapp/src/modules/ch02-vector.js"></script>
+<script src="webapp/src/modules/ch03-ndarray.js"></script>
+<script src="webapp/src/modules/ch04-reshape.js"></script>
+<script src="webapp/src/modules/ch05-indexing.js"></script>
+<script src="webapp/src/modules/ch06-create.js"></script>
+<script src="webapp/src/modules/ch07-broadcast.js"></script>
+<script src="webapp/src/modules/ch08-axis.js"></script>
+<script src="webapp/src/modules/ch09-condition.js"></script>
+<script src="webapp/src/modules/ch10-project.js"></script>
+<script src="webapp/src/modules/ch11-playground.js"></script>
+<script>
+(function () {
+  function fail(msg) {
+    document.body.innerHTML = '<div style="padding:2rem;font:15px/1.7 system-ui,sans-serif;max-width:40rem">' +
+      '<h1 style="font-size:1.3rem">NumPy Lab 을 시작할 수 없다</h1><p>' + msg + '</p>' +
+      '<pre style="background:#f2f2ee;padding:.8rem;border-radius:6px">npm install\nnpm start</pre></div>';
+  }
+  function boot() {
+    if (!window.ND)      return fail('미니 NumPy 엔진(nd.js)을 불러오지 못했다.');
+    if (!window.UI)      return fail('위젯(ui.js)을 불러오지 못했다.');
+    if (!window.LabData) return fail('실습 데이터(data.js)가 없다. <code>npm run build</code> 를 먼저 실행하라.');
+    if (!window.Lab)     return fail('셸(app.js)을 불러오지 못했다.');
+    if (!window.Lab.chapters.length) return fail('학습 화면 모듈이 하나도 등록되지 않았다. webapp/src/modules/ 를 확인하라.');
+    window.Lab.start();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
+})();
+</script>
+</body>
+</html>

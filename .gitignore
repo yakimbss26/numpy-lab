@@ -1,0 +1,40 @@
+# 의존성
+node_modules/
+
+# 원본 수업자료 — 저장소에 포함하지 않는다
+#
+# 이유:
+#  · 1.벡터와행렬.pptx  — 출판 교재에서 온 슬라이드로 보인다(바닥글에 교재 장 번호, 본문에 "[그림 6.17]").
+#  · ra.csv (MovieLens) — 라이선스가 재배포를 금지한다.
+#                          "The user may not redistribute the data without separate permission."
+#                          https://grouplens.org/datasets/movielens/
+#  · 노트북             — 수업에서 쓰인 원본이라 공개 대상이 아니다.
+#
+# 실습 데이터는 webapp/src/core/data.js 에 이미 들어 있어(커밋됨) 이 폴더 없이도 앱이 동작한다.
+# 관절염 데이터는 CC-BY 4.0 이라 재배포가 허용되며 README 에 출처를 밝혔다.
+# MovieLens 부분은 실제 데이터가 아니라 구조만 같은 합성 데이터다.
+수업자료/
+
+# 검증용 생성물 (실제 NumPy 로 다시 뽑을 수 있다: npm run test:gen)
+# expected.json 은 커밋한다 — 파이썬 없이도 npm test 가 돌아가게 하기 위해서다.
+
+# OS / 편집기
+Thumbs.db
+Desktop.ini
+.DS_Store
+.vscode/
+.idea/
+*.swp
+
+# 임시
+*.log
+*.tmp
+
+# 교재 검증(verify_md.py)이 실행한 파일 입출력 예제의 부산물.
+# 10장의 np.savetxt / np.save / np.savez 코드 블록이 실제로 파일을 쓴다.
+result.csv
+day.csv
+test_npy.npy
+bundle.npz
+*.npy
+*.npz

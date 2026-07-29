@@ -1,0 +1,52 @@
+MIT License
+
+Copyright (c) 2026 yakimbss26
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+--------------------------------------------------------------------------------
+서드파티 데이터 (Third-party data)
+
+이 저장소에 포함된 코드와 문서는 위 MIT 라이선스를 따른다. 다만 실습 데이터는
+별도의 출처와 조건을 가진다.
+
+1. 관절염 환자 염증 수치 (60 x 40)
+   webapp/src/core/data.js 의 D.inflammation 에 값으로 들어 있다.
+   출처: Software Carpentry, "Programming with Python"
+          https://swcarpentry.github.io/python-novice-inflammation/
+   라이선스: Creative Commons Attribution 4.0 (CC-BY 4.0)
+   https://creativecommons.org/licenses/by/4.0/
+   재배포가 허용되며 위 출처 표기가 그 조건이다.
+
+2. MovieLens 영화 평점 데이터
+   이 저장소는 MovieLens 데이터를 포함하지 않는다.
+   MovieLens 라이선스가 재배포를 금지한다:
+     "The user may not redistribute the data without separate permission."
+   출처: GroupLens Research, University of Minnesota
+          https://grouplens.org/datasets/movielens/
+
+   앱에 들어 있는 1,200행 표본은 실제 MovieLens 데이터가 아니라, 열 구성
+   (userId, movieId, rating, timestamp)과 값의 범위만 같게 만든 합성 데이터다
+   (webapp/build.js 가 고정 시드로 생성한다). 앱 화면에도 합성이라고 밝혀 두었다.
+
+   앱에 적힌 집계값(사용자 610명, 영화 9,724편, 평점 평균 3.501557, 평점 분포)은
+   데이터 자체가 아니라 사실 요약이다.
+
+3. 원본 수업자료 (강의 PPT, 실습 노트북)
+   이 저장소에 포함하지 않는다. 사유는 .gitignore 에 적었다.
