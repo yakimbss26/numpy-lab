@@ -129,7 +129,7 @@
       root.appendChild(el('p', {
         html: '<code>np.sum(a)</code>(함수형)와 <code>a.sum()</code>(메서드형)은 <b>완전히 같은 계산</b>이다. ' +
           '함수형은 "이 배열에 sum 이라는 동작을 적용한다"는 관점, 메서드형은 "배열 스스로 sum 을 안다"는 관점일 뿐이다. ' +
-          '이 교재는 엔진 구조상 함수형(<code>ND.sum(a)</code>)으로 계산을 보여 주지만, 실제 NumPy 코드는 둘 다 자유롭게 섞어 쓴다.'
+          '이 실습장은 엔진 구조상 함수형(<code>ND.sum(a)</code>)으로 계산을 보여 주지만, 실제 NumPy 코드는 둘 다 자유롭게 섞어 쓴다.'
       }));
 
       // dtype=float — 오버플로 데모

@@ -211,6 +211,51 @@ code:not(pre code) {
   color: var(--ink-muted); margin: 0 0 .3em; font-weight: 600;
 }
 
+/* 코드 블록 + 복사 버튼 --------------------------------------------------- */
+
+.codewrap { position: relative; margin: 0 0 1em; }
+.codewrap > .code { margin: 0; padding-right: 5.2rem; }
+
+.copy-btn {
+  position: absolute; top: .38rem; right: .38rem; z-index: 2;
+  border: 1px solid var(--border-2); background: var(--surface);
+  color: var(--ink-2); border-radius: var(--radius-sm);
+  padding: .16rem .5rem; cursor: pointer;
+  font-size: .72rem; font-weight: 650; font-family: var(--font);
+  line-height: 1.5; white-space: nowrap;
+  opacity: .75; transition: opacity .12s, background .12s, color .12s, border-color .12s;
+}
+.copy-btn:hover { opacity: 1; border-color: var(--s1); color: var(--s1); }
+.copy-btn.done {
+  opacity: 1; background: rgba(12, 163, 12, .14);
+  border-color: var(--good); color: var(--success-text);
+}
+.copy-btn.fail {
+  opacity: 1; background: var(--crit-wash);
+  border-color: var(--critical); color: var(--critical);
+}
+.code-tag {
+  position: absolute; top: .5rem; right: 4.3rem; z-index: 2;
+  font-size: .66rem; font-weight: 650; letter-spacing: .02em;
+  color: var(--ink-muted); background: var(--surface);
+  border: 1px solid var(--border); border-radius: 999px;
+  padding: .06rem .42rem; white-space: nowrap;
+}
+
+/* 장 전체 코드 내려받기 줄 */
+.code-bar {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .8rem;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: .6rem .85rem; margin: 1.6em 0 0;
+}
+.code-bar .cb-t { font-size: .88rem; font-weight: 650; }
+.code-bar .cb-d { font-size: .8rem; color: var(--ink-muted); flex: 1 1 14rem; }
+
+@media (max-width: 560px) {
+  .code-tag { display: none; }
+  .codewrap > .code { padding-right: 4rem; }
+}
+
 /* -------------------------------------------------------------- 카드/판 */
 
 .card {
@@ -1866,13 +1911,129 @@ details.fold[open] > summary { margin-bottom: .6rem; }
     return out;
   }
 
-  /** 파이썬 코드 블록 */
+  /* ------------------------------------------------- 클립보드 · IDLE 복사 */
+
+  /**
+   * 클립보드에 쓴다. numpy-lab.html 을 file:// 로 열면 navigator.clipboard 가
+   * 없으므로(보안 컨텍스트가 아니다) 예전 방식으로 되돌아간다.
+   */
+  function legacyCopy(text) {
+    return new Promise(function (resolve, reject) {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.top = '-2000px';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { ta.setSelectionRange(0, ta.value.length); } catch (e) { }
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      document.body.removeChild(ta);
+      if (ok) resolve(); else reject(new Error('이 브라우저에서는 자동 복사가 막혀 있다'));
+    });
+  }
+
+  function copyText(text) {
+    // 최신 API 가 있어도 실패할 수 있다(사용자 동작 없이 호출, 권한 정책 차단 등).
+    // 그럴 때 예전 방식으로 한 번 더 시도해야 학생이 막히지 않는다.
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text).catch(function () {
+        return legacyCopy(text);
+      });
+    }
+    return legacyCopy(text);
+  }
+
+  /** 주피터·Colab 에서만 되는 코드인가 (IDLE 에 붙여넣어도 실행되지 않는다) */
+  var JUPYTER_ONLY = /(^|\n)\s*(!\s*pip|%{1,2}[a-zA-Z])|from\s+google\.colab|import\s+google\.colab|[\w)]\?\s*(#.*)?$/m;
+
+  /** keras/tensorflow 처럼 따로 설치해야 하는 것 */
+  var NEEDS_EXTRA = /\b(keras|tensorflow)\b/;
+
+  /**
+   * IDLE 에 붙여넣어 바로 돌릴 수 있게 다듬는다.
+   * np. 를 쓰는데 import 가 없으면 붙여 준다.
+   */
+  function toRunnable(raw) {
+    var out = raw;
+    if (/\bnp\./.test(out) && !/^\s*import\s+numpy/m.test(out)) {
+      out = 'import numpy as np\n\n' + out;
+    }
+    if (/\bplt\./.test(out) && !/^\s*import\s+matplotlib/m.test(out)) {
+      out = out.replace(/^(import numpy as np\n\n)?/,
+        '$1import matplotlib.pyplot as plt\n\n');
+    }
+    return out;
+  }
+
+  /**
+   * 파이썬 코드 블록. 오른쪽 위에 복사 버튼이 붙는다.
+   * opts.copy === false 로 끄면 <pre> 하나만 돌려준다.
+   */
   function code(src, opts) {
     opts = opts || {};
-    return el('pre', {
+    var raw = String(src).replace(/\s+$/, '');
+    var pre = el('pre', {
       class: 'code' + (opts.class ? ' ' + opts.class : ''),
-      html: highlightPy(String(src).replace(/\s+$/, ''))
+      html: highlightPy(raw)
     });
+    if (opts.copy === false) return pre;
+
+    // lang:'shell' → 파이썬이 아니라 명령 프롬프트에 칠 명령이다
+    var shell = opts.lang === 'shell';
+    var jupyterOnly = !shell && JUPYTER_ONLY.test(raw);
+    var extra = !shell && NEEDS_EXTRA.test(raw);
+    var payload = (shell || jupyterOnly) ? raw : toRunnable(raw);
+
+    var btn = el('button', {
+      class: 'copy-btn', type: 'button',
+      title: jupyterOnly
+        ? '이 코드는 주피터·Colab 전용이다. 그래도 복사할 수 있다.'
+        : 'IDLE 편집창에 붙여넣어 바로 실행할 수 있게 복사한다',
+      text: '복사',
+      onclick: function () {
+        copyText(payload).then(function () {
+          btn.textContent = '복사됨';
+          btn.classList.add('done');
+          setTimeout(function () { btn.textContent = '복사'; btn.classList.remove('done'); }, 1400);
+        }, function (e) {
+          // 자동 복사가 막힌 경우(창에 포커스가 없거나 권한 정책) — 코드를 대신
+          // 선택해 준다. 학생은 Ctrl+C 만 누르면 된다.
+          try {
+            var sel = window.getSelection();
+            var rng = document.createRange();
+            rng.selectNodeContents(pre);
+            sel.removeAllRanges();
+            sel.addRange(rng);
+            btn.textContent = 'Ctrl+C';
+            btn.title = '자동 복사가 막혀 있다(' + e.message + '). 코드를 선택해 두었으니 Ctrl+C 를 누르라.';
+          } catch (e2) {
+            btn.textContent = '실패';
+            btn.title = e.message + ' — 코드를 직접 선택해 Ctrl+C 로 복사하라';
+          }
+          btn.classList.add('fail');
+          setTimeout(function () { btn.textContent = '복사'; btn.classList.remove('fail'); }, 3000);
+        });
+      }
+    });
+
+    var wrap = el('div', { class: 'codewrap' }, [pre, btn]);
+    if (shell) {
+      wrap.appendChild(el('span', { class: 'code-tag', text: '명령 프롬프트' }));
+    } else if (jupyterOnly) {
+      wrap.appendChild(el('span', { class: 'code-tag', text: '주피터·Colab 전용' }));
+    } else if (extra) {
+      wrap.appendChild(el('span', { class: 'code-tag', text: '별도 설치 필요' }));
+    }
+    // 장 전체 코드 모으기(app.js)가 읽는 값
+    wrap.__raw = raw;
+    wrap.__payload = payload;
+    wrap.__jupyterOnly = jupyterOnly;
+    wrap.__needsExtra = extra;
+    wrap.__notPython = shell;
+    return wrap;
   }
 
   /** 출력 블록 (라벨 + 점선 테두리) */
@@ -2581,6 +2742,7 @@ details.fold[open] > summary { margin-bottom: .6rem; }
   global.UI = {
     el: el, append: append, svgEl: svgEl, esc: esc, clear: clear,
     code: code, out: out, errBlock: errBlock, highlightPy: highlightPy,
+    copyText: copyText, toRunnable: toRunnable,
     grid: grid, shapeBadge: shapeBadge, legend: legend, fmtCell: fmtCell,
     card: card, callout: callout, fold: fold, ascii: ascii, steps: steps,
     statRow: statRow, table: table,
@@ -2766,6 +2928,24 @@ details.fold[open] > summary { margin-bottom: .6rem; }
       '왼쪽 목록의 점은 진도 표시다. 회색은 방문한 장, 초록은 확인 문제를 모두 맞힌 장이다. ' +
       '기록은 이 브라우저에만 저장되므로 다른 사람과 섞이지 않는다.', '사용법'));
 
+    root.appendChild(UI.callout('why',
+      '화면에 나오는 파이썬 코드는 오른쪽 위 <b>복사</b> 버튼을 누르면 그대로 가져갈 수 있다. ' +
+      '<code>import numpy as np</code> 가 빠진 코드에는 복사할 때 자동으로 붙여 준다. ' +
+      '장 맨 아래에는 <b>그 장의 코드를 전부 모아 <code>.py</code> 파일로 저장</b>하는 버튼도 있다.' +
+      '<ol style="margin:.5rem 0 0 1.15rem;padding:0">' +
+      '<li>파이썬을 설치한다 — <a href="https://www.python.org/downloads/">python.org/downloads</a> ' +
+      '(설치할 때 <b>Add python.exe to PATH</b> 를 켜라)</li>' +
+      '<li>명령 프롬프트에서 <code>pip install numpy</code> 를 한 번 실행한다</li>' +
+      '<li>저장한 <code>.py</code> 파일을 우클릭 → <b>Edit with IDLE</b> 로 연다</li>' +
+      '<li><b>F5</b> 를 누르면 결과가 IDLE 셸 창에 나온다</li>' +
+      '</ol>' +
+      '<b>블록 하나만 복사했을 때</b>는 IDLE <b>셸</b>(<code>&gt;&gt;&gt;</code> 창)에 붙여넣어라. ' +
+      '셸은 <code>arr5</code> 처럼 값만 쓴 줄도 결과를 바로 보여 준다. ' +
+      '반대로 <b>편집창</b>에 붙여넣고 F5 를 누르면 <code>print()</code> 로 감싼 것만 보인다 — ' +
+      '주피터와 다른 점이다. 장 아래 <code>.py</code> 파일에는 이 감싸기를 자동으로 해 두었다.' +
+      '설치 없이 바로 해 보려면 11장 <b>코드 실습실</b>을 쓰면 된다. 브라우저 안에서 바로 실행된다.',
+      'IDLE 에서 직접 실행하는 방법'));
+
     root.appendChild(el('h2', { class: 'h-sec', text: '이 실습장에 든 시뮬레이터' }));
     var simRows = chapters.filter(function (c) { return c.sim; }).map(function (c) {
       return { ch: c.n + '장', t: c.title, s: c.sim };
@@ -2774,6 +2954,246 @@ details.fold[open] > summary { margin-bottom: .6rem; }
       [{ k: 'ch', label: '장' }, { k: 't', label: '주제' }, { k: 's', label: '시뮬레이터 · 시각화' }],
       simRows
     ));
+  }
+
+  /* ------------------------------------------- 이 장의 파이썬 코드 모으기 */
+
+  /**
+   * 장에 그려진 코드 블록을 순서대로 모아 IDLE 에서 바로 돌릴 수 있는
+   * 하나의 .py 스크립트로 만든다. 주피터·Colab 전용 블록은 주석으로 넣는다.
+   */
+  /**
+   * 관절염 데이터를 파이썬 리터럴로 만든다.
+   * 이 장의 코드가 `data` 를 쓰는데 정의가 없으면 붙여 준다 — 안 붙이면
+   * 학생이 IDLE 에서 NameError 를 만난다. (출처: Software Carpentry, CC-BY 4.0)
+   */
+  function inflammationPreamble() {
+    var D = global.LabData;
+    if (!D || !D.inflammation) return null;
+    var flat = D.inflammation.flat, sh = D.inflammation.shape;
+    var rows = [];
+    for (var i = 0; i < flat.length; i += 40) {
+      rows.push('    ' + flat.slice(i, i + 40).join(','));
+    }
+    return [
+      '# ── 이 장은 관절염 환자 염증 수치(' + sh[0] + '명 × ' + sh[1] + '일)를 쓴다 ──',
+      '# 수업에서 받은 CSV 가 있으면 아래 한 줄로 읽는 것이 원래 방식이다:',
+      "#   data = np.loadtxt('lab_inflammation-01.csv', delimiter=',')",
+      '# 파일이 없어도 되게, 같은 값을 그대로 적어 두었다.',
+      '# 출처: Software Carpentry, Programming with Python (CC-BY 4.0)',
+      'data = np.array([',
+      rows.join(',\n'),
+      '], dtype=float).reshape(' + sh[0] + ', ' + sh[1] + ')',
+      ''
+    ].join('\n');
+  }
+
+  /* 대입문인가? 괄호 안과 문자열 안의 `=` 는 세지 않는다(dtype=float 등). */
+  function isAssignment(t) {
+    var depth = 0, str = null;
+    for (var i = 0; i < t.length; i++) {
+      var ch = t[i];
+      if (str) { if (ch === str && t[i - 1] !== '\\') str = null; continue; }
+      if (ch === '"' || ch === "'") { str = ch; continue; }
+      if ('([{'.indexOf(ch) >= 0) depth++;
+      else if (')]}'.indexOf(ch) >= 0) depth--;
+      else if (ch === '=' && depth === 0) {
+        if (t[i + 1] === '=') { i++; continue; }                 // ==
+        if ('!<>'.indexOf(t[i - 1]) >= 0) continue;              // != <= >=
+        return true;                                             // = 또는 += 등
+      }
+    }
+    return false;
+  }
+
+  var STMT_START = /^(import|from|def|class|if|elif|else|for|while|return|print|try|except|finally|with|del|pass|raise|assert|global|nonlocal|yield|break|continue|match|case|@)\b/;
+
+  /**
+   * 맨 표현식을 print(...) 로 감싼다.
+   * 주피터는 셀의 마지막 표현식을 자동으로 보여 주지만, IDLE 편집창에서
+   * F5 로 돌리면 아무것도 안 나온다. 그래서 스크립트에서는 감싸 준다.
+   */
+  /** 그 줄에서 늘어난(줄어든) 괄호 깊이. 문자열과 주석 안은 세지 않는다. */
+  function bracketDelta(line) {
+    var d = 0, str = null;
+    for (var i = 0; i < line.length; i++) {
+      var ch = line[i];
+      if (str) { if (ch === str && line[i - 1] !== '\\') str = null; continue; }
+      if (ch === '"' || ch === "'") { str = ch; continue; }
+      if (ch === '#') break;
+      if ('([{'.indexOf(ch) >= 0) d++;
+      else if (')]}'.indexOf(ch) >= 0) d--;
+    }
+    return d;
+  }
+
+  function splitComment(line) {
+    var m = /^([^#]*?)(\s*#.*)$/.exec(line);
+    return m ? [m[1], m[2]] : [line, ''];
+  }
+
+  function autoPrint(src) {
+    var lines = src.split('\n'), out = [], i = 0;
+    while (i < lines.length) {
+      var line = lines[i];
+      if (!line.trim() || /^\s/.test(line) || /^\s*#/.test(line)) { out.push(line); i++; continue; }
+
+      // 괄호가 닫힐 때까지 모아 "논리적 한 줄" 을 만든다
+      var group = [line], d = bracketDelta(line);
+      while (d > 0 && i + 1 < lines.length) { i++; group.push(lines[i]); d += bracketDelta(lines[i]); }
+      i++;
+
+      var head = splitComment(group[0])[0].trim();
+      var joined = group.map(function (l) { return splitComment(l)[0]; }).join(' ').trim();
+      var skip = !head || STMT_START.test(head) || /[:\\]$/.test(joined) || isAssignment(joined);
+      if (skip) { group.forEach(function (l) { out.push(l); }); continue; }
+
+      if (group.length === 1) {
+        var p = splitComment(group[0]);
+        out.push('print(' + p[0].trim() + ')' + p[1]);
+      } else {
+        // 여러 줄 식: 첫 줄 앞에 print( , 마지막 줄 뒤에 )
+        var last = group.length - 1;
+        group.forEach(function (l, k) {
+          if (k === 0) out.push('print(' + l);
+          else if (k === last) { var q = splitComment(l); out.push(q[0].replace(/\s+$/, '') + ')' + q[1]); }
+          else out.push(l);
+        });
+      }
+    }
+    return out.join('\n');
+  }
+
+  function chapterScript(body, mod) {
+    var wraps = [].slice.call(body.querySelectorAll('.codewrap'));
+    var lines = [
+      '# ' + mod.n + '. ' + mod.title,
+      '# NumPy Lab (https://yakimbss26.github.io/numpy-lab/) — 이 장에 나온 파이썬 코드를',
+      '# 화면에 나온 순서대로 모은 것이다.',
+      '#',
+      '# IDLE 에서 실행하려면',
+      '#   1) 이 파일을 IDLE 로 연다 (파일 우클릭 → Edit with IDLE)',
+      '#   2) F5 를 누른다',
+      '#   3) numpy 가 없다면 명령 프롬프트에서 먼저:  pip install numpy',
+      '#',
+      '# 앞 블록에서 만든 변수를 뒤 블록이 쓰는 곳이 있으므로 위에서부터 순서대로 두었다.',
+      '# 일부러 에러를 보여 주는 예제도 섞여 있다 — 거기서 멈추면 그 줄을 주석 처리하고 계속하라.',
+      '',
+      'import numpy as np',
+      ''
+    ];
+    // 없는 파일을 읽는 코드는 IDLE 에서 그대로 돌지 않는다.
+    //  · 관절염 CSV → 같은 값을 리터럴로 넣어 주고 그 줄만 주석 처리
+    //  · ra.csv, gaps.csv 등 → 배포하지 않는 파일이라 블록 전체를 주석 처리
+    var READ_FILE = /np\.(loadtxt|genfromtxt)\s*\(/;
+    var INFLAM = /lab_inflammation[^'"]*\.csv/;
+
+    var all = wraps.map(function (w) { return w.__raw || ''; }).join('\n');
+    var usesData = /(^|[^.\w])data\b/.test(all) && !/\bdata\s*=\s*\[/.test(all);
+    var withData = false;
+    if (usesData) {
+      var pre = inflammationPreamble();
+      if (pre) { lines.push(pre); withData = true; }
+    }
+
+    var n = 0, commented = 0;
+    wraps.forEach(function (w) {
+      var raw = (w.__raw || '').replace(/\s+$/, '');
+      if (!raw.trim()) return;
+      n++;
+
+      var b = raw.replace(/^[ \t]*import[ \t]+numpy[^\n]*\n?/gm, '').replace(/^\n+/, '');
+      // import 만 있던 블록은 알맹이가 없어진다 → 맨 위 import 로 갈음하고 주석만 남긴다
+      if (!b.trim()) {
+        lines.push('# ' + new Array(60).join('-'));
+        lines.push('# [' + n + ']   맨 위에서 이미 import 했다');
+        lines.push('# ' + raw.split('\n').join('\n# '));
+        lines.push('');
+        commented++;
+        return;
+      }
+      var note = '';
+      // 파이썬이 아닌 것(셸 명령), 주피터·Colab 전용, keras/tensorflow 필요 → 전체 주석
+      var skipAll = w.__notPython || w.__jupyterOnly || w.__needsExtra;
+      // 배포하지 않는 파일을 읽는 블록 → 전체 주석
+      if (!skipAll && READ_FILE.test(b) && !INFLAM.test(b)) {
+        skipAll = true;
+        note = '   이 파일은 함께 배포하지 않는다 — 주석으로 넣었다';
+      } else if (skipAll) {
+        note = w.__notPython
+          ? '   파이썬 코드가 아니다(명령 프롬프트) — 주석으로 넣었다'
+          : '   IDLE 에서 실행되지 않는 코드 — 주석으로 넣었다';
+      }
+
+      lines.push('# ' + new Array(60).join('-'));
+      lines.push('# [' + n + ']' + note);
+
+      if (skipAll) {
+        commented++;
+        lines.push(b.split('\n').map(function (l) { return '# ' + l; }).join('\n'));
+      } else {
+        if (withData && READ_FILE.test(b) && INFLAM.test(b)) {
+          // data 는 이미 위에서 만들어 두었으니 읽는 줄만 주석으로 바꾼다
+          b = b.split('\n').map(function (l) {
+            return READ_FILE.test(l)
+              ? '# ' + l + '        # ← data 는 맨 위에서 이미 만들어 두었다'
+              : l;
+          }).join('\n');
+        }
+        // 블록마다 try 로 감싼다. 일부러 에러를 보여 주는 예제가 섞여 있어서,
+        // 감싸지 않으면 거기서 스크립트가 멈춰 뒤쪽을 볼 수 없다.
+        // (try 는 새 이름공간을 만들지 않으므로 여기서 만든 변수는 뒤에서도 쓸 수 있다.)
+        lines.push('try:');
+        lines.push(autoPrint(b).split('\n').map(function (l) { return l.length ? '    ' + l : ''; }).join('\n'));
+        lines.push('except Exception as _e:');
+        lines.push('    print("  [' + n + '] " + type(_e).__name__ + ": " + str(_e))');
+      }
+      lines.push('');
+    });
+    return { text: lines.join('\n'), blocks: n, commented: commented, withData: withData };
+  }
+
+  function buildCodeBar(body, mod) {
+    var wraps = body.querySelectorAll('.codewrap');
+    if (wraps.length < 2) return null;
+    var built = chapterScript(body, mod);
+    if (!built.blocks) return null;
+
+    var fname = 'numpy-lab-' + String(mod.n).padStart(2, '0') + '-' + mod.id + '.py';
+
+    var copyBtn = UI.btn('전체 복사', function () {
+      UI.copyText(built.text).then(function () {
+        copyBtn.textContent = '복사됨';
+        setTimeout(function () { copyBtn.textContent = '전체 복사'; }, 1400);
+      }, function () {
+        copyBtn.textContent = '복사 실패';
+        setTimeout(function () { copyBtn.textContent = '전체 복사'; }, 2000);
+      });
+    }, { primary: true });
+
+    var saveBtn = UI.btn('.py 파일로 저장', function () {
+      try {
+        var blob = new Blob(['﻿' + built.text], { type: 'text/x-python;charset=utf-8' });
+        var url = URL.createObjectURL(blob);
+        var a = el('a', { href: url, download: fname });
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+      } catch (e) {
+        alert('파일로 저장할 수 없다. "전체 복사" 를 눌러 IDLE 에 붙여넣어라.');
+      }
+    });
+
+    return el('div', { class: 'code-bar' }, [
+      el('span', { class: 'cb-t', text: 'IDLE 에서 직접 해 보기' }),
+      el('span', { class: 'cb-d', html:
+        '이 장의 파이썬 코드 <b>' + built.blocks + '개</b>를 순서대로 모았다. ' +
+        '<code>' + UI.esc(fname) + '</code> 로 저장해 IDLE 로 열고 F5 를 누르면 된다.' +
+        (built.withData ? ' 실습 데이터도 함께 넣어 두었으니 CSV 파일이 없어도 돌아간다.' : '') +
+        (built.commented ? ' (주피터 전용 ' + built.commented + '개는 주석으로 넣었다.)' : '') }),
+      copyBtn, saveBtn
+    ]);
   }
 
   /* -------------------------------------------------------------- 라우터 */
@@ -2816,6 +3236,12 @@ details.fold[open] > summary { margin-bottom: .6rem; }
       body.appendChild(UI.errBlock('이 장을 그리는 중 오류가 났다: ' + (e && e.message), 'RenderError'));
       console.error(e);
     }
+
+    // 이 장의 코드를 IDLE 로 가져가는 줄
+    try {
+      var bar = buildCodeBar(body, mod);
+      if (bar) main.appendChild(bar);
+    } catch (e) { console.error(e); }
 
     // 이전/다음
     var i = chapters.indexOf(mod);
@@ -2881,7 +3307,11 @@ details.fold[open] > summary { margin-bottom: .6rem; }
     route();
   }
 
-  global.Lab = { register: register, start: start, chapters: chapters, byId: byId };
+  global.Lab = {
+    register: register, start: start, chapters: chapters, byId: byId,
+    // 테스트용: 장을 렌더한 DOM 을 주면 IDLE 용 .py 스크립트를 만들어 준다
+    chapterScript: chapterScript
+  };
 })(typeof window !== 'undefined' ? window : globalThis);
 
 </script>
@@ -3827,7 +4257,8 @@ details.fold[open] > summary { margin-bottom: .6rem; }
           'shape·axis·브로드캐스팅을 한 번 익히면 네 도구에서 그대로 쓴다.'
       }));
 
-      root.appendChild(UI.code('pip install numpy\n\nimport numpy as np   # 관례상 별칭은 항상 np'));
+      root.appendChild(UI.code('pip install numpy', { lang: 'shell' }));
+      root.appendChild(UI.code('import numpy as np   # 관례상 별칭은 항상 np'));
 
       root.appendChild(el('p', {
         class: 'small muted',
@@ -3991,7 +4422,7 @@ details.fold[open] > summary { margin-bottom: .6rem; }
       root.appendChild(UI.callout('why',
         '숫자 하나(스칼라)는 <code>shape ()</code>, 즉 축이 <b>0개</b>다. ' +
         '벡터는 축이 <b>1개</b>인 배열이다. "차원이 늘어난다"는 것은 결국 "축이 늘어난다"는 뜻이고, ' +
-        '이 대응은 이 교재 전체에서 한 번도 깨지지 않는다.'));
+        '이 대응은 이 실습장 전체에서 한 번도 깨지지 않는다.'));
 
       /* --------------------------------------------------- 시뮬레이터 ①: 벡터 실험판 */
 
@@ -5920,7 +6351,7 @@ details.fold[open] > summary { margin-bottom: .6rem; }
       '<b>NumPy 2.0 부터 Windows 에서도 기본 정수형이 <code>int64</code></b> 다. ' +
       '1.x 시절 Windows 에서는 <code>np.arange(30).dtype</code> 이 <code>int32</code> 였기 때문에, ' +
       '같은 코드가 Windows 에서 nbytes 120, 리눅스·맥에서 240 으로 <b>다르게 나왔다.</b> ' +
-      '옛 교재나 블로그에서 nbytes 값이 이 실습장과 다르면 이것이 원인일 수 있다.'));
+      '옛 자료나 블로그에서 nbytes 값이 이 실습장과 다르면 이것이 원인일 수 있다.'));
   }
 
   /* ==========================================================================
@@ -6666,11 +7097,12 @@ details.fold[open] > summary { margin-bottom: .6rem; }
         UI.memBar(base.root().buf, marks, { dtype: 'int64' })
       ]));
 
-      host.appendChild(UI.code(
-        '# 인덱스 [' + i + ', ' + j + '] 이 앉은 메모리 위치\n' +
-        'buf_pos = offset + i*strides[0] + j*strides[1]\n' +
-        'buf_pos = ' + v.offset + ' + ' + i + '*' + s0 + ' + ' + j + '*' + s1 +
-        ' = ' + posn + '        # buf[' + posn + '] = ' + base.root().buf[posn]));
+      // 실행할 코드가 아니라 위치 계산을 보여 주는 식이다 → 다이어그램으로 그린다
+      host.appendChild(UI.ascii(
+        '인덱스 [' + i + ', ' + j + '] 이 앉은 메모리 위치\n\n' +
+        '  buf_pos = offset + i*strides[0] + j*strides[1]\n' +
+        '          = ' + v.offset + ' + ' + i + '*' + s0 + ' + ' + j + '*' + s1 + '\n' +
+        '          = ' + posn + '        →  buf[' + posn + '] = ' + base.root().buf[posn]));
 
       host.appendChild(UI.table(
         [{ k: 'k', label: '항목' }, { k: 'v', label: '값' }, { k: 'd', label: '뜻' }],
@@ -11285,7 +11717,7 @@ details.fold[open] > summary { margin-bottom: .6rem; }
       root.appendChild(el('p', {
         html: '<code>np.sum(a)</code>(함수형)와 <code>a.sum()</code>(메서드형)은 <b>완전히 같은 계산</b>이다. ' +
           '함수형은 "이 배열에 sum 이라는 동작을 적용한다"는 관점, 메서드형은 "배열 스스로 sum 을 안다"는 관점일 뿐이다. ' +
-          '이 교재는 엔진 구조상 함수형(<code>ND.sum(a)</code>)으로 계산을 보여 주지만, 실제 NumPy 코드는 둘 다 자유롭게 섞어 쓴다.'
+          '이 실습장은 엔진 구조상 함수형(<code>ND.sum(a)</code>)으로 계산을 보여 주지만, 실제 NumPy 코드는 둘 다 자유롭게 섞어 쓴다.'
       }));
 
       // dtype=float — 오버플로 데모

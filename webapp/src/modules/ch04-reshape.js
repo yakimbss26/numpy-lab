@@ -638,11 +638,12 @@
         UI.memBar(base.root().buf, marks, { dtype: 'int64' })
       ]));
 
-      host.appendChild(UI.code(
-        '# 인덱스 [' + i + ', ' + j + '] 이 앉은 메모리 위치\n' +
-        'buf_pos = offset + i*strides[0] + j*strides[1]\n' +
-        'buf_pos = ' + v.offset + ' + ' + i + '*' + s0 + ' + ' + j + '*' + s1 +
-        ' = ' + posn + '        # buf[' + posn + '] = ' + base.root().buf[posn]));
+      // 실행할 코드가 아니라 위치 계산을 보여 주는 식이다 → 다이어그램으로 그린다
+      host.appendChild(UI.ascii(
+        '인덱스 [' + i + ', ' + j + '] 이 앉은 메모리 위치\n\n' +
+        '  buf_pos = offset + i*strides[0] + j*strides[1]\n' +
+        '          = ' + v.offset + ' + ' + i + '*' + s0 + ' + ' + j + '*' + s1 + '\n' +
+        '          = ' + posn + '        →  buf[' + posn + '] = ' + base.root().buf[posn]));
 
       host.appendChild(UI.table(
         [{ k: 'k', label: '항목' }, { k: 'v', label: '값' }, { k: 'd', label: '뜻' }],

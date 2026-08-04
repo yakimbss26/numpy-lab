@@ -96,13 +96,129 @@
     return out;
   }
 
-  /** 파이썬 코드 블록 */
+  /* ------------------------------------------------- 클립보드 · IDLE 복사 */
+
+  /**
+   * 클립보드에 쓴다. numpy-lab.html 을 file:// 로 열면 navigator.clipboard 가
+   * 없으므로(보안 컨텍스트가 아니다) 예전 방식으로 되돌아간다.
+   */
+  function legacyCopy(text) {
+    return new Promise(function (resolve, reject) {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.top = '-2000px';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { ta.setSelectionRange(0, ta.value.length); } catch (e) { }
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      document.body.removeChild(ta);
+      if (ok) resolve(); else reject(new Error('이 브라우저에서는 자동 복사가 막혀 있다'));
+    });
+  }
+
+  function copyText(text) {
+    // 최신 API 가 있어도 실패할 수 있다(사용자 동작 없이 호출, 권한 정책 차단 등).
+    // 그럴 때 예전 방식으로 한 번 더 시도해야 학생이 막히지 않는다.
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text).catch(function () {
+        return legacyCopy(text);
+      });
+    }
+    return legacyCopy(text);
+  }
+
+  /** 주피터·Colab 에서만 되는 코드인가 (IDLE 에 붙여넣어도 실행되지 않는다) */
+  var JUPYTER_ONLY = /(^|\n)\s*(!\s*pip|%{1,2}[a-zA-Z])|from\s+google\.colab|import\s+google\.colab|[\w)]\?\s*(#.*)?$/m;
+
+  /** keras/tensorflow 처럼 따로 설치해야 하는 것 */
+  var NEEDS_EXTRA = /\b(keras|tensorflow)\b/;
+
+  /**
+   * IDLE 에 붙여넣어 바로 돌릴 수 있게 다듬는다.
+   * np. 를 쓰는데 import 가 없으면 붙여 준다.
+   */
+  function toRunnable(raw) {
+    var out = raw;
+    if (/\bnp\./.test(out) && !/^\s*import\s+numpy/m.test(out)) {
+      out = 'import numpy as np\n\n' + out;
+    }
+    if (/\bplt\./.test(out) && !/^\s*import\s+matplotlib/m.test(out)) {
+      out = out.replace(/^(import numpy as np\n\n)?/,
+        '$1import matplotlib.pyplot as plt\n\n');
+    }
+    return out;
+  }
+
+  /**
+   * 파이썬 코드 블록. 오른쪽 위에 복사 버튼이 붙는다.
+   * opts.copy === false 로 끄면 <pre> 하나만 돌려준다.
+   */
   function code(src, opts) {
     opts = opts || {};
-    return el('pre', {
+    var raw = String(src).replace(/\s+$/, '');
+    var pre = el('pre', {
       class: 'code' + (opts.class ? ' ' + opts.class : ''),
-      html: highlightPy(String(src).replace(/\s+$/, ''))
+      html: highlightPy(raw)
     });
+    if (opts.copy === false) return pre;
+
+    // lang:'shell' → 파이썬이 아니라 명령 프롬프트에 칠 명령이다
+    var shell = opts.lang === 'shell';
+    var jupyterOnly = !shell && JUPYTER_ONLY.test(raw);
+    var extra = !shell && NEEDS_EXTRA.test(raw);
+    var payload = (shell || jupyterOnly) ? raw : toRunnable(raw);
+
+    var btn = el('button', {
+      class: 'copy-btn', type: 'button',
+      title: jupyterOnly
+        ? '이 코드는 주피터·Colab 전용이다. 그래도 복사할 수 있다.'
+        : 'IDLE 편집창에 붙여넣어 바로 실행할 수 있게 복사한다',
+      text: '복사',
+      onclick: function () {
+        copyText(payload).then(function () {
+          btn.textContent = '복사됨';
+          btn.classList.add('done');
+          setTimeout(function () { btn.textContent = '복사'; btn.classList.remove('done'); }, 1400);
+        }, function (e) {
+          // 자동 복사가 막힌 경우(창에 포커스가 없거나 권한 정책) — 코드를 대신
+          // 선택해 준다. 학생은 Ctrl+C 만 누르면 된다.
+          try {
+            var sel = window.getSelection();
+            var rng = document.createRange();
+            rng.selectNodeContents(pre);
+            sel.removeAllRanges();
+            sel.addRange(rng);
+            btn.textContent = 'Ctrl+C';
+            btn.title = '자동 복사가 막혀 있다(' + e.message + '). 코드를 선택해 두었으니 Ctrl+C 를 누르라.';
+          } catch (e2) {
+            btn.textContent = '실패';
+            btn.title = e.message + ' — 코드를 직접 선택해 Ctrl+C 로 복사하라';
+          }
+          btn.classList.add('fail');
+          setTimeout(function () { btn.textContent = '복사'; btn.classList.remove('fail'); }, 3000);
+        });
+      }
+    });
+
+    var wrap = el('div', { class: 'codewrap' }, [pre, btn]);
+    if (shell) {
+      wrap.appendChild(el('span', { class: 'code-tag', text: '명령 프롬프트' }));
+    } else if (jupyterOnly) {
+      wrap.appendChild(el('span', { class: 'code-tag', text: '주피터·Colab 전용' }));
+    } else if (extra) {
+      wrap.appendChild(el('span', { class: 'code-tag', text: '별도 설치 필요' }));
+    }
+    // 장 전체 코드 모으기(app.js)가 읽는 값
+    wrap.__raw = raw;
+    wrap.__payload = payload;
+    wrap.__jupyterOnly = jupyterOnly;
+    wrap.__needsExtra = extra;
+    wrap.__notPython = shell;
+    return wrap;
   }
 
   /** 출력 블록 (라벨 + 점선 테두리) */
@@ -811,6 +927,7 @@
   global.UI = {
     el: el, append: append, svgEl: svgEl, esc: esc, clear: clear,
     code: code, out: out, errBlock: errBlock, highlightPy: highlightPy,
+    copyText: copyText, toRunnable: toRunnable,
     grid: grid, shapeBadge: shapeBadge, legend: legend, fmtCell: fmtCell,
     card: card, callout: callout, fold: fold, ascii: ascii, steps: steps,
     statRow: statRow, table: table,

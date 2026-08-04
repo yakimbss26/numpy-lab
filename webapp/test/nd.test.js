@@ -220,7 +220,7 @@ function str(actual, expected, label) {
   close(ND.percentile(a,50).toNested(), 6.5, 'percentile 50');
   close(ND.percentile(a,75).toNested(), 9.25, 'percentile 75');
 
-  // 3차원 axis — 교재 하이라이트
+  // 3차원 axis — 8장의 하이라이트
   const t = a.reshape([3,2,2]);
   eq(t.toNested(), [[[1,2],[3,4]],[[5,6],[7,8]],[[9,10],[11,12]]], 'reshape(3,2,2)');
   eq(ND.sum(t,0).toNested(), [[15,18],[21,24]], '3D sum(axis=0) — groundtruth');

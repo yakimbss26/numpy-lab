@@ -18,6 +18,15 @@ node_modules/
 # 검증용 생성물 (실제 NumPy 로 다시 뽑을 수 있다: npm run test:gen)
 # expected.json 은 커밋한다 — 파이썬 없이도 npm test 가 돌아가게 하기 위해서다.
 
+# 작업 폴더에 들어온 개인 파일 — 공개 저장소이므로 올리지 않는다.
+# (제출용 압축본에는 학교명·이름이 들어 있고, 메모 파일도 공개 대상이 아니다)
+*.zip
+*.7z
+*.rar
+깃허브.txt
+NumPy자료제작-발표*.pptx
+*.pptx
+
 # OS / 편집기
 Thumbs.db
 Desktop.ini

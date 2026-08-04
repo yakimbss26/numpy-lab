@@ -195,6 +195,51 @@ code:not(pre code) {
   color: var(--ink-muted); margin: 0 0 .3em; font-weight: 600;
 }
 
+/* 코드 블록 + 복사 버튼 --------------------------------------------------- */
+
+.codewrap { position: relative; margin: 0 0 1em; }
+.codewrap > .code { margin: 0; padding-right: 5.2rem; }
+
+.copy-btn {
+  position: absolute; top: .38rem; right: .38rem; z-index: 2;
+  border: 1px solid var(--border-2); background: var(--surface);
+  color: var(--ink-2); border-radius: var(--radius-sm);
+  padding: .16rem .5rem; cursor: pointer;
+  font-size: .72rem; font-weight: 650; font-family: var(--font);
+  line-height: 1.5; white-space: nowrap;
+  opacity: .75; transition: opacity .12s, background .12s, color .12s, border-color .12s;
+}
+.copy-btn:hover { opacity: 1; border-color: var(--s1); color: var(--s1); }
+.copy-btn.done {
+  opacity: 1; background: rgba(12, 163, 12, .14);
+  border-color: var(--good); color: var(--success-text);
+}
+.copy-btn.fail {
+  opacity: 1; background: var(--crit-wash);
+  border-color: var(--critical); color: var(--critical);
+}
+.code-tag {
+  position: absolute; top: .5rem; right: 4.3rem; z-index: 2;
+  font-size: .66rem; font-weight: 650; letter-spacing: .02em;
+  color: var(--ink-muted); background: var(--surface);
+  border: 1px solid var(--border); border-radius: 999px;
+  padding: .06rem .42rem; white-space: nowrap;
+}
+
+/* 장 전체 코드 내려받기 줄 */
+.code-bar {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .8rem;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: .6rem .85rem; margin: 1.6em 0 0;
+}
+.code-bar .cb-t { font-size: .88rem; font-weight: 650; }
+.code-bar .cb-d { font-size: .8rem; color: var(--ink-muted); flex: 1 1 14rem; }
+
+@media (max-width: 560px) {
+  .code-tag { display: none; }
+  .codewrap > .code { padding-right: 4rem; }
+}
+
 /* -------------------------------------------------------------- 카드/판 */
 
 .card {

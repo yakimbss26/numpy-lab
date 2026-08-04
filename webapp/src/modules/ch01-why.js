@@ -938,7 +938,8 @@
           'shape·axis·브로드캐스팅을 한 번 익히면 네 도구에서 그대로 쓴다.'
       }));
 
-      root.appendChild(UI.code('pip install numpy\n\nimport numpy as np   # 관례상 별칭은 항상 np'));
+      root.appendChild(UI.code('pip install numpy', { lang: 'shell' }));
+      root.appendChild(UI.code('import numpy as np   # 관례상 별칭은 항상 np'));
 
       root.appendChild(el('p', {
         class: 'small muted',
