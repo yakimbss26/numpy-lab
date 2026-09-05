@@ -624,6 +624,36 @@ a.chip:hover { text-decoration: none; }
 .tile.quest-cta .n { color: var(--s1); }
 
 
+/* ------------------------------------------------------------------ 모달
+ * 과제의 힌트처럼 본문을 가리지 않고 따로 띄워야 하는 것에 쓴다.
+ * <dialog> 라서 Esc 로 닫히고 포커스가 안에 갇힌다(브라우저 기본 동작). */
+
+.modal {
+  border: 1px solid var(--border-2); border-radius: var(--radius);
+  background: var(--surface); color: var(--ink);
+  padding: 0; max-width: min(34rem, calc(100vw - 2rem)); width: 100%;
+  box-shadow: var(--shadow);
+}
+.modal::backdrop { background: rgba(11, 11, 11, .38); }
+.modal-head {
+  display: flex; align-items: center; gap: .6rem;
+  padding: .85rem 1rem; border-bottom: 1px solid var(--grid-line);
+}
+.modal-title { font-weight: 650; font-size: 1.02rem; flex: 1; }
+.modal-x {
+  border: 0; background: none; cursor: pointer; color: var(--ink-muted);
+  font-size: 1rem; line-height: 1; padding: .25rem .35rem; border-radius: var(--radius-sm);
+}
+.modal-x:hover { background: var(--surface-2); color: var(--ink); }
+.modal-body { padding: 1rem; font-size: .95rem; line-height: 1.65; }
+.modal-body p { margin: 0 0 .6rem; }
+.modal-body p:last-child { margin-bottom: 0; }
+.modal-foot {
+  display: flex; justify-content: flex-end; gap: .4rem;
+  padding: .7rem 1rem; border-top: 1px solid var(--grid-line);
+}
+
+
 /* ===== webapp/src/app.css ===== */
 /* app.css — 셸 레이아웃 (사이드바 + 본문) */
 
@@ -2287,6 +2317,54 @@ a.chip:hover { text-decoration: none; }
     return el('details', { class: 'fold' }, [el('summary', { text: summary }), body]);
   }
 
+  /**
+   * 별도 창(모달)으로 띄운다. 본문 위에 겹쳐 뜨고 Esc·바깥 클릭·닫기 버튼으로 닫힌다.
+   *   UI.modal({ title:'힌트', body:[el1, el2], onClose:fn })
+   * <dialog> 를 쓰므로 Esc 와 배경 어둡게가 브라우저 기본 동작으로 따라온다.
+   * 닫으면 DOM 에서 스스로 지워지므로 여러 번 열어도 쌓이지 않는다.
+   */
+  function modal(o) {
+    o = o || {};
+    /* 한 번에 하나만 띄운다. 남아 있던 창은 지우고 시작한다 —
+     * close() 로 발생하는 close 이벤트는 비동기라 그것만 믿으면 겹친다. */
+    Array.prototype.forEach.call(document.querySelectorAll('dialog.modal'), function (d) {
+      if (d.open) { try { d.close(); } catch (e) { } }
+      d.remove();
+    });
+
+    var dlg = el('dialog', { class: 'modal' });
+    var closed = false;
+
+    function close() {
+      if (closed) return;
+      closed = true;
+      if (dlg.open) { try { dlg.close(); } catch (e) { } }
+      dlg.remove();
+      if (o.onClose) o.onClose();
+    }
+
+    dlg.appendChild(el('div', { class: 'modal-head' }, [
+      el('div', { class: 'modal-title', text: o.title || '' }),
+      el('button', {
+        class: 'modal-x', type: 'button', 'aria-label': '닫기', text: '✕', onclick: close
+      })
+    ]));
+    dlg.appendChild(el('div', { class: 'modal-body' }, o.body || []));
+    dlg.appendChild(el('div', { class: 'modal-foot' }, [btn('닫기', close)]));
+
+    /* 배경(백드롭)을 누르면 닫는다 — dialog 자신이 클릭 대상일 때가 배경이다 */
+    dlg.addEventListener('click', function (e) { if (e.target === dlg) close(); });
+    /* Esc 는 브라우저가 close 이벤트로 알려 준다 */
+    dlg.addEventListener('close', close);
+
+    document.body.appendChild(dlg);
+    if (dlg.showModal) dlg.showModal();
+    else dlg.setAttribute('open', 'open');   /* <dialog> 미지원 브라우저 대비 */
+
+    dlg.closeModal = close;
+    return dlg;
+  }
+
   function ascii(text) { return el('pre', { class: 'ascii', text: text }); }
 
   function steps(items) {
@@ -2821,7 +2899,7 @@ a.chip:hover { text-decoration: none; }
     code: code, out: out, errBlock: errBlock, highlightPy: highlightPy,
     copyText: copyText, toRunnable: toRunnable,
     grid: grid, shapeBadge: shapeBadge, legend: legend, fmtCell: fmtCell,
-    card: card, callout: callout, fold: fold, ascii: ascii, steps: steps,
+    card: card, callout: callout, fold: fold, modal: modal, ascii: ascii, steps: steps,
     statRow: statRow, table: table,
     controls: controls, slider: slider, select: select, textInput: textInput,
     seg: seg, chips: chips, btn: btn,
@@ -16776,7 +16854,6 @@ a.chip:hover { text-decoration: none; }
 
     var verdict = el('span', { class: 'q-verdict' });
     var explain = el('div', { class: 'q-explain', hidden: true, html: it.explain || '' });
-    var hintBox = el('div', { class: 'q-hint', hidden: true, html: '힌트 — ' + (it.hint || '') });
 
     var value = '';
     var input = UI.textInput({
@@ -16788,6 +16865,25 @@ a.chip:hover { text-decoration: none; }
     function paint(state, msg) {
       verdict.setAttribute('data-state', state);
       verdict.textContent = msg;
+    }
+
+    /** 힌트를 별도 창으로 띄운다. 세 번 넘게 틀렸으면 어느 장을 볼지도 알려 준다. */
+    function openHint() {
+      var body = [el('p', { html: it.hint || '이 문항에는 힌트가 없어요. 화면을 다시 열어 봐요.' })];
+      var L = LINKS[it.ch];
+      if (tries(it.id) >= 3 && L) {
+        body.push(el('p', { html:
+          '<b>' + it.ch + '장</b> 화면을 다시 열어서 눈으로 확인하고 와요.' }));
+      }
+      if (L) {
+        body.push(el('p', null, [
+          UI.btn(it.ch + '장 열기 — ' + L.t, function () {
+            dlg.closeModal();
+            location.hash = '#/' + L.id;
+          }, { primary: true })
+        ]));
+      }
+      var dlg = UI.modal({ title: '힌트 · ' + it.id, body: body });
     }
 
     function check() {
@@ -16809,13 +16905,8 @@ a.chip:hover { text-decoration: none; }
         }
         onSolve();
       } else {
-        paint('wrong', '아직 아니에요. (' + n + '번째 시도)');
-        if (it.hint) hintBox.hidden = false;
-        if (n >= 3 && it.ch) {
-          hintBox.hidden = false;
-          hintBox.innerHTML = '힌트 — ' + (it.hint || '') +
-            '<br>' + it.ch + '장 화면을 다시 열어서 눈으로 확인하고 와요.';
-        }
+        paint('wrong', '아직 아니에요. (' + n + '번째 시도)' +
+          (it.hint ? '  「힌트」를 눌러 봐요.' : ''));
       }
     }
 
@@ -16824,9 +16915,8 @@ a.chip:hover { text-decoration: none; }
     var meta = el('div', { class: 'q-meta' });
     var chip = chapterChip(it.ch);
     if (chip) meta.appendChild(chip);
-    if (it.hint) meta.appendChild(UI.btn('힌트', function () { hintBox.hidden = false; }));
+    if (it.hint) meta.appendChild(UI.btn('힌트', openHint));
     box.appendChild(meta);
-    box.appendChild(hintBox);
     box.appendChild(explain);
 
     /* 이미 푼 문항은 다시 열었을 때 그대로 보여 준다 */

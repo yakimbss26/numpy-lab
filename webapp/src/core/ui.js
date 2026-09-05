@@ -395,6 +395,54 @@
     return el('details', { class: 'fold' }, [el('summary', { text: summary }), body]);
   }
 
+  /**
+   * 별도 창(모달)으로 띄운다. 본문 위에 겹쳐 뜨고 Esc·바깥 클릭·닫기 버튼으로 닫힌다.
+   *   UI.modal({ title:'힌트', body:[el1, el2], onClose:fn })
+   * <dialog> 를 쓰므로 Esc 와 배경 어둡게가 브라우저 기본 동작으로 따라온다.
+   * 닫으면 DOM 에서 스스로 지워지므로 여러 번 열어도 쌓이지 않는다.
+   */
+  function modal(o) {
+    o = o || {};
+    /* 한 번에 하나만 띄운다. 남아 있던 창은 지우고 시작한다 —
+     * close() 로 발생하는 close 이벤트는 비동기라 그것만 믿으면 겹친다. */
+    Array.prototype.forEach.call(document.querySelectorAll('dialog.modal'), function (d) {
+      if (d.open) { try { d.close(); } catch (e) { } }
+      d.remove();
+    });
+
+    var dlg = el('dialog', { class: 'modal' });
+    var closed = false;
+
+    function close() {
+      if (closed) return;
+      closed = true;
+      if (dlg.open) { try { dlg.close(); } catch (e) { } }
+      dlg.remove();
+      if (o.onClose) o.onClose();
+    }
+
+    dlg.appendChild(el('div', { class: 'modal-head' }, [
+      el('div', { class: 'modal-title', text: o.title || '' }),
+      el('button', {
+        class: 'modal-x', type: 'button', 'aria-label': '닫기', text: '✕', onclick: close
+      })
+    ]));
+    dlg.appendChild(el('div', { class: 'modal-body' }, o.body || []));
+    dlg.appendChild(el('div', { class: 'modal-foot' }, [btn('닫기', close)]));
+
+    /* 배경(백드롭)을 누르면 닫는다 — dialog 자신이 클릭 대상일 때가 배경이다 */
+    dlg.addEventListener('click', function (e) { if (e.target === dlg) close(); });
+    /* Esc 는 브라우저가 close 이벤트로 알려 준다 */
+    dlg.addEventListener('close', close);
+
+    document.body.appendChild(dlg);
+    if (dlg.showModal) dlg.showModal();
+    else dlg.setAttribute('open', 'open');   /* <dialog> 미지원 브라우저 대비 */
+
+    dlg.closeModal = close;
+    return dlg;
+  }
+
   function ascii(text) { return el('pre', { class: 'ascii', text: text }); }
 
   function steps(items) {
@@ -929,7 +977,7 @@
     code: code, out: out, errBlock: errBlock, highlightPy: highlightPy,
     copyText: copyText, toRunnable: toRunnable,
     grid: grid, shapeBadge: shapeBadge, legend: legend, fmtCell: fmtCell,
-    card: card, callout: callout, fold: fold, ascii: ascii, steps: steps,
+    card: card, callout: callout, fold: fold, modal: modal, ascii: ascii, steps: steps,
     statRow: statRow, table: table,
     controls: controls, slider: slider, select: select, textInput: textInput,
     seg: seg, chips: chips, btn: btn,

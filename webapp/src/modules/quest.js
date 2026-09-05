@@ -432,7 +432,6 @@
 
     var verdict = el('span', { class: 'q-verdict' });
     var explain = el('div', { class: 'q-explain', hidden: true, html: it.explain || '' });
-    var hintBox = el('div', { class: 'q-hint', hidden: true, html: '힌트 — ' + (it.hint || '') });
 
     var value = '';
     var input = UI.textInput({
@@ -444,6 +443,25 @@
     function paint(state, msg) {
       verdict.setAttribute('data-state', state);
       verdict.textContent = msg;
+    }
+
+    /** 힌트를 별도 창으로 띄운다. 세 번 넘게 틀렸으면 어느 장을 볼지도 알려 준다. */
+    function openHint() {
+      var body = [el('p', { html: it.hint || '이 문항에는 힌트가 없어요. 화면을 다시 열어 봐요.' })];
+      var L = LINKS[it.ch];
+      if (tries(it.id) >= 3 && L) {
+        body.push(el('p', { html:
+          '<b>' + it.ch + '장</b> 화면을 다시 열어서 눈으로 확인하고 와요.' }));
+      }
+      if (L) {
+        body.push(el('p', null, [
+          UI.btn(it.ch + '장 열기 — ' + L.t, function () {
+            dlg.closeModal();
+            location.hash = '#/' + L.id;
+          }, { primary: true })
+        ]));
+      }
+      var dlg = UI.modal({ title: '힌트 · ' + it.id, body: body });
     }
 
     function check() {
@@ -465,13 +483,8 @@
         }
         onSolve();
       } else {
-        paint('wrong', '아직 아니에요. (' + n + '번째 시도)');
-        if (it.hint) hintBox.hidden = false;
-        if (n >= 3 && it.ch) {
-          hintBox.hidden = false;
-          hintBox.innerHTML = '힌트 — ' + (it.hint || '') +
-            '<br>' + it.ch + '장 화면을 다시 열어서 눈으로 확인하고 와요.';
-        }
+        paint('wrong', '아직 아니에요. (' + n + '번째 시도)' +
+          (it.hint ? '  「힌트」를 눌러 봐요.' : ''));
       }
     }
 
@@ -480,9 +493,8 @@
     var meta = el('div', { class: 'q-meta' });
     var chip = chapterChip(it.ch);
     if (chip) meta.appendChild(chip);
-    if (it.hint) meta.appendChild(UI.btn('힌트', function () { hintBox.hidden = false; }));
+    if (it.hint) meta.appendChild(UI.btn('힌트', openHint));
     box.appendChild(meta);
-    box.appendChild(hintBox);
     box.appendChild(explain);
 
     /* 이미 푼 문항은 다시 열었을 때 그대로 보여 준다 */

@@ -239,6 +239,12 @@ UI.callout('tip',  '본문 html')     // 초록 — 알아두기
 UI.callout('ver',  '본문 html')     // 노랑 — NumPy 버전 주의
 UI.callout('tip',  '본문', '직접 제목')
 UI.fold('정답 보기', bodyEl)
+
+UI.modal({ title:'힌트 · 2-1a', body:[el1, el2], onClose:fn })
+//   본문 위에 별도 창으로 띄운다. <dialog> 라서 Esc 로 닫히고 배경이 어두워진다.
+//   바깥을 눌러도, 닫기 버튼을 눌러도 닫히고, 닫으면 DOM 에서 스스로 지워진다.
+//   한 번에 하나만 뜬다 — 새로 열면 떠 있던 창을 먼저 지운다.
+//   반환된 요소의 .closeModal() 로 코드에서 닫을 수 있다(장으로 이동시킬 때 쓴다).
 UI.ascii("┌───┐\n│ 0 │\n└───┘")     // 정렬 정확히 맞춰라
 UI.steps(['1단계 html', { html:'2단계', state:'done' }, { html:'3단계', state:'failed' }])
 UI.statRow([{ k:'shape', v:'(60, 40)', sub:'환자 × 날짜' }, …])
