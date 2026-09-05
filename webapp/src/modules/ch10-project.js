@@ -68,7 +68,7 @@
     id: 'project',
     n: '10',
     title: '종합 실습 — 관절염 데이터 분석',
-    blurb: '환자 60명 × 40일의 실제 염증 데이터를 히트맵·곡선·축 비교기로 파헤치고, 첫째 날 평균이 0.0 이라는 사실에서 데이터를 의심하는 법까지 배워요.',
+    blurb: '환자 60명 × 40일의 실제 염증 데이터를 히트맵·곡선·축 비교기로 파헤치고, 첫째 날 평균이 0.0 이라는 사실에서 데이터를 의심하는 법까지 배운다.',
     sim: '전체 히트맵 · 날짜별 평균 곡선 · 환자 탐색기 · 축 방향 비교기',
 
     render: function (root) {
@@ -78,7 +78,7 @@
       var data = (D && D.nd) ? D.nd('inflammation') : null;
       if (!data) {
         root.appendChild(UI.errBlock(
-          '관절염 데이터를 불러오지 못했어요. 수업자료/lab_inflammation-01.csv 를 두고 다시 빌드하세요.',
+          '관절염 데이터를 불러오지 못했다. 수업자료/lab_inflammation-01.csv 를 두고 다시 빌드하라.',
           'DataError'));
         return;
       }
@@ -104,17 +104,17 @@
       /* ------------------------------------------------------------ 도입 */
 
       root.appendChild(el('p', { html:
-        '이 장에서는 앞의 아홉 장에서 배운 것을 <b>실제 데이터 하나</b>에 모두 쏟아부어요. ' +
-        '데이터는 관절염 환자에게 신약을 투여한 뒤 기록한 염증 수치예요. ' +
-        '<b>행이 환자, 열이 날짜</b>이고 헤더 줄이 없어요. ' +
-        '아래의 모든 숫자·그림은 이 페이지가 방금 계산한 것이므로, 슬라이더를 움직이면 값도 함께 움직여요.' }));
+        '이 장에서는 앞의 아홉 장에서 배운 것을 <b>실제 데이터 하나</b>에 모두 쏟아붓는다. ' +
+        '데이터는 관절염 환자에게 신약을 투여한 뒤 기록한 염증 수치다. ' +
+        '<b>행이 환자, 열이 날짜</b>이고 헤더 줄이 없다. ' +
+        '아래의 모든 숫자·그림은 이 페이지가 방금 계산한 것이므로, 슬라이더를 움직이면 값도 함께 움직인다.' }));
 
       root.appendChild(UI.table(
         [{ k: 'k', label: '항목' }, { k: 'v', label: '값' }],
         [
           { k: '파일', v: meta.file || 'lab_inflammation-01.csv' },
           { k: '구분자', v: '콤마 (,)' },
-          { k: '헤더', v: meta.header ? '있음' : '없음 → skiprows 가 필요 없어요' },
+          { k: '헤더', v: meta.header ? '있다' : '없다 → skiprows 가 필요 없다' },
           { k: '행 = ' + (meta.rowMeaning || '환자'), v: nP + '명' },
           { k: '열 = ' + (meta.colMeaning || '날짜(day)'), v: nD + '일' }
         ]
@@ -125,9 +125,9 @@
       var h101 = el('h2', { class: 'h-sec', text: '10.1 데이터 한눈에 보기 — 히트맵' });
       root.appendChild(h101);
       root.appendChild(el('p', { html:
-        '2400개의 숫자를 눈으로 훑어서는 아무것도 알 수 없어요. ' +
-        '값의 크기를 <b>색의 진하기</b>로 바꾸면 전체를 한 장의 그림으로 볼 수 있어요. ' +
-        '아래 히트맵의 한 줄이 환자 한 명의 40일이에요. 칸에 마우스를 올리면 정확한 값이 나와요.' }));
+        '2400개의 숫자를 눈으로 훑어서는 아무것도 알 수 없다. ' +
+        '값의 크기를 <b>색의 진하기</b>로 바꾸면 전체를 한 장의 그림으로 볼 수 있다. ' +
+        '아래 히트맵의 한 줄이 환자 한 명의 40일이다. 칸에 마우스를 올리면 정확한 값이 나온다.' }));
 
       root.appendChild(UI.statRow([
         { k: 'shape', v: ND.shapeStr(data.shape), sub: '환자 × 날짜' },
@@ -145,21 +145,21 @@
       root.appendChild(el('div', { style: { maxWidth: '640px' } }, [heatBox]));
 
       root.appendChild(UI.callout('why',
-        '왼쪽 끝(초기)이 하얗고, 가운데(day 20 부근)가 가장 진하고, 오른쪽 끝이 다시 하얘져요. ' +
-        '염증이 <b>올랐다가 정점을 지나 가라앉는</b> 것이에요. ' +
-        '세로로 봐도 무늬가 거의 같아요 — 60명이 서로 비슷한 궤적을 그린다는 뜻이에요. ' +
-        '그리고 <b>맨 왼쪽 한 줄은 60명 전원이 완전히 하얘요</b>. 이 사실은 10.2 의 마지막 문제에서 다시 다뤄요.'));
+        '왼쪽 끝(초기)이 하얗고, 가운데(day 20 부근)가 가장 진하고, 오른쪽 끝이 다시 하얘진다. ' +
+        '염증이 <b>올랐다가 정점을 지나 가라앉는</b> 것이다. ' +
+        '세로로 봐도 무늬가 거의 같다 — 60명이 서로 비슷한 궤적을 그린다는 뜻이다. ' +
+        '그리고 <b>맨 왼쪽 한 줄은 60명 전원이 완전히 하얗다</b>. 이 사실은 10.2 의 마지막 문제에서 다시 다룬다.'));
 
       root.appendChild(UI.callout('tip',
-        '히트맵은 "대충 보는 그림"이 아니라 <b>데이터 검사 도구</b>예요. 줄무늬·빈 줄·갑작스러운 경계가 보이면 ' +
-        '측정이 잘못됐거나 데이터가 인공적으로 만들어졌다는 신호예요. 아래 <b>표로 보기</b>를 열면 같은 값을 숫자로 확인할 수 있어요.'));
+        '히트맵은 "대충 보는 그림"이 아니라 <b>데이터 검사 도구</b>다. 줄무늬·빈 줄·갑작스러운 경계가 보이면 ' +
+        '측정이 잘못됐거나 데이터가 인공적으로 만들어졌다는 신호다. 아래 <b>표로 보기</b>를 열면 같은 값을 숫자로 확인할 수 있다.'));
 
       /* ================================================= 10.2 과제 2번 풀기 */
 
       root.appendChild(el('h2', { class: 'h-sec', text: '10.2 과제 2번 — 직접 풀어 보기' }));
       root.appendChild(el('p', { html:
-        '아래 카드는 과제 2번을 순서대로 따라가요. 각 카드의 <b>문제를 읽고 코드를 먼저 스스로 써 본 다음</b> ' +
-        '펼쳐진 코드와 결과를 비교하세요. 결과 블록의 숫자는 미리 적어 둔 값이 아니라 이 페이지가 계산한 값이에요.' }));
+        '아래 카드는 과제 2번을 순서대로 따라간다. 각 카드의 <b>문제를 읽고 코드를 먼저 스스로 써 본 다음</b> ' +
+        '펼쳐진 코드와 결과를 비교하라. 결과 블록의 숫자는 미리 적어 둔 값이 아니라 이 페이지가 계산한 값이다.' }));
 
       /* ---------------------------------------------------- 2-1 데이터 로딩 */
 
@@ -167,7 +167,7 @@
         kicker: '과제 2-1',
         title: '데이터 로딩',
         note: '문제: 파일 <code>lab_inflammation-01.csv</code> 를 프로그램에 로딩하시오. ' +
-              '— 먼저 스스로 써 보세요. <b>구분자는 무엇이고 헤더는 몇 줄인가요?</b>',
+              '— 먼저 스스로 써 보라. <b>구분자는 무엇이고 헤더는 몇 줄인가?</b>',
         body: [
           UI.code(
             'import numpy as np\n\n' +
@@ -176,21 +176,21 @@
             'print(data.dtype, data.shape)'),
           UI.out("<class 'numpy.ndarray'>\n" + data.dtype + ' ' + ND.shapeStr(data.shape)),
           el('p', { html:
-            '<b>delimiter=\',\' 를 빼면 안 돼요.</b> 기본 구분자는 공백이므로, 콤마로 붙어 있는 한 줄 전체를 ' +
-            '하나의 수로 읽으려다 실패해요. 이 파일은 <b>첫 줄부터 이미 데이터</b>여서 <code>skiprows</code> 가 필요 없어요.' }),
+            '<b>delimiter=\',\' 를 빼면 안 된다.</b> 기본 구분자는 공백이므로, 콤마로 붙어 있는 한 줄 전체를 ' +
+            '하나의 수로 읽으려다 실패한다. 이 파일은 <b>첫 줄부터 이미 데이터</b>여서 <code>skiprows</code> 가 필요 없다.' }),
           UI.code("print(data[0, :8])   # 첫 줄이 정말 데이터인지 확인"),
           UI.out(ND.format(data.idx('0, :8'))),
           el('p', { html:
-            '<code>np.loadtxt</code> 의 기본 <code>dtype</code> 은 <b>float</b> 이에요. 파일에 정수만 적혀 있어도 ' +
-            '<code>float64</code> 로 읽히므로 0 이 <code>0.</code> 으로 나와요. 정수로 받고 싶으면 ' +
-            '<code>dtype=int</code> 를 직접 지정해요.' }),
+            '<code>np.loadtxt</code> 의 기본 <code>dtype</code> 은 <b>float</b> 이다. 파일에 정수만 적혀 있어도 ' +
+            '<code>float64</code> 로 읽히므로 0 이 <code>0.</code> 으로 나온다. 정수로 받고 싶으면 ' +
+            '<code>dtype=int</code> 를 직접 지정한다.' }),
           UI.callout('ver',
             '수업 노트북 셀 156 은 <code>np.loadtxt(\'ratings.csv\', delimiter=\',\', skiprows=1)</code> 로 되어 있지만 ' +
-            '실제 파일명은 <code>ra.csv</code> 예요. 그 파일은 첫 줄이 열 이름' +
+            '실제 파일명은 <code>ra.csv</code> 다. 그 파일은 첫 줄이 열 이름' +
             '(<code>' + UI.esc((D.ratingsMeta && D.ratingsMeta.header) || 'userId,movieId,rating,timestamp') + '</code>)이라 ' +
-            '<code>skiprows=1</code> 이 반드시 필요해요. 반대로 <b>이 관절염 파일에 skiprows=1 을 쓰면 0번 환자가 사라져</b> ' +
-            'shape 가 ' + ND.shapeStr(data.shape) + ' 이 아니라 ' + ND.shapeStr(data.idx('1:').shape) + ' 이 돼요. ' +
-            '파일을 열어 첫 줄을 눈으로 확인하는 습관이 답이에요.')
+            '<code>skiprows=1</code> 이 반드시 필요하다. 반대로 <b>이 관절염 파일에 skiprows=1 을 쓰면 0번 환자가 사라져</b> ' +
+            'shape 가 ' + ND.shapeStr(data.shape) + ' 이 아니라 ' + ND.shapeStr(data.idx('1:').shape) + ' 이 된다. ' +
+            '파일을 열어 첫 줄을 눈으로 확인하는 습관이 답이다.')
         ]
       }));
 
@@ -204,24 +204,24 @@
         kicker: '과제 2-2',
         title: '데이터의 형태 확인 — shape, 처음 5행, 마지막 행',
         note: '문제: ① shape 를 확인하고 ② 처음 5행을 출력하고 ③ 맨 마지막 행을 출력하시오. ' +
-              '과제 원본에는 <code>data[-1,]</code> 라고 적혀 있어요. <b>뒤의 콤마는 무슨 뜻일까?</b>',
+              '과제 원본에는 <code>data[-1,]</code> 라고 적혀 있다. <b>뒤의 콤마는 무슨 뜻일까?</b>',
         body: [
           UI.code(
             'print(data.shape)     # 형태\n' +
             'print(data[:5])       # 처음 5행\n' +
             'print(data[-1])       # 마지막 행\n' +
-            'print(data[-1,])      # 위와 완전히 같아요'),
+            'print(data[-1,])      # 위와 완전히 같다'),
           UI.out(ND.shapeStr(data.shape)),
           UI.shapeBadge(data),
 
           el('h3', { class: 'h-sub', text: '처음 5행 — data[:5]' }),
           el('p', { class: 'small', html:
-            '환자 0~4 의 40일. 왼쪽·오른쪽 끝이 작고 가운데가 큰 것이 숫자로도 보여요. ' +
-            '(격자는 좌우로 밀어서 볼 수 있어요)' }),
+            '환자 0~4 의 40일. 왼쪽·오른쪽 끝이 작고 가운데가 큰 것이 숫자로도 보인다. ' +
+            '(격자는 좌우로 밀어서 볼 수 있다)' }),
           UI.grid(first5, { axisLabels: true, cellSize: 26,
             highlight: function () { return 'a'; } }),
           UI.shapeBadge(first5),
-          UI.code('print(data[:5, :8])   # 40열 전부는 너무 길어요 — 앞 8일만'),
+          UI.code('print(data[:5, :8])   # 40열 전부는 너무 길다 — 앞 8일만'),
           UI.out(ND.format(data.idx(':5, :8'))),
 
           el('h3', { class: 'h-sub', text: '마지막 행 — data[-1]' }),
@@ -230,23 +230,23 @@
           UI.code('print(np.array_equal(data[-1], data[-1,]))'),
           UI.out(sameLast),
           el('p', { html:
-            '대괄호 안의 <code>-1,</code> 는 파이썬에서 <b>원소가 하나인 튜플</b> <code>(-1,)</code> 이에요. ' +
-            '<code>data[-1]</code> 도 내부에서 똑같이 <code>(-1,)</code> 로 감싸지므로 두 표기는 완전히 같아요. ' +
-            '즉 뒤의 콤마는 아무 일도 하지 않아요. 헷갈리니 <code>data[-1]</code> 로 써요.' }),
+            '대괄호 안의 <code>-1,</code> 는 파이썬에서 <b>원소가 하나인 튜플</b> <code>(-1,)</code> 이다. ' +
+            '<code>data[-1]</code> 도 내부에서 똑같이 <code>(-1,)</code> 로 감싸지므로 두 표기는 완전히 같다. ' +
+            '즉 뒤의 콤마는 아무 일도 하지 않는다. 헷갈리니 <code>data[-1]</code> 로 쓰자.' }),
 
           UI.callout('why',
             '<code>data[:5]</code> 는 shape ' + ND.shapeStr(first5.shape) + ' 로 <b>2차원</b>이고, ' +
-            '<code>data[-1]</code> 은 shape ' + ND.shapeStr(lastRow.shape) + ' 로 <b>1차원</b>이에요. ' +
-            '슬라이스(<code>:5</code>)는 축을 남기고, 정수(<code>-1</code>)는 축을 없애요. ' +
-            '이 차이는 5장에서 다룬 그대로예요. 결과를 다시 인덱싱할 때 반드시 걸리는 지점이에요.'),
+            '<code>data[-1]</code> 은 shape ' + ND.shapeStr(lastRow.shape) + ' 로 <b>1차원</b>이다. ' +
+            '슬라이스(<code>:5</code>)는 축을 남기고, 정수(<code>-1</code>)는 축을 없앤다. ' +
+            '이 차이는 5장에서 다룬 그대로다. 결과를 다시 인덱싱할 때 반드시 걸리는 지점이다.'),
 
           el('h3', { class: 'h-sub', text: '보너스: 범위를 넘어가면?' }),
           UI.code('print(data[60:].shape)   # 슬라이싱: 에러가 아니다\nprint(data[60])          # 정수 인덱싱: 에러'),
           UI.out(ND.shapeStr(data.idx('60:').shape), { label: 'data[60:] 의 shape' }),
           tryBlock(function () { return UI.out(ND.format(data.idx('60'))); }),
           el('p', { class: 'small', html:
-            '환자가 60명이니 마지막 인덱스는 59 예요. <b>슬라이싱은 넘쳐도 빈 배열</b>을 주고, ' +
-            '<b>정수 인덱싱은 IndexError</b> 를 내요. 빈 배열이 조용히 지나가는 쪽이 더 위험해요.' })
+            '환자가 60명이니 마지막 인덱스는 59 다. <b>슬라이싱은 넘쳐도 빈 배열</b>을 주고, ' +
+            '<b>정수 인덱싱은 IndexError</b> 를 낸다. 빈 배열이 조용히 지나가는 쪽이 더 위험하다.' })
         ]
       }));
 
@@ -260,7 +260,7 @@
         kicker: '과제 2-2-4',
         title: '모든 값을 2배로 — 그리고 "5번째 환자"',
         note: '문제: 모든 값을 2배로 만든 데이터를 <code>double_data</code> 에 저장한 뒤 ' +
-              '<b>5번째 환자</b>의 데이터를 출력하시오. — 5번째 환자의 인덱스는 몇 번인가요?',
+              '<b>5번째 환자</b>의 데이터를 출력하시오. — 5번째 환자의 인덱스는 몇 번인가?',
         body: [
           UI.code(
             'double_data = data * 2          # 반복문 없이 2400개가 한 번에\n' +
@@ -274,9 +274,9 @@
           rowGrid(dbl.idx('4'), { highlight: function () { return 'r'; }, axisLabels: false }),
 
           UI.callout('trap',
-            '<b>"5번째 환자"는 <code>data[5]</code> 가 아니에요.</b> 사람은 1부터 세지만 인덱스는 0부터 세요. ' +
+            '<b>"5번째 환자"는 <code>data[5]</code> 가 아니다.</b> 사람은 1부터 세지만 인덱스는 0부터 센다. ' +
             '1번째 환자 = <code>data[0]</code>, … , 5번째 환자 = <code>data[4]</code>. ' +
-            '이 한 칸 차이로 과제의 답이 통째로 달라져요. 문제에 "몇 번째"라는 말이 나오면 반드시 1을 빼세요.'),
+            '이 한 칸 차이로 과제의 답이 통째로 달라진다. 문제에 "몇 번째"라는 말이 나오면 반드시 1을 빼라.'),
 
           UI.table(
             [{ k: 'e', label: '식' }, { k: 'm', label: '뜻' }, { k: 'v', label: '앞 6일 값' }],
@@ -287,11 +287,11 @@
           ),
 
           UI.callout('tip',
-            '<code>data * 2</code> 는 원본을 고치지 않고 <b>새 배열</b>을 만들어요: ' +
+            '<code>data * 2</code> 는 원본을 고치지 않고 <b>새 배열</b>을 만든다: ' +
             '<code>np.shares_memory(data, double_data)</code> → <b>' + shareDbl + '</b>. ' +
             '반면 <code>data[:5]</code> 는 슬라이싱이므로 <b>뷰</b>다: ' +
             '<code>np.shares_memory(data, data[:5])</code> → <b>' + shareView + '</b>. ' +
-            '뷰를 고치면 원본이 함께 바뀌어요.')
+            '뷰를 고치면 원본이 함께 바뀐다.')
         ]
       }));
 
@@ -308,7 +308,7 @@
         kicker: '과제 2-2-5',
         title: '루트 값 — 그리고 출력이 너무 길 때',
         note: '문제: 각 데이터의 루트 값을 계산하고 5번째 환자의 데이터를 출력하시오. ' +
-              '— <code>np.sqrt</code> 결과는 소수점이 길어요. 어떻게 읽기 좋게 만들까?',
+              '— <code>np.sqrt</code> 결과는 소수점이 길다. 어떻게 읽기 좋게 만들까?',
         body: [
           UI.code(
             'sqrt_data = np.sqrt(data)                 # 2400개 전부 한 번에\n' +
@@ -317,21 +317,21 @@
             'print(sqrt_data[4, :10])'),
           UI.out(ND.format(sq4r)),
           el('p', { class: 'small', html:
-            '5번째 환자의 40일 루트 값 (소수 2자리로 표시). 첫 칸은 <b>√0 = 0</b> 이에요.' }),
+            '5번째 환자의 40일 루트 값 (소수 2자리로 표시). 첫 칸은 <b>√0 = 0</b> 이다.' }),
           rowGrid(sq4, {
             cellSize: 32,
             highlight: function (idx, v) { return v === 0 ? 'x' : 'r'; },
             label: function (idx, v) { return fx(v, 2); }
           }),
           el('p', { html:
-            '<code>np.round</code> 는 <b>값을 실제로 바꾼</b> 새 배열을 만들어요. ' +
-            '<code>np.set_printoptions(precision=2)</code> 는 <b>보이는 모습만</b> 바꾸고 값은 그대로 둬요. ' +
-            '계산에 쓸 값이라면 반올림하지 말고 출력 옵션만 바꾸는 것이 안전해요.' }),
+            '<code>np.round</code> 는 <b>값을 실제로 바꾼</b> 새 배열을 만든다. ' +
+            '<code>np.set_printoptions(precision=2)</code> 는 <b>보이는 모습만</b> 바꾸고 값은 그대로 둔다. ' +
+            '계산에 쓸 값이라면 반올림하지 말고 출력 옵션만 바꾸는 것이 안전하다.' }),
           UI.callout('ver',
-            '<b><code>np.round</code> 는 학교에서 배운 반올림이 아니에요.</b> 정확히 .5 일 때 ' +
-            '<b>가까운 짝수</b>로 보내요(round half to even). 아래 표를 보세요. ' +
-            '통계에서 반올림 편향을 없애기 위한 규칙이고, NumPy 2.x 에서도 그대로예요. ' +
-            '맨 아래 줄은 다른 이유예요 — 2.675 는 2진 소수로 정확히 표현되지 않아 실제로는 2.675 보다 살짝 작아요.'),
+            '<b><code>np.round</code> 는 학교에서 배운 반올림이 아니다.</b> 정확히 .5 일 때 ' +
+            '<b>가까운 짝수</b>로 보낸다(round half to even). 아래 표를 보라. ' +
+            '통계에서 반올림 편향을 없애기 위한 규칙이고, NumPy 2.x 에서도 그대로다. ' +
+            '맨 아래 줄은 다른 이유다 — 2.675 는 2진 소수로 정확히 표현되지 않아 실제로는 2.675 보다 살짝 작다.'),
           UI.table(
             [{ k: 'v', label: '값' }, { k: 'np', label: 'np.round', num: true },
              { k: 's', label: '학교 반올림(.5 는 올림)', num: true }],
@@ -359,7 +359,7 @@
         kicker: '과제 2-3-1',
         title: '전체 데이터의 통계값',
         note: '문제: 모든 데이터를 대상으로 최댓값·최솟값·표준편차를 출력하시오. ' +
-              '— f-string 으로 라벨과 값을 함께 찍어 보세요.',
+              '— f-string 으로 라벨과 값을 함께 찍어 보라.',
         body: [
           UI.code(
             "print(f'최대값: {data.max()}')\n" +
@@ -372,18 +372,18 @@
             '표준편차: ' + String(gStd) + '\n' +
             '평균: ' + py(gMean)),
           el('p', { html:
-            '중앙값이 ' + py(sc(ND.median(data))) + ' 인데 평균이 ' + py(gMean) + ' 예요. ' +
-            '평균이 중앙값보다 크면 <b>큰 값 쪽으로 꼬리가 긴</b> 분포예요 — 대부분의 칸은 작은 값이고, ' +
-            '정점 부근의 큰 값들이 평균을 끌어올려요. 히트맵의 하얀 면적이 넓었던 것과 같은 이야기예요.' }),
+            '중앙값이 ' + py(sc(ND.median(data))) + ' 인데 평균이 ' + py(gMean) + ' 다. ' +
+            '평균이 중앙값보다 크면 <b>큰 값 쪽으로 꼬리가 긴</b> 분포다 — 대부분의 칸은 작은 값이고, ' +
+            '정점 부근의 큰 값들이 평균을 끌어올린다. 히트맵의 하얀 면적이 넓었던 것과 같은 이야기다.' }),
           UI.table(
             [{ k: 'f', label: '함수' }, { k: 'd', label: '뜻' }, { k: 'v', label: '값', num: true }],
             statFns),
           UI.callout('ver',
-            '<b><code>np.std</code> 의 기본은 <code>ddof=0</code></b> — 모표준편차예요(' + fx(gStd, 4) + '). ' +
+            '<b><code>np.std</code> 의 기본은 <code>ddof=0</code></b> — 모표준편차다(' + fx(gStd, 4) + '). ' +
             '통계 시간에 배운 표본표준편차는 <code>data.std(ddof=1)</code>(' + fx(gStd1, 4) + ') 로, ' +
-            'n 대신 n−1 로 나눠요. 값이 조금 다르니 과제에 어느 쪽을 썼는지 밝혀 두세요.<br>' +
-            '또 NumPy 2.0 부터 셀 마지막 줄에 <code>data.max()</code> 만 두면 <code>np.float64(20.0)</code> 처럼 보여요. ' +
-            '<code>print()</code> 나 f-string 을 쓰면 <code>20.0</code> 으로 나와요 — 값이 달라진 게 아니라 표기만 바뀐 것이에요.')
+            'n 대신 n−1 로 나눈다. 값이 조금 다르니 과제에 어느 쪽을 썼는지 밝혀 두어라.<br>' +
+            '또 NumPy 2.0 부터 셀 마지막 줄에 <code>data.max()</code> 만 두면 <code>np.float64(20.0)</code> 처럼 보인다. ' +
+            '<code>print()</code> 나 f-string 을 쓰면 <code>20.0</code> 으로 나온다 — 값이 달라진 게 아니라 표기만 바뀐 것이다.')
         ]
       }));
 
@@ -397,7 +397,7 @@
         kicker: '과제 2-3-2',
         title: '첫 번째 환자의 최대 염증 수치',
         note: '문제: 첫 번째 환자(patient 0)의 염증 수치 최댓값을 출력하시오. ' +
-              '— 방법이 두 가지 있어요. 그리고 <b>비슷하게 생겼지만 완전히 틀린 방법</b>도 있어요.',
+              '— 방법이 두 가지 있다. 그리고 <b>비슷하게 생겼지만 완전히 틀린 방법</b>도 있다.',
         body: [
           UI.code(
             "print(f'첫번째 환자(patient 0)의 최대 염증수치: {data[0].max()}')\n" +
@@ -414,12 +414,12 @@
             highlight: function (idx, v) { return idx[0] === p0arg ? 'x' : 'a'; }
           }),
           UI.callout('why',
-            '<code>data.max(axis=1)</code> 은 <b>각 행을 하나로 줄여요</b> → shape ' +
+            '<code>data.max(axis=1)</code> 은 <b>각 행을 하나로 줄인다</b> → shape ' +
             ND.shapeStr(axis1max.shape) + ' (환자마다 하나). 그 0번은 "환자 0의 최댓값" = ' + py(p0max) + '.<br>' +
-            '<code>data.max(axis=0)</code> 은 <b>각 열을 하나로 줄여요</b> → shape ' +
+            '<code>data.max(axis=0)</code> 은 <b>각 열을 하나로 줄인다</b> → shape ' +
             ND.shapeStr(axis0max.shape) + ' (날짜마다 하나). 그 0번은 "첫째 날의 최댓값" = ' +
-            py(sc(axis0max.idx('0'))) + ' — 환자와는 아무 상관이 없어요.<br>' +
-            '<b>결과의 shape 를 보면 어느 쪽인지 즉시 알 수 있어요.</b> 60 이면 환자별, 40 이면 날짜별이에요(8장).')
+            py(sc(axis0max.idx('0'))) + ' — 환자와는 아무 상관이 없다.<br>' +
+            '<b>결과의 shape 를 보면 어느 쪽인지 즉시 알 수 있다.</b> 60 이면 환자별, 40 이면 날짜별이다(8장).')
         ]
       }));
 
@@ -431,7 +431,7 @@
         kicker: '과제 2-3-3',
         title: '각 환자가 가장 아팠던 날짜',
         note: '문제: 각 환자에 대해 가장 높은 염증 수치를 기록한 날을 찾으시오. ' +
-              '— 과제 힌트에는 <code>np.argmax(data)</code> 라고 적혀 있어요. <b>그대로 쓰면 함정이에요.</b>',
+              '— 과제 힌트에는 <code>np.argmax(data)</code> 라고 적혀 있다. <b>그대로 쓰면 함정이다.</b>',
         body: [
           UI.code(
             'days = data.argmax(axis=1)   # 환자마다 최댓값이 나온 열(날짜) 번호\n' +
@@ -439,15 +439,15 @@
             'print(days[:12])'),
           UI.out(ND.shapeStr(argDay.shape) + '\n' + ND.format(argDay.idx(':12'))),
           el('p', { class: 'small', html:
-            '환자 60명 각각의 "가장 아팠던 날". 위 숫자는 환자 번호, 칸 안 숫자는 날짜예요. ' +
-            '대부분 day 18~22 에 몰려 있어요 — 히트맵에서 가운데가 진했던 그 구간이에요.' }),
+            '환자 60명 각각의 "가장 아팠던 날". 위 숫자는 환자 번호, 칸 안 숫자는 날짜다. ' +
+            '대부분 day 18~22 에 몰려 있다 — 히트맵에서 가운데가 진했던 그 구간이다.' }),
           rowGrid(argDay, { cellSize: 30, highlight: function () { return 'r'; } }),
 
           UI.callout('trap',
-            '<b><code>np.argmax(data)</code> 를 axis 없이 쓰면 안 돼요.</b> ' +
-            'axis 를 주지 않으면 NumPy 는 2차원 배열을 <b>한 줄로 평평하게 펴서</b> 센 인덱스 하나를 돌려줘요. ' +
-            '여기서는 <b>' + flatArg + '</b> 이 나와요. 이것은 환자 번호도, 날짜도, 염증 수치도 아니에요. ' +
-            '"60개의 답"이 필요한 문제인데 값이 하나만 나왔다면 그 순간 잘못된 것이에요.'),
+            '<b><code>np.argmax(data)</code> 를 axis 없이 쓰면 안 된다.</b> ' +
+            'axis 를 주지 않으면 NumPy 는 2차원 배열을 <b>한 줄로 평평하게 펴서</b> 센 인덱스 하나를 돌려준다. ' +
+            '여기서는 <b>' + flatArg + '</b> 이 나온다. 이것은 환자 번호도, 날짜도, 염증 수치도 아니다. ' +
+            '"60개의 답"이 필요한 문제인데 값이 하나만 나왔다면 그 순간 잘못된 것이다.'),
           UI.code(
             'print(np.argmax(data))                                  # 평평한 인덱스\n' +
             'print(np.unravel_index(np.argmax(data), data.shape))    # (행, 열) 로 되돌리기\n' +
@@ -458,12 +458,12 @@
             py(data.get(flatIdx))),
           el('p', { html:
             '평평한 인덱스 ' + flatArg + ' = ' + flatIdx[0] + ' × ' + nD + ' + ' + flatIdx[1] + ' 이므로 ' +
-            '<code>np.unravel_index</code> 를 쓰면 <b>환자 ' + flatIdx[0] + ', day ' + flatIdx[1] + '</b> 로 되돌아와요. ' +
-            '거기 값은 전체 최댓값 ' + py(gMax) + ' 예요. 즉 axis 없는 argmax 는 "<b>전체에서 가장 큰 칸 하나</b>"를 찾는 도구예요.' }),
+            '<code>np.unravel_index</code> 를 쓰면 <b>환자 ' + flatIdx[0] + ', day ' + flatIdx[1] + '</b> 로 되돌아온다. ' +
+            '거기 값은 전체 최댓값 ' + py(gMax) + ' 다. 즉 axis 없는 argmax 는 "<b>전체에서 가장 큰 칸 하나</b>"를 찾는 도구다.' }),
           UI.callout('tip',
-            'argmax 는 최댓값이 여러 번 나와도 <b>가장 먼저 나온 위치만</b> 알려 줘요. ' +
+            'argmax 는 최댓값이 여러 번 나와도 <b>가장 먼저 나온 위치만</b> 알려 준다. ' +
             '실제로 ' + py(gMax) + ' 을 기록한 환자는 ' + top20.length + '명(' + top20.join(', ') + ')인데 ' +
-            'argmax 는 ' + flatIdx[0] + '번만 말해 줘요. 전부 찾으려면 <code>np.where</code> 를 써요.'),
+            'argmax 는 ' + flatIdx[0] + '번만 말해 준다. 전부 찾으려면 <code>np.where</code> 를 쓴다.'),
           UI.code('print(np.where(data.max(axis=1) == data.max())[0])'),
           UI.out(ND.format(whereTop))
         ]
@@ -486,38 +486,38 @@
         kicker: '과제 2-3-4',
         title: '첫째 날 모든 환자의 평균 — 그리고 데이터를 의심하기',
         note: '문제: 첫째 날 모든 환자의 염증 수치 평균을 구하시오. ' +
-              '— 값을 구한 뒤 <b>그 값을 믿을 수 있는지</b> 한 번 더 생각해 보세요.',
+              '— 값을 구한 뒤 <b>그 값을 믿을 수 있는지</b> 한 번 더 생각해 보라.',
         body: [
           UI.code(
             "print(f'첫째날 모든 환자의 염증수치 평균: {data[:, 0].mean()}')\n" +
-            'print(np.all(data[:, 0] == 0))     # 정말 전원이 0인가요?'),
+            'print(np.all(data[:, 0] == 0))     # 정말 전원이 0인가?'),
           UI.out(
             '첫째날 모든 환자의 염증수치 평균: ' + py(col0mean) + '\n' + allZero),
           el('p', { class: 'small', html:
-            '0번 열 전체 — 환자 ' + nP + '명의 첫째 날 값이에요. 예외가 <b>하나도</b> 없어요.' }),
+            '0번 열 전체 — 환자 ' + nP + '명의 첫째 날 값이다. 예외가 <b>하나도</b> 없다.' }),
           rowGrid(col0, { cellSize: 26, highlight: function () { return 'x'; } }),
 
           UI.callout('why',
-            '평균이 0.0 인 이유는 간단해요. <b>' + nP + '명 전원이 정확히 0</b> 이기 때문이에요. ' +
-            '그런데 실제 임상 데이터에서 이런 일은 거의 불가능해요. 환자마다 체질과 상태가 달라 ' +
-            '투여 직전의 기준선도 흩어져 있어야 해요. 60명이 한 명도 빠짐없이 소수점까지 정확히 0 이라면, ' +
-            '측정값이 아니라 <b>누군가 0에서 시작하도록 만든 값</b>이에요.'),
+            '평균이 0.0 인 이유는 간단하다. <b>' + nP + '명 전원이 정확히 0</b> 이기 때문이다. ' +
+            '그런데 실제 임상 데이터에서 이런 일은 거의 불가능하다. 환자마다 체질과 상태가 달라 ' +
+            '투여 직전의 기준선도 흩어져 있어야 한다. 60명이 한 명도 빠짐없이 소수점까지 정확히 0 이라면, ' +
+            '측정값이 아니라 <b>누군가 0에서 시작하도록 만든 값</b>이다.'),
           el('p', { html:
-            '증거를 하나 더 봐요. 날짜별 최솟값·최댓값을 앞 10일만 늘어놓으면, ' +
-            '<b>최댓값이 날짜 번호와 정확히 같아요</b>. 자연에서 이런 계단은 나오지 않아요.' }),
+            '증거를 하나 더 보자. 날짜별 최솟값·최댓값을 앞 10일만 늘어놓으면, ' +
+            '<b>최댓값이 날짜 번호와 정확히 같다</b>. 자연에서 이런 계단은 나오지 않는다.' }),
           UI.table(
             [{ k: 'd', label: 'day', num: true }, { k: 'mn', label: '최솟값', num: true },
              { k: 'mx', label: '최댓값', num: true }, { k: 'av', label: '평균', num: true }],
             earlyRows),
           UI.callout('trap',
-            '이 데이터로 "신약이 효과가 있어요"고 결론 내릴 수 없어요. ' +
-            '비교할 <b>대조군</b>이 없고, 곡선이 올랐어요 내려오는 모양도 약 때문인지 병의 자연 경과인지 구분할 수 없어요. ' +
-            '게다가 첫째 날이 전원 0 이라는 것은 이 파일이 <b>교육용 합성(synthetic) 데이터</b>라는 강한 단서예요.'),
+            '이 데이터로 "신약이 효과가 있다"고 결론 내릴 수 없다. ' +
+            '비교할 <b>대조군</b>이 없고, 곡선이 올랐다 내려오는 모양도 약 때문인지 병의 자연 경과인지 구분할 수 없다. ' +
+            '게다가 첫째 날이 전원 0 이라는 것은 이 파일이 <b>교육용 합성(synthetic) 데이터</b>라는 강한 단서다.'),
           UI.callout('tip',
-            '<b>데이터를 의심하세요.</b> 분석의 첫 단계는 평균을 구하는 것이 아니라 ' +
-            '"이 숫자는 어디서 어떻게 왔는가"를 확인하는 것이에요. ' +
+            '<b>데이터를 의심하라.</b> 분석의 첫 단계는 평균을 구하는 것이 아니라 ' +
+            '"이 숫자는 어디서 어떻게 왔는가"를 확인하는 것이다. ' +
             '이상하게 깔끔한 값(전원 0, 정확한 계단, 딱 떨어지는 최댓값)은 계산을 잘한 신호가 아니라 ' +
-            '<b>데이터를 다시 보라는 신호</b>예요. 이 습관이 분석 기술보다 먼저예요.', '이 장의 결론')
+            '<b>데이터를 다시 보라는 신호</b>다. 이 습관이 분석 기술보다 먼저다.', '이 장의 결론')
         ]
       }));
 
@@ -555,7 +555,7 @@
           { k: '15 이상인 환자', v: n15 + '명', sub: '(data[:, ' + d + '] >= 15).sum()' }
         ]));
         s1Day.appendChild(el('p', { class: 'small', html:
-          'day ' + d + ' 의 환자 ' + nP + '명 값. <b>15 이상</b>인 칸을 노랑으로 표시했어요.' }));
+          'day ' + d + ' 의 환자 ' + nP + '명 값. <b>15 이상</b>인 칸을 노랑으로 표시했다.' }));
         s1Day.appendChild(rowGrid(col, {
           cellSize: 26,
           highlight: function (idx, v) { return v >= 15 ? 'x' : 'a'; }
@@ -565,8 +565,8 @@
       root.appendChild(UI.card({
         kicker: '시뮬레이터',
         title: '하루씩 들여다보는 평균 곡선',
-        note: '<code>data.mean(axis=0)</code> 은 <b>날짜마다 60명의 평균</b>을 내요 → 길이 ' + nD + ' 곡선. ' +
-              '밴드를 켜면 같은 날짜의 최솟값·최댓값이 함께 나와요. 슬라이더로 날짜를 골라 그날 60명을 직접 보세요.',
+        note: '<code>data.mean(axis=0)</code> 은 <b>날짜마다 60명의 평균</b>을 낸다 → 길이 ' + nD + ' 곡선. ' +
+              '밴드를 켜면 같은 날짜의 최솟값·최댓값이 함께 나온다. 슬라이더로 날짜를 골라 그날 60명을 직접 보라.',
         body: [
           UI.code(
             'day_mean = data.mean(axis=0)    # shape (' + nD + ',)  ← 날짜별\n' +
@@ -588,8 +588,8 @@
           el('p', { html:
             '곡선은 day 0 의 ' + py(dayMeanV[0]) + ' 에서 시작해 <b>day ' + peakDay + ' 에서 ' +
             fx(dayMeanV[peakDay], 3) + ' 로 정점</b>을 찍고, 마지막 날 ' + fx(dayMeanV[nD - 1], 3) +
-            ' 까지 내려와요. 신약을 투여한 뒤 염증이 올랐다가 가라앉는 모양으로 읽혀요. ' +
-            '다만 10.2 에서 봤듯이 이 데이터는 합성일 가능성이 크므로 <b>모양은 읽고 결론은 아껴 둬요.</b>' }),
+            ' 까지 내려온다. 신약을 투여한 뒤 염증이 올랐다가 가라앉는 모양으로 읽힌다. ' +
+            '다만 10.2 에서 봤듯이 이 데이터는 합성일 가능성이 크므로 <b>모양은 읽고 결론은 아껴 두자.</b>' }),
           s1Day
         ]
       }));
@@ -641,7 +641,7 @@
         ]));
 
         s2Host.appendChild(el('p', { class: 'small', html:
-          '이 환자의 40일을 히트맵 한 줄로 — 10.1 의 큰 히트맵에서 뽑아낸 그 줄이에요.' }));
+          '이 환자의 40일을 히트맵 한 줄로 — 10.1 의 큰 히트맵에서 뽑아낸 그 줄이다.' }));
         s2Host.appendChild(el('div', { style: { maxWidth: '640px' } }, [
           UI.heatmap(data.idx(p + ':' + (p + 1)), {
             vmin: 0, vmax: 20, rowLabel: '환자 ' + p, colLabel: 'day', tableView: false
@@ -659,7 +659,7 @@
         }));
 
         s2Host.appendChild(el('p', { class: 'small', html:
-          '원본 40개 값. <b>최댓값 칸(day ' + am + ')</b> 을 노랑으로 표시했어요.' }));
+          '원본 40개 값. <b>최댓값 칸(day ' + am + ')</b> 을 노랑으로 표시했다.' }));
         s2Host.appendChild(rowGrid(row, {
           cellSize: 30,
           highlight: function (idx, v) { return idx[0] === am ? 'x' : 'a'; }
@@ -677,9 +677,9 @@
       root.appendChild(UI.card({
         kicker: '시뮬레이터',
         title: '환자 한 명을 골라 보기',
-        note: '환자를 고르면 그 사람의 40일 곡선과 통계가 다시 계산돼요. ' +
-              '<b>y축은 0~20 으로 고정</b>했어요 — 환자를 바꿔도 눈금이 그대로여서 서로 직접 비교할 수 있어요. ' +
-              '눈금이 매번 달라지는 그래프는 비교에 쓸 수 없어요.',
+        note: '환자를 고르면 그 사람의 40일 곡선과 통계가 다시 계산된다. ' +
+              '<b>y축은 0~20 으로 고정</b>했다 — 환자를 바꿔도 눈금이 그대로여서 서로 직접 비교할 수 있다. ' +
+              '눈금이 매번 달라지는 그래프는 비교에 쓸 수 없다.',
         body: [
           UI.controls([pSlider]),
           UI.chips([
@@ -694,9 +694,9 @@
             s2Rebuild();
           }),
           UI.callout('trap',
-            '프리셋 첫 버튼을 다시 보세요. <b>"5번째 환자"는 <code>data[4]</code></b> 예요. ' +
-            '슬라이더 라벨이 <code>data[4]</code> 인데 통계 카드에는 "5번째 환자"라고 적혀요 — ' +
-            '이 두 표기를 나란히 두고 익숙해지세요.'),
+            '프리셋 첫 버튼을 다시 보라. <b>"5번째 환자"는 <code>data[4]</code></b> 다. ' +
+            '슬라이더 라벨이 <code>data[4]</code> 인데 통계 카드에는 "5번째 환자"라고 적힌다 — ' +
+            '이 두 표기를 나란히 두고 익숙해져라.'),
           UI.code(
             'row = data[p]                 # p번 환자의 40일, shape (' + nD + ',)\n' +
             'row.max(), row.argmax()       # 최고 염증과 그 날짜\n' +
@@ -733,8 +733,8 @@
         var r = spec.call(data, ax);
         var vals = ivals(r);
         var head = ax === 0
-          ? 'axis=0 — 행(환자)을 뭉개요 → 날짜별'
-          : 'axis=1 — 열(날짜)을 뭉개요 → 환자별';
+          ? 'axis=0 — 행(환자)을 뭉갠다 → 날짜별'
+          : 'axis=1 — 열(날짜)을 뭉갠다 → 환자별';
         return el('div', { style: {
           border: '1px solid var(--border)', borderRadius: '10px', padding: '.9rem 1rem'
         } }, [
@@ -775,8 +775,8 @@
       root.appendChild(UI.card({
         kicker: '시뮬레이터',
         title: '같은 데이터, 같은 함수, 다른 축',
-        note: '함수를 바꿔 보세요. <b>어느 축을 지웠는지</b>에 따라 결과의 길이와 뜻이 완전히 달라져요. ' +
-              '두 곡선의 모양이 닮은 데가 하나도 없다는 것을 눈으로 확인하세요.',
+        note: '함수를 바꿔 보라. <b>어느 축을 지웠는지</b>에 따라 결과의 길이와 뜻이 완전히 달라진다. ' +
+              '두 곡선의 모양이 닮은 데가 하나도 없다는 것을 눈으로 확인하라.',
         body: [
           UI.controls([
             UI.select({
@@ -789,11 +789,11 @@
           ]),
           s3Host,
           UI.callout('why',
-            '<b>축을 지정하면 그 축이 사라져요.</b> ' + ND.shapeStr(data.shape) + ' 에서 ' +
-            'axis=0 을 지우면 (' + nD + ',) 가 남고, axis=1 을 지우면 (' + nP + ',) 가 남아요. ' +
-            '그래서 결과의 shape 만 보면 "날짜별인가 환자별인가"를 바로 판단할 수 있어요. ' +
-            '축 번호를 외우려 하지 말고 <b>결과 길이가 ' + nD + '이냐 ' + nP + '이냐</b>로 확인하는 습관을 들여 보세요(8장).'),
-          el('p', { html: '없는 축을 지우려 하면 어떻게 되는지도 봐요. 2차원 배열의 축은 0 과 1 뿐이에요.' }),
+            '<b>축을 지정하면 그 축이 사라진다.</b> ' + ND.shapeStr(data.shape) + ' 에서 ' +
+            'axis=0 을 지우면 (' + nD + ',) 가 남고, axis=1 을 지우면 (' + nP + ',) 가 남는다. ' +
+            '그래서 결과의 shape 만 보면 "날짜별인가 환자별인가"를 바로 판단할 수 있다. ' +
+            '축 번호를 외우려 하지 말고 <b>결과 길이가 ' + nD + '이냐 ' + nP + '이냐</b>로 확인하는 습관을 들여라(8장).'),
+          el('p', { html: '없는 축을 지우려 하면 어떻게 되는지도 보자. 2차원 배열의 축은 0 과 1 뿐이다.' }),
           UI.code('data.mean(axis=2)'),
           tryBlock(function () { return UI.out(ND.format(ND.mean(data, 2))); })
         ]
@@ -805,8 +805,8 @@
 
       root.appendChild(el('h2', { class: 'h-sec', text: '10.3 스스로 해 보기' }));
       root.appendChild(el('p', { html:
-        '과제에 없는 질문 다섯 개예요. <b>먼저 스스로 코드를 써 본 다음</b> 제목을 눌러 풀이를 펼쳐 보세요. ' +
-        '숫자는 모두 이 페이지가 계산한 값이니, 네 결과와 다르면 어느 쪽이 틀렸는지 따져 보면 돼요.' }));
+        '과제에 없는 질문 다섯 개다. <b>먼저 스스로 코드를 써 본 다음</b> 제목을 눌러 풀이를 펼쳐라. ' +
+        '숫자는 모두 이 페이지가 계산한 값이니, 네 결과와 다르면 어느 쪽이 틀렸는지 따져 보면 된다.' }));
 
       /* ① 환자별 평균으로 정규화 */
       var rowMeanK = ND.reduce(data, { op: 'mean', axis: 1, keepdims: true });
@@ -821,36 +821,36 @@
         '① 각 환자의 평균을 0으로 맞추기 (정규화) — data - data.mean(axis=1, keepdims=True)',
         el('div', null, [
           el('p', { html:
-            '환자마다 체질이 달라 기준선이 다르다면, 각자의 평균을 빼서 <b>변화만</b> 남기는 것이 공정해요. ' +
-            '먼저 <code>keepdims</code> 없이 해 보면 왜 필요한지 알 수 있어요.' }),
+            '환자마다 체질이 달라 기준선이 다르다면, 각자의 평균을 빼서 <b>변화만</b> 남기는 것이 공정하다. ' +
+            '먼저 <code>keepdims</code> 없이 해 보면 왜 필요한지 알 수 있다.' }),
           UI.code('data - data.mean(axis=1)      # 이게 될까?'),
           tryBlock(function () { return UI.out(ND.format(ND.ops.sub(data, ND.mean(data, 1)))); }),
           el('p', { html:
-            '<code>data.mean(axis=1)</code> 의 shape 는 ' + ND.shapeStr(ND.mean(data, 1).shape) + ' 예요. ' +
-            '브로드캐스팅은 shape 를 <b>오른쪽부터</b> 맞추므로 (' + nP + ',) 는 (1, ' + nP + ') 로 취급돼요. ' +
-            '그러면 열 개수가 ' + nD + ' 대 ' + nP + ' 로 어긋나 실패해요(7장).' }),
+            '<code>data.mean(axis=1)</code> 의 shape 는 ' + ND.shapeStr(ND.mean(data, 1).shape) + ' 다. ' +
+            '브로드캐스팅은 shape 를 <b>오른쪽부터</b> 맞추므로 (' + nP + ',) 는 (1, ' + nP + ') 로 취급된다. ' +
+            '그러면 열 개수가 ' + nD + ' 대 ' + nP + ' 로 어긋나 실패한다(7장).' }),
           UI.code(
             'rm = data.mean(axis=1, keepdims=True)   # shape ' + ND.shapeStr(rowMeanK.shape) + '\n' +
             'norm = data - rm                        # (' + nP + ', ' + nD + ') - (' + nP + ', 1)\n' +
             'print(rm.shape, norm.shape)'),
           UI.out(ND.shapeStr(rowMeanK.shape) + ' ' + ND.shapeStr(norm.shape)),
           el('p', { html:
-            '<code>keepdims=True</code> 가 축을 <b>길이 1로 남겨</b> ' + ND.shapeStr(rowMeanK.shape) + ' 를 만들어요. ' +
-            '길이 1인 축은 브로드캐스팅이 늘려 주므로 각 행에 그 행의 평균이 빠져요.' }),
+            '<code>keepdims=True</code> 가 축을 <b>길이 1로 남겨</b> ' + ND.shapeStr(rowMeanK.shape) + ' 를 만든다. ' +
+            '길이 1인 축은 브로드캐스팅이 늘려 주므로 각 행에 그 행의 평균이 빠진다.' }),
           el('p', { class: 'small', html:
-            '0번 환자의 정규화 결과. 음수(평균보다 낮은 날)와 양수(높은 날)로 갈려요.' }),
+            '0번 환자의 정규화 결과. 음수(평균보다 낮은 날)와 양수(높은 날)로 갈린다.' }),
           rowGrid(norm.idx('0'), {
             cellSize: 34,
             highlight: function (idx, v) { return v >= 0 ? 'r' : 'dim'; },
             label: function (idx, v) { return fx(v, 1); }
           }),
-          UI.code('print(np.abs(norm.mean(axis=1)).max())   # 모든 행의 평균이 0인가요?'),
+          UI.code('print(np.abs(norm.mean(axis=1)).max())   # 모든 행의 평균이 0인가?'),
           UI.out(String(normRowMeanMax)),
           UI.callout('tip',
-            '정확히 0 이 아니라 ' + normRowMeanMax.toExponential(2) + ' 같은 아주 작은 수가 나와요. ' +
-            '실수를 2진수로 저장하는 컴퓨터에서는 이 정도 오차가 정상이에요. ' +
-            '<b>부동소수점 값을 <code>== 0</code> 으로 비교하지 마세요.</b> ' +
-            '<code>np.allclose(norm.mean(axis=1), 0)</code> 처럼 "충분히 가까운가"를 물어야 해요.')
+            '정확히 0 이 아니라 ' + normRowMeanMax.toExponential(2) + ' 같은 아주 작은 수가 나온다. ' +
+            '실수를 2진수로 저장하는 컴퓨터에서는 이 정도 오차가 정상이다. ' +
+            '<b>부동소수점 값을 <code>== 0</code> 으로 비교하지 마라.</b> ' +
+            '<code>np.allclose(norm.mean(axis=1), 0)</code> 처럼 "충분히 가까운가"를 물어야 한다.')
         ])
       ));
 
@@ -862,7 +862,7 @@
       var noneOver = ivals(ND.whereIdx(ND.ops.not(any15)));
 
       root.appendChild(UI.fold(
-        '② 염증이 15 이상 기록된 환자는 몇 명인가요? 최댓값이 20인 환자는?',
+        '② 염증이 15 이상 기록된 환자는 몇 명인가? 최댓값이 20인 환자는?',
         el('div', null, [
           UI.code(
             'mask = data >= 15                  # (' + nP + ', ' + nD + ') 불리언 배열\n' +
@@ -872,16 +872,16 @@
           UI.out(String(nCell15) + '\n' + String(n15p) + '\n' + String(nMax20)),
           el('p', { html:
             '<b>불리언 배열의 <code>sum()</code> 은 True 의 개수</b>다(True=1, False=0). ' +
-            '<code>any(axis=1)</code> 을 먼저 걸면 "환자 단위"로 줄어들어 ' + nP + '명 중 <b>' + n15p + '명</b>이 남아요. ' +
-            'axis 를 빼고 <code>mask.sum()</code> 만 하면 칸 개수 ' + nCell15 + ' 가 나와 질문과 다른 답이 돼요.' }),
+            '<code>any(axis=1)</code> 을 먼저 걸면 "환자 단위"로 줄어들어 ' + nP + '명 중 <b>' + n15p + '명</b>이 남는다. ' +
+            'axis 를 빼고 <code>mask.sum()</code> 만 하면 칸 개수 ' + nCell15 + ' 가 나와 질문과 다른 답이 된다.' }),
           UI.code('print(np.where(~(data >= 15).any(axis=1))[0])   # 15 이상이 한 번도 없던 환자'),
           UI.out(ND.format(ND.whereIdx(ND.ops.not(any15)))),
           el('p', { html:
             (noneOver.length === 1
-              ? '단 한 명(' + noneOver[0] + '번 환자)만 40일 동안 15 이상을 기록하지 않았어요. '
-              : noneOver.length + '명이 15 이상을 기록하지 않았어요. ') +
-            '전체 최댓값 ' + py(gMax) + ' 을 찍은 환자는 ' + nMax20 + '명(' + top20.join(', ') + ')이에요. ' +
-            '<b>"심한 환자"의 기준을 무엇으로 잡느냐에 따라 답이 달라져요</b>는 것이 요점이에요.' })
+              ? '단 한 명(' + noneOver[0] + '번 환자)만 40일 동안 15 이상을 기록하지 않았다. '
+              : noneOver.length + '명이 15 이상을 기록하지 않았다. ') +
+            '전체 최댓값 ' + py(gMax) + ' 을 찍은 환자는 ' + nMax20 + '명(' + top20.join(', ') + ')이다. ' +
+            '<b>"심한 환자"의 기준을 무엇으로 잡느냐에 따라 답이 달라진다</b>는 것이 요점이다.' })
         ])
       ));
 
@@ -891,7 +891,7 @@
       var m1 = sc(ND.mean(firstH)), m2 = sc(ND.mean(secondH));
 
       root.appendChild(UI.fold(
-        '③ 앞 ' + half + '일과 뒤 ' + half + '일의 평균을 비교하세요 (np.hsplit 또는 슬라이싱)',
+        '③ 앞 ' + half + '일과 뒤 ' + half + '일의 평균을 비교하라 (np.hsplit 또는 슬라이싱)',
         el('div', null, [
           UI.code(
             'first, second = np.hsplit(data, 2)     # 열을 반으로 쪼갠다\n' +
@@ -905,12 +905,12 @@
             String(m1) + ' ' + String(m2)),
           el('p', { html:
             '뒤 ' + half + '일 평균(' + fx(m2, 4) + ')이 앞 ' + half + '일(' + fx(m1, 4) + ')보다 ' +
-            fx(m2 - m1, 4) + ' 만큼 높아요. 차이가 작아서 "뒤쪽이 더 심해요"고 말하기 어려워요 — ' +
-            '<b>정점(day ' + peakDay + ')이 뒤쪽 구간의 맨 앞에 걸려 있기 때문</b>이에요. ' +
-            '구간을 어디서 자르느냐가 결론을 바꾼다는 뜻이고, 이런 자르기는 항상 근거를 밝혀야 해요.' }),
+            fx(m2 - m1, 4) + ' 만큼 높다. 차이가 작아서 "뒤쪽이 더 심하다"고 말하기 어렵다 — ' +
+            '<b>정점(day ' + peakDay + ')이 뒤쪽 구간의 맨 앞에 걸려 있기 때문</b>이다. ' +
+            '구간을 어디서 자르느냐가 결론을 바꾼다는 뜻이고, 이런 자르기는 항상 근거를 밝혀야 한다.' }),
           UI.callout('tip',
-            '<code>np.hsplit(data, 2)</code> 는 <b>사본이 아니라 뷰</b>를 줘요. ' +
-            '쪼갠 조각을 고치면 원본이 바뀌어요. 안전하게 만지려면 <code>.copy()</code> 를 붙여 보세요.')
+            '<code>np.hsplit(data, 2)</code> 는 <b>사본이 아니라 뷰</b>를 준다. ' +
+            '쪼갠 조각을 고치면 원본이 바뀐다. 안전하게 만지려면 <code>.copy()</code> 를 붙여라.')
         ])
       ));
 
@@ -957,18 +957,18 @@
           UI.ascii(histText),
           el('p', { html:
             '환자 ' + nP + '명의 평균이 <b>' + fx(pmMin, 3) + ' ~ ' + fx(pmMax, 3) +
-            '</b> 안에만 들어 있어요. 개인차라기엔 너무 좁아요 — 10.2 에서 얻은 "합성 데이터" 심증을 하나 더 뒷받침해요. ' +
+            '</b> 안에만 들어 있다. 개인차라기엔 너무 좁다 — 10.2 에서 얻은 "합성 데이터" 심증을 하나 더 뒷받침한다. ' +
             '그리고 <code>pm.mean()</code> 과 <code>data.mean()</code> 이 같은 이유는 ' +
-            '<b>모든 환자의 관측 일수가 똑같이 ' + nD + '일</b>이기 때문이에요. ' +
-            '환자마다 일수가 달랐다면 "평균의 평균"은 전체 평균과 달라져요.' }),
+            '<b>모든 환자의 관측 일수가 똑같이 ' + nD + '일</b>이기 때문이다. ' +
+            '환자마다 일수가 달랐다면 "평균의 평균"은 전체 평균과 달라진다.' }),
           UI.callout('ver',
-            '실제 데이터라면 결측치가 섞여 있어요. NumPy 에서 결측치는 <code>np.nan</code> 으로 표시하고 ' +
-            '<code>np.nanmean</code>·<code>np.nanmax</code> 처럼 nan 을 건너뛰는 함수를 써요. ' +
+            '실제 데이터라면 결측치가 섞여 있다. NumPy 에서 결측치는 <code>np.nan</code> 으로 표시하고 ' +
+            '<code>np.nanmean</code>·<code>np.nanmax</code> 처럼 nan 을 건너뛰는 함수를 쓴다. ' +
             '이때 <b>NumPy 2.0 에서 <code>np.NaN</code>, <code>np.Inf</code>, <code>np.float_</code>, ' +
-            '<code>np.int</code> 는 삭제됐어요.</b> 옛 자료의 <code>np.NaN</code> 을 그대로 실행하면 ' +
-            '<code>AttributeError</code> 가 나요 — 소문자 <code>np.nan</code>, <code>np.inf</code> 를 쓰세요. ' +
-            '참고로 <code>nan</code> 은 자기 자신과도 같지 않아서 <code>np.nan == np.nan</code> 이 False 예요. ' +
-            '반드시 <code>np.isnan</code> 으로 검사해요.')
+            '<code>np.int</code> 는 삭제됐다.</b> 옛 자료의 <code>np.NaN</code> 을 그대로 실행하면 ' +
+            '<code>AttributeError</code> 가 난다 — 소문자 <code>np.nan</code>, <code>np.inf</code> 를 써라. ' +
+            '참고로 <code>nan</code> 은 자기 자신과도 같지 않아서 <code>np.nan == np.nan</code> 이 False 다. ' +
+            '반드시 <code>np.isnan</code> 으로 검사한다.')
         ])
       ));
 
@@ -976,7 +976,7 @@
       var bestByMax = sc(ND.argmax(patMax));
 
       root.appendChild(UI.fold(
-        '⑤ 가장 심했던 환자와 가장 가벼웠던 환자를 찾아 보세요',
+        '⑤ 가장 심했던 환자와 가장 가벼웠던 환자를 찾아라',
         el('div', null, [
           UI.code(
             'pm = data.mean(axis=1)\n' +
@@ -996,15 +996,15 @@
             fmtY: function (v) { return fx(v, 1); }
           }),
           el('p', { html:
-            '<b>"가장 심한"은 기준을 정하지 않으면 답이 없어요.</b> ' +
-            '40일 평균으로 재면 ' + bestP + '번 환자, 최고 기록 하나로 재면 ' + bestByMax + '번 환자예요. ' +
-            '두 곡선을 보면 평균 1등과 최저가 그렇게까지 다르지도 않아요 — 차이가 ' +
-            fx(patMeanV[bestP] - patMeanV[worstP], 3) + ' 뿐이에요. ' +
-            '분석에서 먼저 할 일은 계산이 아니라 <b>"무엇을 기준으로 삼을지 정하고 그것을 밝히는 것"</b>이에요.' }),
+            '<b>"가장 심한"은 기준을 정하지 않으면 답이 없다.</b> ' +
+            '40일 평균으로 재면 ' + bestP + '번 환자, 최고 기록 하나로 재면 ' + bestByMax + '번 환자다. ' +
+            '두 곡선을 보면 평균 1등과 최저가 그렇게까지 다르지도 않다 — 차이가 ' +
+            fx(patMeanV[bestP] - patMeanV[worstP], 3) + ' 뿐이다. ' +
+            '분석에서 먼저 할 일은 계산이 아니라 <b>"무엇을 기준으로 삼을지 정하고 그것을 밝히는 것"</b>이다.' }),
           UI.callout('tip',
-            '합계로 순위를 매기면 평균과 순위가 같아요 — 모든 환자가 같은 ' + nD + '일이라 ' +
-            '합계는 평균에 ' + nD + '를 곱한 것뿐이기 때문이에요. ' +
-            '일수가 다른 데이터에서는 <b>합계 순위와 평균 순위가 달라져요.</b>')
+            '합계로 순위를 매기면 평균과 순위가 같다 — 모든 환자가 같은 ' + nD + '일이라 ' +
+            '합계는 평균에 ' + nD + '를 곱한 것뿐이기 때문이다. ' +
+            '일수가 다른 데이터에서는 <b>합계 순위와 평균 순위가 달라진다.</b>')
         ])
       ));
 
@@ -1012,8 +1012,8 @@
 
       root.appendChild(el('h2', { class: 'h-sec', text: '10.4 과제 체크리스트' }));
       root.appendChild(el('p', { html:
-        '제출 전에 스스로 점검하세요. 막히는 항목이 있으면 오른쪽에 적힌 장으로 돌아가면 돼요. ' +
-        '장 번호는 왼쪽 목록과 대조해 보세요.' }));
+        '제출 전에 스스로 점검하라. 막히는 항목이 있으면 오른쪽에 적힌 장으로 돌아가면 된다. ' +
+        '장 번호는 왼쪽 목록과 대조해 보라.' }));
 
       root.appendChild(UI.table(
         [{ k: 'q', label: '과제' }, { k: 'c', label: '점검 항목' }, { k: 'ch', label: '다시 볼 곳' }],
@@ -1027,7 +1027,7 @@
           { q: '2-2-5', c: 'np.sqrt 결과를 np.round 나 set_printoptions 로 읽기 좋게 만들었는가', ch: '이 장 10.2' },
           { q: '2-3-1 통계', c: '최댓값 · 최솟값 · 표준편차 · 평균을 f-string 으로 출력했고, std 의 ddof 를 확인했는가', ch: '8장' },
           { q: '2-3-2', c: 'data[0].max() 와 data.max(axis=1)[0] 이 같고 data.max(axis=0)[0] 은 다르다는 것을 아는가', ch: '8장' },
-          { q: '2-3-3', c: 'argmax 에 axis=1 을 주었는가 (axis 없이 쓰면 평평한 인덱스 하나가 나와요)', ch: '8장' },
+          { q: '2-3-3', c: 'argmax 에 axis=1 을 주었는가 (axis 없이 쓰면 평평한 인덱스 하나가 나온다)', ch: '8장' },
           { q: '2-3-4', c: '첫째 날 평균 0.0 을 그냥 적지 않고, 데이터가 합성일 가능성을 함께 적었는가', ch: '이 장 10.2' },
           { q: '추가', c: 'keepdims=True 로 (' + nP + ', 1) 을 만들어 브로드캐스팅했는가', ch: '7장' },
           { q: '3. 수학 함수', c: '함수 5개를 골라 각각 예제 코드와 결과를 붙였는가', ch: '8장' },
@@ -1035,7 +1035,7 @@
         ]
       ));
 
-      root.appendChild(UI.fold('과제 1 — 속도 비교, 이렇게 쓰면 돼요',
+      root.appendChild(UI.fold('과제 1 — 속도 비교, 이렇게 쓰면 된다',
         el('div', null, [
           UI.code(
             'import numpy as np\n\n' +
@@ -1052,17 +1052,17 @@
             '%timeit [value * scalar for value in vector]\n' +
             '%timeit arr * scalar'),
           el('p', { html:
-            '과제 원본은 <code>%timeit loops(scalar, list(range(iteration)))</code> 로 되어 있어요. ' +
-            '이러면 <b>리스트 100만 개를 만드는 시간까지</b> 함께 재게 되어 세 방법을 공정하게 비교할 수 없어요. ' +
-            '재고 싶은 것만 측정 안에 넣어 주세요.' }),
+            '과제 원본은 <code>%timeit loops(scalar, list(range(iteration)))</code> 로 되어 있다. ' +
+            '이러면 <b>리스트 100만 개를 만드는 시간까지</b> 함께 재게 되어 세 방법을 공정하게 비교할 수 없다. ' +
+            '재고 싶은 것만 측정 안에 넣어라.' }),
           UI.callout('why',
-            'NumPy 가 빠른 이유는 세 가져요. ① 모든 값이 <b>같은 dtype</b> 이라 원소마다 타입을 확인하지 않아요. ' +
-            '② 값이 <b>연속된 메모리</b>에 붙어 있어 CPU 가 한꺼번에 읽어요. ' +
-            '③ 반복이 파이썬이 아니라 <b>C 안에서</b> 돌아요. ' +
-            '파이썬 리스트는 원소마다 객체를 따로 두고, 루프마다 타입을 확인하고 객체를 새로 만들어요.'),
+            'NumPy 가 빠른 이유는 세 가지다. ① 모든 값이 <b>같은 dtype</b> 이라 원소마다 타입을 확인하지 않는다. ' +
+            '② 값이 <b>연속된 메모리</b>에 붙어 있어 CPU 가 한꺼번에 읽는다. ' +
+            '③ 반복이 파이썬이 아니라 <b>C 안에서</b> 돈다. ' +
+            '파이썬 리스트는 원소마다 객체를 따로 두고, 루프마다 타입을 확인하고 객체를 새로 만든다.'),
           UI.callout('trap',
-            '배열이 작으면 NumPy 가 오히려 느릴 수 있어요. 배열을 만들고 함수를 호출하는 고정 비용이 있기 때문이에요. ' +
-            '"NumPy 는 항상 빨라요"가 아니라 <b>"데이터가 클 때 압도적으로 빨라요"</b>가 맞는 문장이에요.')
+            '배열이 작으면 NumPy 가 오히려 느릴 수 있다. 배열을 만들고 함수를 호출하는 고정 비용이 있기 때문이다. ' +
+            '"NumPy 는 항상 빠르다"가 아니라 <b>"데이터가 클 때 압도적으로 빠르다"</b>가 맞는 문장이다.')
         ])
       ));
 
@@ -1070,10 +1070,10 @@
       root.appendChild(UI.fold('과제 3 — 수학 함수 5개, 예제 만들어 보기',
         el('div', null, [
           el('p', { html:
-            '<code>a = np.arange(1, 7).reshape(2, 3)</code> 하나로 다섯 개를 보여요. ' +
-            '아래는 예시일 뿐이니 <b>다른 함수를 직접 골라</b> 문서에서 찾아 쓰세요 — ' +
+            '<code>a = np.arange(1, 7).reshape(2, 3)</code> 하나로 다섯 개를 보인다. ' +
+            '아래는 예시일 뿐이니 <b>다른 함수를 직접 골라</b> 문서에서 찾아 써라 — ' +
             '<code>np.clip</code>, <code>np.abs</code>, <code>np.sign</code>, <code>np.floor</code>, ' +
-            '<code>np.ceil</code>, <code>np.prod</code>, <code>np.diff</code>, <code>np.hypot</code> 등이 있어요.' }),
+            '<code>np.ceil</code>, <code>np.prod</code>, <code>np.diff</code>, <code>np.hypot</code> 등이 있다.' }),
           UI.out(ND.format(mathBase), { label: 'a' }),
           UI.table(
             [{ k: 'f', label: '함수' }, { k: 'd', label: '뜻' }, { k: 'v', label: '결과' }],
@@ -1086,9 +1086,9 @@
             ]
           ),
           UI.callout('tip',
-            '<code>np.log(0)</code> 은 에러가 아니라 <code>-inf</code> 를 주고 경고만 띄워요. ' +
-            '관절염 데이터에는 0 이 많으니 <code>np.log(data)</code> 를 그대로 쓰면 <code>-inf</code> 가 섞여요. ' +
-            '이럴 때는 <code>np.log1p(data)</code>(= log(1+x))를 써요.')
+            '<code>np.log(0)</code> 은 에러가 아니라 <code>-inf</code> 를 주고 경고만 띄운다. ' +
+            '관절염 데이터에는 0 이 많으니 <code>np.log(data)</code> 를 그대로 쓰면 <code>-inf</code> 가 섞인다. ' +
+            '이럴 때는 <code>np.log1p(data)</code>(= log(1+x))를 쓴다.')
         ])
       ));
 
@@ -1102,42 +1102,42 @@
           choices: [
             '(' + nD + ',) — 날짜마다 하나',
             '(' + nP + ',) — 환자마다 하나',
-            '(' + nP + ', ' + nD + ') — 원본과 같아요',
+            '(' + nP + ', ' + nD + ') — 원본과 같다',
             '스칼라 하나'
           ],
           answer: 1,
-          explain: '지정한 축이 사라져요. axis=1(날짜 축)을 지우면 (' + nP + ',) 가 남아 <b>환자마다 하나</b>씩 ' +
-                   '"가장 아팠던 날짜"가 나와요. (' + nD + ',) 가 나오는 것은 axis=0 이에요. ' +
-                   '결과 길이가 ' + nP + '이냐 ' + nD + '이냐로 확인하는 습관을 들여 보세요.'
+          explain: '지정한 축이 사라진다. axis=1(날짜 축)을 지우면 (' + nP + ',) 가 남아 <b>환자마다 하나</b>씩 ' +
+                   '"가장 아팠던 날짜"가 나온다. (' + nD + ',) 가 나오는 것은 axis=0 이다. ' +
+                   '결과 길이가 ' + nP + '이냐 ' + nD + '이냐로 확인하는 습관을 들여라.'
         },
         {
           q: '<code>np.argmax(data)</code> 를 axis 없이 실행하니 <b>' + flatArg +
-             '</b> 이 나왔어요. 이 값의 정체는?',
+             '</b> 이 나왔다. 이 값의 정체는?',
           choices: [
             '염증 수치의 최댓값',
             '가장 아팠던 환자의 번호',
-            '배열을 한 줄로 펼쳤을 때의 인덱스 — np.unravel_index 로 (' + flatIdx[0] + ', ' + flatIdx[1] + ') 이 돼요',
+            '배열을 한 줄로 펼쳤을 때의 인덱스 — np.unravel_index 로 (' + flatIdx[0] + ', ' + flatIdx[1] + ') 이 된다',
             '15 이상을 기록한 칸의 개수'
           ],
           answer: 2,
-          explain: 'axis 를 주지 않으면 배열을 평평하게 펴서 세요. ' + flatArg + ' = ' + flatIdx[0] +
+          explain: 'axis 를 주지 않으면 배열을 평평하게 펴서 센다. ' + flatArg + ' = ' + flatIdx[0] +
                    ' × ' + nD + ' + ' + flatIdx[1] + ' 이므로 <code>np.unravel_index(' + flatArg +
                    ', data.shape)</code> → (' + flatIdx[0] + ', ' + flatIdx[1] + ') 이고 그 값은 전체 최댓값 ' +
-                   py(gMax) + ' 이에요. 환자별 답 ' + nP + '개가 필요하면 <code>axis=1</code> 을 반드시 줘요.'
+                   py(gMax) + ' 이다. 환자별 답 ' + nP + '개가 필요하면 <code>axis=1</code> 을 반드시 준다.'
         },
         {
-          q: '<code>data[:, 0].mean()</code> 이 <b>' + py(col0mean) + '</b> 로 나왔어요. 가장 타당한 해석은?',
+          q: '<code>data[:, 0].mean()</code> 이 <b>' + py(col0mean) + '</b> 로 나왔다. 가장 타당한 해석은?',
           choices: [
-            '신약이 첫날부터 염증을 완전히 없앴어요',
-            '' + nP + '명 전원이 정확히 0에서 시작하도록 만들어진 값 — 합성 데이터일 가능성이 높아요',
-            '첫째 날 데이터가 비어 있어서 NaN 이 0으로 계산됐어요',
-            'mean 이 axis 를 잘못 받아 계산이 틀렸어요'
+            '신약이 첫날부터 염증을 완전히 없앴다',
+            '' + nP + '명 전원이 정확히 0에서 시작하도록 만들어진 값 — 합성 데이터일 가능성이 높다',
+            '첫째 날 데이터가 비어 있어서 NaN 이 0으로 계산됐다',
+            'mean 이 axis 를 잘못 받아 계산이 틀렸다'
           ],
           answer: 1,
-          explain: '<code>np.all(data[:, 0] == 0)</code> 이 True 예요. 실제 임상 데이터에서 60명의 기준선이 ' +
-                   '한 명도 예외 없이 정확히 0 일 수는 없어요. 날짜별 최댓값이 0,1,2,…,9 로 날짜 번호와 같은 것도 ' +
-                   '같은 단서예요. 비어 있었다면 loadtxt 단계에서 걸리고, 계산이 틀린 것도 아니에요. ' +
-                   '<b>깔끔한 숫자를 만나면 먼저 데이터를 의심하세요.</b>'
+          explain: '<code>np.all(data[:, 0] == 0)</code> 이 True 다. 실제 임상 데이터에서 60명의 기준선이 ' +
+                   '한 명도 예외 없이 정확히 0 일 수는 없다. 날짜별 최댓값이 0,1,2,…,9 로 날짜 번호와 같은 것도 ' +
+                   '같은 단서다. 비어 있었다면 loadtxt 단계에서 걸리고, 계산이 틀린 것도 아니다. ' +
+                   '<b>깔끔한 숫자를 만나면 먼저 데이터를 의심하라.</b>'
         },
         {
           q: '다음 중 <b>원본 <code>data</code> 가 함께 바뀌는</b> 것은?',
@@ -1149,10 +1149,10 @@
           ],
           answer: 1,
           explain: '슬라이싱 <code>data[:5]</code> 는 <b>뷰</b>다 — 같은 메모리를 다른 눈으로 보는 것이라 ' +
-                   '고치면 원본도 바뀌어요(<code>np.shares_memory</code> → True). ' +
+                   '고치면 원본도 바뀐다(<code>np.shares_memory</code> → True). ' +
                    '반면 <code>data * 2</code>, <code>np.sqrt(data)</code>, <code>.copy()</code> 는 모두 ' +
-                   '<b>새 메모리에 결과를 담은 사본</b>이라 원본과 무관해요. ' +
-                   '"연산 결과는 사본, 슬라이싱은 뷰"로 기억하세요.'
+                   '<b>새 메모리에 결과를 담은 사본</b>이라 원본과 무관하다. ' +
+                   '"연산 결과는 사본, 슬라이싱은 뷰"로 기억하라.'
         }
       ], { id: 'project' }));
     }
