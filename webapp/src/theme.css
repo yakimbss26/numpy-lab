@@ -636,3 +636,13 @@ a.chip:hover { text-decoration: none; }
   display: flex; justify-content: flex-end; gap: .4rem;
   padding: .7rem 1rem; border-top: 1px solid var(--grid-line);
 }
+
+
+/* 과제에서 장으로 건너왔을 때 맨 위에 붙는 귀환 줄 */
+.quest-return {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .7rem;
+  border: 1px solid var(--s1); background: var(--s1-wash);
+  border-radius: var(--radius-sm); padding: .55rem .8rem; margin: 0 0 1rem;
+  font-size: .92rem;
+}
+.quest-return a.btn { text-decoration: none; }

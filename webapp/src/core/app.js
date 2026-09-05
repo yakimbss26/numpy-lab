@@ -8,6 +8,10 @@
 
   var UI = global.UI, el = null;
 
+  /* 과제는 자기 창에서 연다. 그래야 과제 안에서 장을 열어 봐도 과제 자리가 안 흐트러진다.
+   * 창 이름을 정해 두면 두 번째로 눌렀을 때 새 창이 또 뜨지 않고 그 창이 다시 쓰인다. */
+  var QUEST_WIN = 'numpy-lab-quest';
+
   var chapters = [];      // 등록 순서 유지
   var extras = [];        // 장이 아닌 화면(과제 등)
   var byId = {};
@@ -64,7 +68,10 @@
       nav.appendChild(el('div', { class: 'nav-group', text: '스스로 하기' }));
       extras.forEach(function (c) {
         var dot = el('span', { class: 'dot' });
-        var a = el('a', { href: '#/' + c.id, 'data-id': c.id }, [
+        var a = el('a', {
+          href: '#/' + c.id, 'data-id': c.id, target: QUEST_WIN,
+          title: '과제는 별도 창에서 열린다'
+        }, [
           el('span', { class: 'num', text: '✎' }), el('span', { text: '과제' }), dot
         ]);
         navLinks[c.id] = { a: a, dot: dot };
@@ -148,8 +155,8 @@
     root.appendChild(tiles);
 
     extras.forEach(function (c) {
-      root.appendChild(el('a', { class: 'tile quest-cta', href: '#/' + c.id }, [
-        el('div', { class: 'n', text: '과제' }),
+      root.appendChild(el('a', { class: 'tile quest-cta', href: '#/' + c.id, target: QUEST_WIN }, [
+        el('div', { class: 'n', text: '과제 · 새 창' }),
         el('div', { class: 't', text: c.title }),
         el('div', { class: 'd', text: c.blurb || '' }),
         c.sim ? el('div', { class: 'sim', text: '▸ ' + c.sim }) : null
@@ -461,6 +468,19 @@
     }
     if (navLinks[id]) navLinks[id].a.classList.add('on');
     document.title = (mod.extra ? mod.title : mod.n + '. ' + mod.title) + ' · NumPy Lab';
+
+    /* 과제에서 넘어온 참이면 돌아가는 줄을 맨 위에 둔다.
+     * 새 창이 막힌 컴퓨터에서는 이 줄이 유일한 귀환 경로다. */
+    if (!mod.extra) {
+      var back = null;
+      try { back = UI.progress.load()['quest:return']; } catch (e) { }
+      if (back && Date.now() - (back.t || 0) < 12 * 3600 * 1000) {
+        main.appendChild(el('div', { class: 'quest-return' }, [
+          el('span', { text: '과제를 하는 중이다. 확인했으면 돌아가자.' }),
+          el('a', { class: 'btn primary', href: '#/quest', text: '과제로 돌아가기' })
+        ]));
+      }
+    }
 
     main.appendChild(el('div', { class: 'crumb', text: mod.extra ? mod.n : mod.n + '장' }));
     main.appendChild(el('h1', { class: 'h-chapter', text: mod.title }));

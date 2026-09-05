@@ -654,6 +654,16 @@ a.chip:hover { text-decoration: none; }
 }
 
 
+/* 과제에서 장으로 건너왔을 때 맨 위에 붙는 귀환 줄 */
+.quest-return {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .7rem;
+  border: 1px solid var(--s1); background: var(--s1-wash);
+  border-radius: var(--radius-sm); padding: .55rem .8rem; margin: 0 0 1rem;
+  font-size: .92rem;
+}
+.quest-return a.btn { text-decoration: none; }
+
+
 /* ===== webapp/src/app.css ===== */
 /* app.css — 셸 레이아웃 (사이드바 + 본문) */
 
@@ -2961,6 +2971,10 @@ a.chip:hover { text-decoration: none; }
 
   var UI = global.UI, el = null;
 
+  /* 과제는 자기 창에서 연다. 그래야 과제 안에서 장을 열어 봐도 과제 자리가 안 흐트러진다.
+   * 창 이름을 정해 두면 두 번째로 눌렀을 때 새 창이 또 뜨지 않고 그 창이 다시 쓰인다. */
+  var QUEST_WIN = 'numpy-lab-quest';
+
   var chapters = [];      // 등록 순서 유지
   var extras = [];        // 장이 아닌 화면(과제 등)
   var byId = {};
@@ -3017,7 +3031,10 @@ a.chip:hover { text-decoration: none; }
       nav.appendChild(el('div', { class: 'nav-group', text: '스스로 하기' }));
       extras.forEach(function (c) {
         var dot = el('span', { class: 'dot' });
-        var a = el('a', { href: '#/' + c.id, 'data-id': c.id }, [
+        var a = el('a', {
+          href: '#/' + c.id, 'data-id': c.id, target: QUEST_WIN,
+          title: '과제는 별도 창에서 열린다'
+        }, [
           el('span', { class: 'num', text: '✎' }), el('span', { text: '과제' }), dot
         ]);
         navLinks[c.id] = { a: a, dot: dot };
@@ -3101,8 +3118,8 @@ a.chip:hover { text-decoration: none; }
     root.appendChild(tiles);
 
     extras.forEach(function (c) {
-      root.appendChild(el('a', { class: 'tile quest-cta', href: '#/' + c.id }, [
-        el('div', { class: 'n', text: '과제' }),
+      root.appendChild(el('a', { class: 'tile quest-cta', href: '#/' + c.id, target: QUEST_WIN }, [
+        el('div', { class: 'n', text: '과제 · 새 창' }),
         el('div', { class: 't', text: c.title }),
         el('div', { class: 'd', text: c.blurb || '' }),
         c.sim ? el('div', { class: 'sim', text: '▸ ' + c.sim }) : null
@@ -3414,6 +3431,19 @@ a.chip:hover { text-decoration: none; }
     }
     if (navLinks[id]) navLinks[id].a.classList.add('on');
     document.title = (mod.extra ? mod.title : mod.n + '. ' + mod.title) + ' · NumPy Lab';
+
+    /* 과제에서 넘어온 참이면 돌아가는 줄을 맨 위에 둔다.
+     * 새 창이 막힌 컴퓨터에서는 이 줄이 유일한 귀환 경로다. */
+    if (!mod.extra) {
+      var back = null;
+      try { back = UI.progress.load()['quest:return']; } catch (e) { }
+      if (back && Date.now() - (back.t || 0) < 12 * 3600 * 1000) {
+        main.appendChild(el('div', { class: 'quest-return' }, [
+          el('span', { text: '과제를 하는 중이다. 확인했으면 돌아가자.' }),
+          el('a', { class: 'btn primary', href: '#/quest', text: '과제로 돌아가기' })
+        ]));
+      }
+    }
 
     main.appendChild(el('div', { class: 'crumb', text: mod.extra ? mod.n : mod.n + '장' }));
     main.appendChild(el('h1', { class: 'h-chapter', text: mod.title }));
@@ -16840,10 +16870,42 @@ a.chip:hover { text-decoration: none; }
 
   /* ------------------------------------------------------------- 화면 조각 */
 
+  /* 장은 과제 창이 아니라 옆 창에서 연다. 이름을 고정했으므로 몇 번을 눌러도
+   * 창이 하나만 뜨고, 그 창만 갈아탄다. 과제 창은 스크롤 위치까지 그대로 남는다. */
+  var LAB_WIN = 'numpy-lab-chapter';
+
+  /**
+   * 장을 연다. 되도록 옆 창에서 열어 과제 창을 건드리지 않는다.
+   * 새 창이 막히는 환경(팝업 차단, 키오스크 모드)에서는 이 창에서 열되,
+   * 보던 자리를 적어 두어 장 화면의 "과제로 돌아가기" 줄로 되돌아올 수 있게 한다.
+   */
+  function openChapter(id) {
+    put('quest:return', { y: window.scrollY || 0, t: Date.now() });
+
+    var url = location.href.split('#')[0] + '#/' + id;
+    var w = null;
+    try { w = window.open(url, LAB_WIN); } catch (e) { w = null; }
+
+    if (w) {
+      try {
+        if (w.location && w.location.hash !== '#/' + id) w.location.hash = '#/' + id;
+        w.focus();
+      } catch (e) { /* 손댈 수 없어도 창은 떴다 */ }
+      return true;
+    }
+    /* 새 창을 못 열었다 — 이 창에서 연다. 돌아오는 줄이 대신 받아 준다. */
+    location.hash = '#/' + id;
+    return false;
+  }
+
   function chapterChip(ch) {
     var L = LINKS[ch];
     if (!L) return null;
-    return el('a', { class: 'chip', href: '#/' + L.id, text: ch + '장 열기 — ' + L.t });
+    return el('button', {
+      class: 'chip', type: 'button', title: '옆 창에서 열린다. 과제 창은 그대로 남는다.',
+      text: ch + '장 열기 — ' + L.t,
+      onclick: function () { openChapter(L.id); }
+    });
   }
 
   /** 문항 하나 */
@@ -16879,7 +16941,7 @@ a.chip:hover { text-decoration: none; }
         body.push(el('p', null, [
           UI.btn(it.ch + '장 열기 — ' + L.t, function () {
             dlg.closeModal();
-            location.hash = '#/' + L.id;
+            openChapter(L.id);
           }, { primary: true })
         ]));
       }
@@ -17103,6 +17165,13 @@ a.chip:hover { text-decoration: none; }
     if (!whoNow()) { renderGate(root); return; }
     seed();
 
+    /* 장을 보고 돌아왔으면 보던 자리로 되돌려 놓는다 */
+    var back = get('quest:return', null);
+    if (back && typeof back.y === 'number') {
+      var d = P.load(); delete d['quest:return']; P.save(d);
+      setTimeout(function () { window.scrollTo(0, back.y); }, 0);
+    }
+
     root.appendChild(el('p', { class: 'lede', html:
       '지난 시간에 노트북으로 NumPy 를 한 번 훑었다. 이번에는 그때 그림으로만 보고 넘어갔던 것들을 ' +
       '<b>화면에서 직접 움직여 보며</b> 확인한다. 잘라 놓은 조각을 고쳤는데 원본이 바뀌는 일, ' +
@@ -17134,7 +17203,9 @@ a.chip:hover { text-decoration: none; }
 
     root.appendChild(UI.callout('tip',
       '<b>이렇게 하면 된다.</b> ① 문제를 보면 <b>화면을 열기 전에</b> 예측을 먼저 적는다. ' +
-      '② 문항 아래 <b>장 열기</b> 를 눌러 시뮬레이터에서 직접 확인한다. ③ 돌아와 답을 넣는다.<br>' +
+      '② 문항 아래 <b>장 열기</b> 를 누른다 — <b>옆 창</b>에서 열리므로 이 과제 창은 그대로 남는다. ' +
+      '③ 확인했으면 이 창으로 돌아와 답을 넣는다. 옆 창이 안 열리는 컴퓨터라면 장 화면 맨 위의 ' +
+      '<b>과제로 돌아가기</b> 를 누르면 보던 자리로 돌아온다.<br>' +
       '틀려도 감점은 없다. 맞을 때까지 몇 번이든 다시 해도 된다 — 오히려 틀리라고 만든 문제다. ' +
       '<b>예측이 틀렸다가 직접 뒤집은 문항이 오늘 진짜로 배운 것</b>이고, 맨 아래에서 그 목록을 보여 준다.<br>' +
       '기록은 이 컴퓨터에 <b>내 이름으로</b> 저장되므로 창을 닫았다 다시 와도 이어서 할 수 있다. ' +

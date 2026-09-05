@@ -418,10 +418,42 @@
 
   /* ------------------------------------------------------------- 화면 조각 */
 
+  /* 장은 과제 창이 아니라 옆 창에서 연다. 이름을 고정했으므로 몇 번을 눌러도
+   * 창이 하나만 뜨고, 그 창만 갈아탄다. 과제 창은 스크롤 위치까지 그대로 남는다. */
+  var LAB_WIN = 'numpy-lab-chapter';
+
+  /**
+   * 장을 연다. 되도록 옆 창에서 열어 과제 창을 건드리지 않는다.
+   * 새 창이 막히는 환경(팝업 차단, 키오스크 모드)에서는 이 창에서 열되,
+   * 보던 자리를 적어 두어 장 화면의 "과제로 돌아가기" 줄로 되돌아올 수 있게 한다.
+   */
+  function openChapter(id) {
+    put('quest:return', { y: window.scrollY || 0, t: Date.now() });
+
+    var url = location.href.split('#')[0] + '#/' + id;
+    var w = null;
+    try { w = window.open(url, LAB_WIN); } catch (e) { w = null; }
+
+    if (w) {
+      try {
+        if (w.location && w.location.hash !== '#/' + id) w.location.hash = '#/' + id;
+        w.focus();
+      } catch (e) { /* 손댈 수 없어도 창은 떴다 */ }
+      return true;
+    }
+    /* 새 창을 못 열었다 — 이 창에서 연다. 돌아오는 줄이 대신 받아 준다. */
+    location.hash = '#/' + id;
+    return false;
+  }
+
   function chapterChip(ch) {
     var L = LINKS[ch];
     if (!L) return null;
-    return el('a', { class: 'chip', href: '#/' + L.id, text: ch + '장 열기 — ' + L.t });
+    return el('button', {
+      class: 'chip', type: 'button', title: '옆 창에서 열린다. 과제 창은 그대로 남는다.',
+      text: ch + '장 열기 — ' + L.t,
+      onclick: function () { openChapter(L.id); }
+    });
   }
 
   /** 문항 하나 */
@@ -457,7 +489,7 @@
         body.push(el('p', null, [
           UI.btn(it.ch + '장 열기 — ' + L.t, function () {
             dlg.closeModal();
-            location.hash = '#/' + L.id;
+            openChapter(L.id);
           }, { primary: true })
         ]));
       }
@@ -681,6 +713,13 @@
     if (!whoNow()) { renderGate(root); return; }
     seed();
 
+    /* 장을 보고 돌아왔으면 보던 자리로 되돌려 놓는다 */
+    var back = get('quest:return', null);
+    if (back && typeof back.y === 'number') {
+      var d = P.load(); delete d['quest:return']; P.save(d);
+      setTimeout(function () { window.scrollTo(0, back.y); }, 0);
+    }
+
     root.appendChild(el('p', { class: 'lede', html:
       '지난 시간에 노트북으로 NumPy 를 한 번 훑었다. 이번에는 그때 그림으로만 보고 넘어갔던 것들을 ' +
       '<b>화면에서 직접 움직여 보며</b> 확인한다. 잘라 놓은 조각을 고쳤는데 원본이 바뀌는 일, ' +
@@ -712,7 +751,9 @@
 
     root.appendChild(UI.callout('tip',
       '<b>이렇게 하면 된다.</b> ① 문제를 보면 <b>화면을 열기 전에</b> 예측을 먼저 적는다. ' +
-      '② 문항 아래 <b>장 열기</b> 를 눌러 시뮬레이터에서 직접 확인한다. ③ 돌아와 답을 넣는다.<br>' +
+      '② 문항 아래 <b>장 열기</b> 를 누른다 — <b>옆 창</b>에서 열리므로 이 과제 창은 그대로 남는다. ' +
+      '③ 확인했으면 이 창으로 돌아와 답을 넣는다. 옆 창이 안 열리는 컴퓨터라면 장 화면 맨 위의 ' +
+      '<b>과제로 돌아가기</b> 를 누르면 보던 자리로 돌아온다.<br>' +
       '틀려도 감점은 없다. 맞을 때까지 몇 번이든 다시 해도 된다 — 오히려 틀리라고 만든 문제다. ' +
       '<b>예측이 틀렸다가 직접 뒤집은 문항이 오늘 진짜로 배운 것</b>이고, 맨 아래에서 그 목록을 보여 준다.<br>' +
       '기록은 이 컴퓨터에 <b>내 이름으로</b> 저장되므로 창을 닫았다 다시 와도 이어서 할 수 있다. ' +
