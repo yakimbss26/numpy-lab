@@ -2,15 +2,36 @@
 
 과학고등학교 1학년 학생을 대상으로 한 **NumPy 학습 자료를 만드는 프로젝트**의 루트 폴더다.
 
+## 손대기 전에 반드시 지킬 것 넷
+
+이 네 가지는 어기면 조용히 깨진다 — 그 자리에서 에러가 나지 않고 나중에 배포 사이트나
+학생 환경에서 드러난다. 근거는 각 항이 가리키는 절에 있다.
+
+1. **파이썬은 전체 경로로 부른다.**
+   `C:/Users/user/AppData/Local/Programs/Python/Python313/python.exe`
+   `py` · `python` · `python3` 는 Microsoft Store 스텁이라 numpy 를 찾지 못한다. → 「이 프로젝트의 환경」
+2. **빌드 산출물을 반드시 함께 커밋한다.** `index.html` · `numpy-lab.html` · `webapp/src/core/data.js`.
+   소스만 고쳐 푸시하면 배포 사이트는 그대로다. → 「GitHub 배포」
+3. **`수업자료/` 는 저장소에 올리지 않는다.** 저작권·라이선스 때문이다. `.gitignore` 로 제외되어 있고,
+   앱이 쓰는 데이터는 `data.js` 에 값으로 들어 있다. → 「저장소에서 제외한 것과 그 이유」
+4. **ES 모듈 문법(`import`/`export`)을 쓰지 않는다.** 단일 파일 배포본에 인라인되면 깨진다.
+   모든 소스는 `window.X` 에 붙는 IIFE 다. → 「정책」
+
 ## 폴더 구조
 
 | 경로 | 역할 |
 |:---|:---|
 | `수업자료/` | 원본 수업자료(입력). 강의 PPT, 실습 노트북, 실습 데이터 CSV. 자세한 내용은 `수업자료/CLAUDE.md` 참조. |
 | `numpy.md` | **산출물 ①.** 수업자료를 분석해 재구성한 과학고 1학년용 NumPy 완전 학습 문서(한국어, 12장). |
-| `numpy-lab.html` | **산출물 ②.** 학습용 웹앱 "NumPy Lab" 의 배포본. 단일 파일이라 더블클릭으로 열린다. 학생에게는 이것만 주면 된다. |
+| `index.html` | 웹앱의 기본 진입점(웹서버 메인 페이지). **빌드 생성물이지만 커밋한다.** |
+| `numpy-lab.html` | **산출물 ②.** 학습용 웹앱 "NumPy Lab" 의 배포본. 단일 파일이라 더블클릭으로 열린다. 학생에게는 이것만 주면 된다. **빌드 생성물이지만 커밋한다.** |
 | `webapp/` | 웹앱 소스와 빌드 스크립트. `node webapp/build.js` → `numpy-lab.html`. 자세한 내용은 `webapp/CLAUDE.md`. |
 | `CLAUDE.md` | 이 파일. |
+
+웹앱에는 장 11개 외에 **과제 화면**(`#/quest`)이 하나 더 있다. 수업 과제로 나갔던 Colab
+노트북 "NumPy 실습장 혼자 공부하기" 를 실습장 안으로 옮긴 것이다 — 23문항·예측 5개·메모 8개·배지 5개.
+노트북은 런타임이 끊기면 기록이 통째로 사라지지만 이 화면은 `localStorage` 에 남는다.
+문항마다 확인할 장으로 바로 가는 링크가 붙어 있다. 소스는 `webapp/src/modules/quest.js`.
 
 두 산출물은 상호 보완이다. `numpy.md` 는 **읽고 되돌아보는** 문서(정의·수식·완결된 설명), `numpy-lab.html` 은 **조작해서 깨닫는** 실습장(시뮬레이터·라이브 계산). 장 번호와 색 배정, 검증된 데이터 값은 양쪽이 일치한다.
 
@@ -22,7 +43,7 @@
 - **외부 이미지 링크 금지**: 원본 노트북은 kakaocdn 이미지에 의존하지만 링크가 죽을 수 있으므로, axis·브로드캐스팅·reshape·슬라이싱·행렬곱 등은 모두 **ASCII 다이어그램**으로 문서 안에 직접 그렸다.
 - **LaTeX 금지**: 렌더링이 보장되지 않으므로 수식은 유니코드(√ × · ² ₁ ‖ ‖ Σ)로 표기.
 - **NumPy 2.x 기준**: 수업자료는 2024년 3월 NumPy 1.x 기준이다. `np.NaN`/`np.Inf` 등 2.0에서 삭제된 API는 바로잡고, 무엇을 왜 고쳤는지 12.5절에 정직하게 기록했다.
-- **출력값 정확성**: 이 환경에는 파이썬이 설치되어 있지 않아 코드를 실행할 수 없다. 따라서 모든 출력값은 손계산으로 검증했고, 확신할 수 없는 값(난수, `np.empty`, 실행 시간)은 숫자를 단정하지 않고 "직접 실행해 확인하라"로 처리했다.
+- **출력값 정확성**: 모든 출력값은 **실제 NumPy 2.5.1 로 실행해 검증했다**(「검증 상태」 참조). 초안은 파이썬이 없는 환경에서 손계산으로 썼으나 나중에 전수 재검증했다. 실행할 때마다 달라지는 값(난수, `np.empty`, 실행 시간)만 숫자를 단정하지 않고 "직접 실행해 확인하라"로 처리했다.
 
 ## 문서 구성 (12장)
 
@@ -96,11 +117,11 @@ git add -A && git commit -m "..." && git push
 ## 개발 명령
 
 ```bash
-npm install       # 의존성 (http-server, concurrently)
+npm install       # 의존성 (http-server, concurrently, jsdom)
 npm run build     # index.html + numpy-lab.html + data.js 생성
 npm start         # 빌드 후 웹서버 실행 → http://localhost:5173/index.html
 npm run dev       # 빌드 + 소스 감시 + 서버 (개발용)
-npm test          # 엔진 단위 테스트 + 실제 NumPy 교차 검증
+npm test          # 엔진 단위 테스트 + 실제 NumPy 교차 검증 + IDLE 실행 검증
 ```
 
 **`index.html` 이 웹서버의 메인 페이지다.** `npm run build` 가 생성하며, 소스를 각각 `<script src>` 로 불러오므로 소스를 고치면 브라우저 새로고침만 하면 된다(모듈 파일을 새로 추가했을 때만 다시 빌드).
@@ -117,7 +138,10 @@ npm test          # 엔진 단위 테스트 + 실제 NumPy 교차 검증
 
 단, `numpy-lab.html` 단일 파일 배포본은 **계속 생성한다**(학생 배포용으로 여전히 유용하다). 그래서 두 가지는 유지한다:
 
-- **ES 모듈 문법(`import`/`export`) 금지** — 인라인 배포본이 깨진다. 순수 IIFE 를 유지한다.
+- **ES 모듈 문법(`import`/`export`) 금지** — `build.js` 가 모든 소스를 `numpy-lab.html` 하나에
+  `<script>` 로 인라인하는데, 인라인된 코드에서 `import`/`export` 는 문법 오류다. 모든 소스는
+  `window.X` 에 붙는 **순수 IIFE** 로 쓴다. `index.html` 에서는 멀쩡히 돌아가므로 단일 파일
+  배포본을 직접 열어 보기 전까지 드러나지 않는다 — 그래서 위험하다.
 - CDN 에 의존하는 기능은 **없어도 나머지가 동작해야 한다**(지연 로딩 + 실패 시 안내).
 
 ## 이 프로젝트의 환경
@@ -126,7 +150,9 @@ npm test          # 엔진 단위 테스트 + 실제 NumPy 교차 검증
   `C:/Users/user/AppData/Local/Programs/Python/Python313/python.exe` 를 써야 한다.
   `py` / `python` / `python3` 는 Microsoft Store 스텁이라 numpy 를 찾지 못한다.
 - 노트북(`.ipynb`)과 PPTX 내용 추출은 **node**로 했다. PPTX 는 zip 이므로 `ppt/slides/slideN.xml` 에서 `<a:t>` 태그를 긁어내면 된다.
-- git 저장소가 아니다.
+- **git 저장소다**(2026-07-29 부터). 기본 브랜치 `main`, 원격 `origin` =
+  `https://github.com/yakimbss26/numpy-lab.git`. 푸시하면 GitHub Pages 가 자동으로 다시 배포하므로
+  **푸시는 곧 배포다** — 「GitHub 배포」 를 먼저 읽어라.
 
 ## 검증 상태
 

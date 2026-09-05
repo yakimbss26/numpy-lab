@@ -529,3 +529,80 @@ details.fold[open] > summary { margin-bottom: .6rem; }
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
 }
+
+/* ---------------------------------------------------- 스스로 하기(과제) 화면
+ * 새 컴포넌트를 만들지 않고 기존 퀴즈(.quiz/.q/.q-stem/.q-explain)와 카드를
+ * 그대로 쓴다. 여기서는 자유 입력 답안줄·배지·진도만 덧붙인다.
+ * 문항에 자체 번호(2-1a)가 있으므로 .q-stem 의 "Q1." 카운터는 끈다. */
+
+.quest .q-stem::before { content: none; }
+
+.q-no {
+  font-family: var(--mono); font-size: .84rem; font-weight: 700;
+  color: var(--s1); background: var(--s1-wash);
+  border-radius: var(--radius-sm); padding: .05rem .38rem; margin-right: .35rem;
+}
+.q-no.memo { color: var(--ink-2); background: var(--surface-3); }
+
+.q-answer {
+  display: flex; flex-wrap: wrap; align-items: flex-end; gap: .5rem;
+  margin: .5rem 0 .35rem;
+}
+.q-verdict { font-size: .9rem; font-weight: 600; color: var(--ink-2); align-self: center; }
+.q-verdict[data-state="right"] { color: var(--success-text); }
+.q-verdict[data-state="wrong"] { color: var(--critical); }
+
+.q-meta { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; margin: 0 0 .3rem; }
+a.chip { text-decoration: none; }
+a.chip:hover { text-decoration: none; }
+
+.q-hint {
+  font-size: .88rem; color: var(--ink-2);
+  border-left: 3px solid var(--s4); background: var(--surface-2);
+  padding: .5rem .8rem; border-radius: var(--radius-sm); margin: .35rem 0 0;
+}
+.q-hint[hidden] { display: none; }
+.q-flip { margin: .45rem 0 0; color: var(--ink-2); }
+
+.q-note textarea {
+  width: 100%; min-height: 4.4rem; resize: vertical;
+  font: inherit; font-size: .93rem; color: var(--ink);
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: .5rem .65rem;
+}
+.q-note textarea:focus { outline: 2px solid var(--s1); outline-offset: 1px; border-color: var(--s1); }
+
+.quest-prog {
+  display: flex; align-items: center; gap: .7rem;
+  font-size: .9rem; color: var(--ink-2); margin: .2rem 0 .7rem;
+}
+.quest-prog .bar {
+  flex: 1; max-width: 20rem; height: 6px; border-radius: 3px;
+  background: var(--surface-3); overflow: hidden;
+}
+.quest-prog .bar i { display: block; height: 100%; width: 0; background: var(--good); transition: width .25s; }
+
+.quest-who {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .55rem;
+  margin: .2rem 0 1rem;
+}
+.quest-who .note { font-size: .86rem; color: var(--ink-muted); }
+
+.badge-row { display: flex; flex-wrap: wrap; gap: .4rem; margin: 0 0 1.2rem; }
+.badge {
+  border: 1px solid var(--border); border-radius: 999px;
+  padding: .18rem .65rem; font-size: .82rem; color: var(--ink-muted);
+  background: var(--surface-2);
+}
+.badge.on {
+  border-color: var(--good); color: var(--success-text);
+  background: rgba(12,163,12,.12); font-weight: 650;
+}
+
+.cert-name {
+  font-size: 1.35rem; font-weight: 650; letter-spacing: -.01em;
+  margin: 0 0 .2rem; color: var(--ink);
+}
+
+.tile.quest-cta { border-color: var(--s1); background: var(--s1-wash); margin: 0 0 1.8rem; }
+.tile.quest-cta .n { color: var(--s1); }

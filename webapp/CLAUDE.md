@@ -55,6 +55,7 @@ C:/Users/user/AppData/Local/Programs/Python/Python313/python.exe
 | `src/core/ui.js` | 공용 위젯 (격자·차트·컨트롤·퀴즈…). |
 | `src/core/app.js` | 셸: 챕터 등록소, 해시 라우터, 진도, 테마. |
 | `src/modules/chNN-*.js` | 장별 화면. 파일명 순서 = 표시 순서. |
+| `src/modules/quest.js` | 과제 화면(`#/quest`). 장이 아니다 — `extra: true` 로 등록한다. |
 | `test/nd.test.js` | 엔진 검증 (실제 NumPy 정답값 대조). |
 
 ## 아키텍처 결정과 그 이유

@@ -9,6 +9,7 @@
   var UI = global.UI, el = null;
 
   var chapters = [];      // 등록 순서 유지
+  var extras = [];        // 장이 아닌 화면(과제 등)
   var byId = {};
 
   /**
@@ -24,7 +25,9 @@
    */
   function register(mod) {
     if (byId[mod.id]) { console.warn('중복 등록:', mod.id); return; }
-    chapters.push(mod); byId[mod.id] = mod;
+    byId[mod.id] = mod;
+    /* extra: 장이 아닌 화면. 학습 과정 목록·홈 타일·이전/다음 줄에 끼지 않는다 */
+    if (mod.extra) extras.push(mod); else chapters.push(mod);
   }
 
   /* ------------------------------------------------------------- 테마 */
@@ -57,6 +60,18 @@
       nav.appendChild(a);
     });
 
+    if (extras.length) {
+      nav.appendChild(el('div', { class: 'nav-group', text: '스스로 하기' }));
+      extras.forEach(function (c) {
+        var dot = el('span', { class: 'dot' });
+        var a = el('a', { href: '#/' + c.id, 'data-id': c.id }, [
+          el('span', { class: 'num', text: '✎' }), el('span', { text: '과제' }), dot
+        ]);
+        navLinks[c.id] = { a: a, dot: dot };
+        nav.appendChild(a);
+      });
+    }
+
     var progLine = el('div', { class: 'prog-line' });
     var progBar = el('i');
 
@@ -75,7 +90,7 @@
           onChange: setTheme
         }),
         UI.btn('진도 초기화', function () {
-          if (confirm('풀었던 문제 기록을 모두 지운다. 계속하겠는가?')) UI.progress.reset();
+          if (confirm('풀었던 문제 기록을 모두 지운다 — 과제의 답·예측·메모도 함께 사라진다. 계속하겠는가?')) UI.progress.reset();
         }),
         el('div', { class: 'prog-line' }, [progLine, el('div', { class: 'prog-bar' }, [progBar])])
       ])
@@ -90,6 +105,12 @@
         if (st.visited) seen++;
         totalQ += st.total; okQ += st.correct;
         if (st.total && st.correct === st.total) solved++;
+      });
+      extras.forEach(function (c) {
+        if (!navLinks[c.id]) return;
+        var st = UI.progress.stats(c.id);
+        navLinks[c.id].dot.className = 'dot' +
+          (st.total && st.correct === st.total ? ' done' : (st.visited ? ' seen' : ''));
       });
       progLine.textContent = '방문 ' + seen + '/' + chapters.length +
         ' · 문제 ' + okQ + '문 정답';
@@ -126,9 +147,21 @@
     });
     root.appendChild(tiles);
 
+    extras.forEach(function (c) {
+      root.appendChild(el('a', { class: 'tile quest-cta', href: '#/' + c.id }, [
+        el('div', { class: 'n', text: '과제' }),
+        el('div', { class: 't', text: c.title }),
+        el('div', { class: 'd', text: c.blurb || '' }),
+        c.sim ? el('div', { class: 'sim', text: '▸ ' + c.sim }) : null
+      ]));
+    });
+
     root.appendChild(UI.callout('tip',
       '왼쪽 목록의 점은 진도 표시다. 회색은 방문한 장, 초록은 확인 문제를 모두 맞힌 장이다. ' +
-      '기록은 이 브라우저에만 저장되므로 다른 사람과 섞이지 않는다.', '사용법'));
+      '기록은 서버가 아니라 <b>이 컴퓨터의 브라우저</b>에 저장된다. 그래서 다른 사람의 컴퓨터와는 절대 섞이지 않지만, ' +
+      '<b>한 컴퓨터를 여러 사람이 쓰면 같은 기록을 보게 된다.</b> ' +
+      '실습실처럼 공용 컴퓨터라면 <a href="#/quest">과제</a> 화면에서 이름을 넣어 자기 기록을 따로 두자 ' +
+      '(장별 확인 문제 진도는 이름과 무관하게 이 컴퓨터에 하나로 쌓인다).', '기록은 어디에 남나'));
 
     root.appendChild(UI.callout('why',
       '화면에 나오는 파이썬 코드는 오른쪽 위 <b>복사</b> 버튼을 누르면 그대로 가져갈 수 있다. ' +
@@ -415,7 +448,10 @@
     var homeLink = document.querySelector('.home-link');
     if (homeLink) homeLink.classList.toggle('on', !id);
 
-    if (!id) { renderHome(main); document.title = 'NumPy Lab'; closeSidebar(); return; }
+    if (!id) {
+      var oldToc = document.querySelector('.toc'); if (oldToc) oldToc.remove();
+      renderHome(main); document.title = 'NumPy Lab'; closeSidebar(); return;
+    }
 
     var mod = byId[id];
     if (!mod) {
@@ -424,9 +460,9 @@
       return;
     }
     if (navLinks[id]) navLinks[id].a.classList.add('on');
-    document.title = mod.n + '. ' + mod.title + ' · NumPy Lab';
+    document.title = (mod.extra ? mod.title : mod.n + '. ' + mod.title) + ' · NumPy Lab';
 
-    main.appendChild(el('div', { class: 'crumb', text: mod.n + '장' }));
+    main.appendChild(el('div', { class: 'crumb', text: mod.extra ? mod.n : mod.n + '장' }));
     main.appendChild(el('h1', { class: 'h-chapter', text: mod.title }));
     if (mod.blurb) main.appendChild(el('p', { class: 'lede', text: mod.blurb }));
 
@@ -439,21 +475,29 @@
       console.error(e);
     }
 
-    // 이 장의 코드를 IDLE 로 가져가는 줄
-    try {
-      var bar = buildCodeBar(body, mod);
-      if (bar) main.appendChild(bar);
-    } catch (e) { console.error(e); }
+    // 이 장의 코드를 IDLE 로 가져가는 줄 (장에만 붙인다)
+    if (!mod.extra) {
+      try {
+        var bar = buildCodeBar(body, mod);
+        if (bar) main.appendChild(bar);
+      } catch (e) { console.error(e); }
+    }
 
     // 이전/다음
     var i = chapters.indexOf(mod);
     var navEl = el('div', { class: 'chapter-nav' });
-    if (i > 0) navEl.appendChild(el('a', { href: '#/' + chapters[i - 1].id }, [
-      el('span', { class: 'k', text: '← 이전' }), chapters[i - 1].n + '. ' + chapters[i - 1].title
-    ]));
-    if (i < chapters.length - 1) navEl.appendChild(el('a', { class: 'next', href: '#/' + chapters[i + 1].id }, [
-      el('span', { class: 'k', text: '다음 →' }), chapters[i + 1].n + '. ' + chapters[i + 1].title
-    ]));
+    if (i >= 0) {
+      if (i > 0) navEl.appendChild(el('a', { href: '#/' + chapters[i - 1].id }, [
+        el('span', { class: 'k', text: '← 이전' }), chapters[i - 1].n + '. ' + chapters[i - 1].title
+      ]));
+      if (i < chapters.length - 1) navEl.appendChild(el('a', { class: 'next', href: '#/' + chapters[i + 1].id }, [
+        el('span', { class: 'k', text: '다음 →' }), chapters[i + 1].n + '. ' + chapters[i + 1].title
+      ]));
+    } else {
+      navEl.appendChild(el('a', { href: '#/' }, [
+        el('span', { class: 'k', text: '← 돌아가기' }), '처음 화면'
+      ]));
+    }
     main.appendChild(navEl);
 
     buildToc(main);
@@ -465,7 +509,8 @@
     var old = document.querySelector('.toc'); if (old) old.remove();
     var heads = main.querySelectorAll('.h-sec');
     if (heads.length < 2) return;
-    var toc = el('nav', { class: 'toc' }, [el('div', { class: 'nav-group', style: { padding: '0 0 .3rem' }, text: '이 장의 내용' })]);
+    var tocTitle = (byId[currentId()] && byId[currentId()].extra) ? '이 과제의 차례' : '이 장의 내용';
+    var toc = el('nav', { class: 'toc' }, [el('div', { class: 'nav-group', style: { padding: '0 0 .3rem' }, text: tocTitle })]);
     Array.prototype.forEach.call(heads, function (h, i) {
       if (!h.id) h.id = 'sec-' + i;
       toc.appendChild(el('a', { href: '#' + h.id, text: h.textContent,
@@ -510,7 +555,7 @@
   }
 
   global.Lab = {
-    register: register, start: start, chapters: chapters, byId: byId,
+    register: register, start: start, chapters: chapters, extras: extras, byId: byId,
     // 테스트용: 장을 렌더한 DOM 을 주면 IDLE 용 .py 스크립트를 만들어 준다
     chapterScript: chapterScript
   };
