@@ -189,8 +189,22 @@
       'IDLE 에서 직접 실행하는 방법'));
 
     root.appendChild(el('h2', { class: 'h-sec', text: '이 실습장에 든 시뮬레이터' }));
+    root.appendChild(el('p', { class: 'sub small', text:
+      '시뮬레이터 이름을 누르면 그 장의 해당 자리로 바로 간다.' }));
+
     var simRows = chapters.filter(function (c) { return c.sim; }).map(function (c) {
-      return { ch: c.n + '장', t: c.title, s: c.sim };
+      var links = el('div', { class: 'sim-links' }, c.sim.split(' · ').map(function (s) {
+        return el('a', {
+          class: 'sim-link',
+          href: '#/' + c.id + '?sim=' + encodeURIComponent(s),
+          text: s
+        });
+      }));
+      return {
+        ch: el('a', { class: 'sim-ch', href: '#/' + c.id, text: c.n + '장' }),
+        t: el('a', { class: 'sim-ch', href: '#/' + c.id, text: c.title }),
+        s: links
+      };
     });
     root.appendChild(UI.table(
       [{ k: 'ch', label: '장' }, { k: 't', label: '주제' }, { k: 's', label: '시뮬레이터 · 시각화' }],
@@ -438,11 +452,69 @@
     ]);
   }
 
+  /* ------------------------------------------- 시뮬레이터 이름으로 자리 찾기
+   * 홈 표의 시뮬레이터 이름(모듈의 sim 필드)과 장 안의 제목은 표현이 조금씩 다르다.
+   * ("브라우저 벤치마크" ↔ "지금 이 브라우저에서 직접 재 보기")
+   * 그래서 글자 그대로 찾지 않고, 괄호 속 부연을 떼고 낱말 겹침으로 가장 가까운
+   * 제목을 고른다. 11개 장 45개 시뮬레이터를 전부 찾는 것을 확인하고 넣었다.
+   * 못 찾으면 장 맨 위에 그대로 둔다 — 엉뚱한 데로 보내지 않는다. */
+
+  var JUMP_SEL = '.card-title, .h-sec, .h-sub, .panel-t';
+
+  function simBare(s) { return String(s).replace(/\([^)]*\)/g, ' '); }
+  function simNorm(s) { return String(s).toLowerCase().replace(/[\s·—\-(),./]/g, ''); }
+  function simTokens(s) {
+    return simBare(s).toLowerCase().replace(/[·—(),./]/g, ' ')
+      .split(/\s+/).filter(function (t) { return t.length >= 2; });
+  }
+
+  function simScore(label, headText) {
+    var ns = simNorm(simBare(label)), nh = simNorm(headText);
+    if (!ns || !nh) return 0;
+    if (nh.indexOf(ns) >= 0 || ns.indexOf(nh) >= 0) return 100;
+    var ts = simTokens(label);
+    if (!ts.length) return 0;
+    var longest = ts.slice().sort(function (a, b) { return b.length - a.length; })[0];
+    if (nh.indexOf(simNorm(longest)) < 0) return 0;      /* 핵심 낱말이 없으면 남이다 */
+    var hit = ts.filter(function (t) { return nh.indexOf(simNorm(t)) >= 0; });
+    return Math.round(hit.length / ts.length * 99);
+  }
+
+  function jumpToSim(main, label) {
+    var heads = main.querySelectorAll(JUMP_SEL);
+    var best = null, bestScore = 0;
+    Array.prototype.forEach.call(heads, function (h) {
+      var v = simScore(label, h.textContent);
+      if (v > bestScore) { bestScore = v; best = h; }
+    });
+    if (!best || bestScore < 50) return;
+    var box = best.closest ? (best.closest('.card') || best) : best;
+    box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    box.classList.add('jump-hit');
+    setTimeout(function () { box.classList.remove('jump-hit'); }, 2200);
+  }
+
   /* -------------------------------------------------------------- 라우터 */
 
   function currentId() {
     var h = location.hash.replace(/^#\/?/, '').split('?')[0];
     return h || '';
+  }
+
+  /** 해시 뒤의 질의 문자열. 지금은 sim=<시뮬레이터 이름> 하나만 쓴다. */
+  function currentQuery() {
+    var h = location.hash.replace(/^#\/?/, '');
+    var i = h.indexOf('?');
+    var out = {};
+    if (i < 0) return out;
+    h.slice(i + 1).split('&').forEach(function (pair) {
+      var kv = pair.split('=');
+      if (!kv[0]) return;
+      try {
+        out[decodeURIComponent(kv[0])] = decodeURIComponent((kv[1] || '').replace(/\+/g, ' '));
+      } catch (e) { /* 잘못 인코딩된 주소는 무시한다 */ }
+    });
+    return out;
   }
 
   function route() {
@@ -521,6 +593,11 @@
     main.appendChild(navEl);
 
     buildToc(main);
+
+    /* 홈에서 시뮬레이터를 눌러 들어왔으면 그 자리로 데려간다 */
+    var q = currentQuery();
+    if (q.sim) setTimeout(function () { jumpToSim(main, q.sim); }, 0);
+
     UI.progress.visit(id);
     closeSidebar();
   }

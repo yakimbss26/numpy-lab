@@ -129,3 +129,16 @@
 .tile .t { font-weight: 650; margin: .12rem 0 .2rem; }
 .tile .d { font-size: .84rem; color: var(--ink-muted); line-height: 1.5; }
 .tile .sim { font-size: .74rem; color: var(--s3); font-weight: 650; margin-top: .35rem; }
+
+
+/* 홈의 시뮬레이터 표 — 이름을 누르면 그 자리로 간다 */
+.sim-links { display: flex; flex-wrap: wrap; gap: .3rem; }
+.sim-link {
+  display: inline-block; text-decoration: none;
+  border: 1px solid var(--border); border-radius: 999px;
+  padding: .1rem .55rem; font-size: .85rem; color: var(--ink-2);
+  background: var(--surface-2);
+}
+.sim-link:hover { border-color: var(--s1); color: var(--s1); text-decoration: none; }
+.sim-ch { text-decoration: none; color: inherit; }
+.sim-ch:hover { color: var(--s1); text-decoration: none; }

@@ -646,3 +646,11 @@ a.chip:hover { text-decoration: none; }
   font-size: .92rem;
 }
 .quest-return a.btn { text-decoration: none; }
+
+
+/* 홈에서 눌러 들어온 자리를 잠깐 표시한다 */
+.jump-hit {
+  outline: 2px solid var(--s1); outline-offset: 4px;
+  border-radius: var(--radius-sm);
+  transition: outline-color .4s ease;
+}
