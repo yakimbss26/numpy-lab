@@ -517,7 +517,7 @@
         else if (a.which === 'full_like') res = ND.fullLike(src, a.val);
         else res = ND.empty(src.shape, src.dtype);
 
-        var plain = ND.ones(src.shape);           // np.ones(arr3.shape) — dtype 을 물려받지 않아요
+        var plain = ND.ones(src.shape);           // np.ones(arr3.shape) — dtype 을 물려받지 않는다
         var kids = [
           UI.code(srcCode + '\n' + codeStr),
           el('div', { class: 'flow' }, [

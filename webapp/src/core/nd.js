@@ -365,12 +365,12 @@
         continue;
       }
       var bits = p.split(':');
-      if (bits.length > 3) throw new NDError("슬라이스에 콜론이 너무 많다: '" + p + "'");
+      if (bits.length > 3) throw new NDError("슬라이스에 콜론이 너무 많아요: '" + p + "'");
       var g = function (x) {
         x = (x || '').trim();
         if (x === '') return null;
         var v = parseIntStrict(x);
-        if (v === null) throw new NDError("슬라이스 값이 정수가 아니다: '" + x + "'");
+        if (v === null) throw new NDError("슬라이스 값이 정수가 아니에요: '" + x + "'");
         return v;
       };
       spec.push({ k: 's', start: g(bits[0]), stop: g(bits[1]), step: bits.length > 2 ? g(bits[2]) : null });
@@ -421,7 +421,7 @@
       if (depth === shape.length) { vals.push(x); return; }
       if (!Array.isArray(x) || x.length !== shape[depth]) {
         throw new NDError("setting an array element with a sequence. " +
-          "The requested array has an inhomogeneous shape — 들쭉날쭉한 리스트는 배열이 될 수 없다.");
+          "The requested array has an inhomogeneous shape — 들쭉날쭉한 리스트는 배열이 될 수 없어요.");
       }
       for (var i = 0; i < x.length; i++) walk(x[i], depth + 1);
     })(nested, 0);
@@ -539,7 +539,7 @@
           ok: false, padded: [pa, pb], failAxis: i,
           error: "operands could not be broadcast together with shapes " +
                  shapeStr(sa) + " " + shapeStr(sb),
-          reason: "축 " + i + " 에서 " + x + " 와 " + y + " 는 서로 다르고 둘 다 1이 아니다."
+          reason: "축 " + i + " 에서 " + x + " 와 " + y + " 는 서로 다르고 둘 다 1이 아니에요."
         };
       }
     }
@@ -631,12 +631,12 @@
     var a2 = a, b2 = b, squeezeRow = false, squeezeCol = false;
     if (a.ndim === 1) { a2 = a.reshape([1, a.shape[0]]); squeezeRow = true; }
     if (b.ndim === 1) { b2 = b.reshape([b.shape[0], 1]); squeezeCol = true; }
-    if (a2.ndim !== 2 || b2.ndim !== 2) throw new NDError("matmul: 2차원까지만 지원한다");
+    if (a2.ndim !== 2 || b2.ndim !== 2) throw new NDError("matmul: 2차원까지만 지원해요");
     var m = a2.shape[0], n = a2.shape[1], n2 = b2.shape[0], p = b2.shape[1];
     if (n !== n2) {
       throw new NDError("matmul: Input operand 1 has a mismatch in its core dimension\n" +
         "  " + shapeStr(a.shape) + " @ " + shapeStr(b.shape) + " → 안쪽 차원 " + n +
-        " 와 " + n2 + " 가 다르다. (m×n) @ (n×p) 여야 한다.");
+        " 와 " + n2 + " 가 달라요. (m×n) @ (n×p) 여야 해요.");
     }
     var dt = promote(a.dtype, b.dtype);
     if (dt === 'bool') dt = 'int64';

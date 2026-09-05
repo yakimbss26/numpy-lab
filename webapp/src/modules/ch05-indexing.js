@@ -165,8 +165,8 @@
     if (/too many indices/.test(m)) {
       return '축 개수보다 많은 인덱스를 콤마로 나열했어요. 2차원 배열이면 콤마로 최대 2개, 3차원이면 3개까지예요.';
     }
-    if (/콜론이 너무 많다/.test(m)) return '슬라이스는 <code>start:stop:step</code> 까지예요. 콜론은 두 개까지만 쓸 수 있어요.';
-    if (/정수가 아니다|쓸 수 없는 값/.test(m)) {
+    if (/콜론이 너무 많아요/.test(m)) return '슬라이스는 <code>start:stop:step</code> 까지예요. 콜론은 두 개까지만 쓸 수 있어요.';
+    if (/정수가 아니에요|쓸 수 없는 값/.test(m)) {
       return 'NumPy 인덱스는 정수·슬라이스·<code>...</code>·<code>None</code>·정수/불리언 배열만 돼요. ' +
         '<code>a[1.5]</code> 같은 실수 인덱스는 IndexError 예요.';
     }

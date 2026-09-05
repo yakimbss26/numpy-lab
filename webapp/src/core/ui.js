@@ -116,7 +116,7 @@
       var ok = false;
       try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
       document.body.removeChild(ta);
-      if (ok) resolve(); else reject(new Error('이 브라우저에서는 자동 복사가 막혀 있다'));
+      if (ok) resolve(); else reject(new Error('이 브라우저에서는 자동 복사가 막혀 있어요'));
     });
   }
 
@@ -175,8 +175,8 @@
     var btn = el('button', {
       class: 'copy-btn', type: 'button',
       title: jupyterOnly
-        ? '이 코드는 주피터·Colab 전용이다. 그래도 복사할 수 있다.'
-        : 'IDLE 편집창에 붙여넣어 바로 실행할 수 있게 복사한다',
+        ? '이 코드는 주피터·Colab 전용이에요. 그래도 복사할 수 있어요.'
+        : 'IDLE 편집창에 붙여넣어 바로 실행할 수 있게 복사해요',
       text: '복사',
       onclick: function () {
         copyText(payload).then(function () {
@@ -193,10 +193,10 @@
             sel.removeAllRanges();
             sel.addRange(rng);
             btn.textContent = 'Ctrl+C';
-            btn.title = '자동 복사가 막혀 있다(' + e.message + '). 코드를 선택해 두었으니 Ctrl+C 를 누르라.';
+            btn.title = '자동 복사가 막혀 있어요(' + e.message + '). 코드를 선택해 두었으니 Ctrl+C 를 누르라.';
           } catch (e2) {
             btn.textContent = '실패';
-            btn.title = e.message + ' — 코드를 직접 선택해 Ctrl+C 로 복사하라';
+            btn.title = e.message + ' — 코드를 직접 선택해 Ctrl+C 로 복사하세요';
           }
           btn.classList.add('fail');
           setTimeout(function () { btn.textContent = '복사'; btn.classList.remove('fail'); }, 3000);
@@ -592,7 +592,7 @@
       el('p', { class: 'small', style: { marginTop: '.6rem', color: shared ? 'var(--s7)' : 'var(--ink-muted)' },
         html: shared
           ? '<b>np.shares_memory(a, b) → True</b> — 같은 메모리다. 한쪽을 고치면 다른 쪽도 바뀐다.'
-          : '<b>np.shares_memory(a, b) → False</b> — 서로 다른 메모리다. 독립적이다.' })
+          : '<b>np.shares_memory(a, b) → False</b> — 서로 다른 메모리예요. 서로 독립이에요.' })
     ]);
   }
 

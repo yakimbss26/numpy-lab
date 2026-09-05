@@ -1130,12 +1130,12 @@ a.chip:hover { text-decoration: none; }
         continue;
       }
       var bits = p.split(':');
-      if (bits.length > 3) throw new NDError("슬라이스에 콜론이 너무 많다: '" + p + "'");
+      if (bits.length > 3) throw new NDError("슬라이스에 콜론이 너무 많아요: '" + p + "'");
       var g = function (x) {
         x = (x || '').trim();
         if (x === '') return null;
         var v = parseIntStrict(x);
-        if (v === null) throw new NDError("슬라이스 값이 정수가 아니다: '" + x + "'");
+        if (v === null) throw new NDError("슬라이스 값이 정수가 아니에요: '" + x + "'");
         return v;
       };
       spec.push({ k: 's', start: g(bits[0]), stop: g(bits[1]), step: bits.length > 2 ? g(bits[2]) : null });
@@ -1186,7 +1186,7 @@ a.chip:hover { text-decoration: none; }
       if (depth === shape.length) { vals.push(x); return; }
       if (!Array.isArray(x) || x.length !== shape[depth]) {
         throw new NDError("setting an array element with a sequence. " +
-          "The requested array has an inhomogeneous shape — 들쭉날쭉한 리스트는 배열이 될 수 없다.");
+          "The requested array has an inhomogeneous shape — 들쭉날쭉한 리스트는 배열이 될 수 없어요.");
       }
       for (var i = 0; i < x.length; i++) walk(x[i], depth + 1);
     })(nested, 0);
@@ -1304,7 +1304,7 @@ a.chip:hover { text-decoration: none; }
           ok: false, padded: [pa, pb], failAxis: i,
           error: "operands could not be broadcast together with shapes " +
                  shapeStr(sa) + " " + shapeStr(sb),
-          reason: "축 " + i + " 에서 " + x + " 와 " + y + " 는 서로 다르고 둘 다 1이 아니다."
+          reason: "축 " + i + " 에서 " + x + " 와 " + y + " 는 서로 다르고 둘 다 1이 아니에요."
         };
       }
     }
@@ -1396,12 +1396,12 @@ a.chip:hover { text-decoration: none; }
     var a2 = a, b2 = b, squeezeRow = false, squeezeCol = false;
     if (a.ndim === 1) { a2 = a.reshape([1, a.shape[0]]); squeezeRow = true; }
     if (b.ndim === 1) { b2 = b.reshape([b.shape[0], 1]); squeezeCol = true; }
-    if (a2.ndim !== 2 || b2.ndim !== 2) throw new NDError("matmul: 2차원까지만 지원한다");
+    if (a2.ndim !== 2 || b2.ndim !== 2) throw new NDError("matmul: 2차원까지만 지원해요");
     var m = a2.shape[0], n = a2.shape[1], n2 = b2.shape[0], p = b2.shape[1];
     if (n !== n2) {
       throw new NDError("matmul: Input operand 1 has a mismatch in its core dimension\n" +
         "  " + shapeStr(a.shape) + " @ " + shapeStr(b.shape) + " → 안쪽 차원 " + n +
-        " 와 " + n2 + " 가 다르다. (m×n) @ (n×p) 여야 한다.");
+        " 와 " + n2 + " 가 달라요. (m×n) @ (n×p) 여야 해요.");
     }
     var dt = promote(a.dtype, b.dtype);
     if (dt === 'bool') dt = 'int64';
@@ -2008,7 +2008,7 @@ a.chip:hover { text-decoration: none; }
       var ok = false;
       try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
       document.body.removeChild(ta);
-      if (ok) resolve(); else reject(new Error('이 브라우저에서는 자동 복사가 막혀 있다'));
+      if (ok) resolve(); else reject(new Error('이 브라우저에서는 자동 복사가 막혀 있어요'));
     });
   }
 
@@ -2067,8 +2067,8 @@ a.chip:hover { text-decoration: none; }
     var btn = el('button', {
       class: 'copy-btn', type: 'button',
       title: jupyterOnly
-        ? '이 코드는 주피터·Colab 전용이다. 그래도 복사할 수 있다.'
-        : 'IDLE 편집창에 붙여넣어 바로 실행할 수 있게 복사한다',
+        ? '이 코드는 주피터·Colab 전용이에요. 그래도 복사할 수 있어요.'
+        : 'IDLE 편집창에 붙여넣어 바로 실행할 수 있게 복사해요',
       text: '복사',
       onclick: function () {
         copyText(payload).then(function () {
@@ -2085,10 +2085,10 @@ a.chip:hover { text-decoration: none; }
             sel.removeAllRanges();
             sel.addRange(rng);
             btn.textContent = 'Ctrl+C';
-            btn.title = '자동 복사가 막혀 있다(' + e.message + '). 코드를 선택해 두었으니 Ctrl+C 를 누르라.';
+            btn.title = '자동 복사가 막혀 있어요(' + e.message + '). 코드를 선택해 두었으니 Ctrl+C 를 누르라.';
           } catch (e2) {
             btn.textContent = '실패';
-            btn.title = e.message + ' — 코드를 직접 선택해 Ctrl+C 로 복사하라';
+            btn.title = e.message + ' — 코드를 직접 선택해 Ctrl+C 로 복사하세요';
           }
           btn.classList.add('fail');
           setTimeout(function () { btn.textContent = '복사'; btn.classList.remove('fail'); }, 3000);
@@ -2484,7 +2484,7 @@ a.chip:hover { text-decoration: none; }
       el('p', { class: 'small', style: { marginTop: '.6rem', color: shared ? 'var(--s7)' : 'var(--ink-muted)' },
         html: shared
           ? '<b>np.shares_memory(a, b) → True</b> — 같은 메모리다. 한쪽을 고치면 다른 쪽도 바뀐다.'
-          : '<b>np.shares_memory(a, b) → False</b> — 서로 다른 메모리다. 독립적이다.' })
+          : '<b>np.shares_memory(a, b) → False</b> — 서로 다른 메모리예요. 서로 독립이에요.' })
     ]);
   }
 
@@ -2965,7 +2965,7 @@ a.chip:hover { text-decoration: none; }
           onChange: setTheme
         }),
         UI.btn('진도 초기화', function () {
-          if (confirm('풀었던 문제 기록을 모두 지워요 — 과제의 답·예측·메모도 함께 사라져요. 계속하겠나요?')) UI.progress.reset();
+          if (confirm('풀었던 문제 기록을 모두 지워요 — 과제의 답·예측·메모도 함께 사라져요. 계속할까요?')) UI.progress.reset();
         }),
         el('div', { class: 'prog-line' }, [progLine, el('div', { class: 'prog-bar' }, [progBar])])
       ])
@@ -3580,7 +3580,7 @@ a.chip:hover { text-decoration: none; }
           outHost.appendChild(UI.errBlock(e.message));
         }
         outHost.appendChild(UI.callout('trap',
-          '세 평면이 한 점에서 만나지 않는 경우예요. 해가 아예 없거나(평행) 무한히 많다(겹침). ' +
+          '세 평면이 한 점에서 만나지 않는 경우예요. 해가 아예 없거나(평행) 무한히 많아요(겹침). ' +
           '행렬식이 0 이면 <code>np.linalg.solve</code> 는 답을 지어내지 않고 <b>예외를 던져요</b>. ' +
           '이런 경우에는 <code>np.linalg.lstsq</code> 처럼 다른 도구가 필요해요.'));
         return;
@@ -3759,7 +3759,7 @@ a.chip:hover { text-decoration: none; }
   function simMemory() {
     var st = { n: 6 };
     var host = el('div');
-    var ITEM = ND.zeros([1], 'int64').itemsize;   /* 8 — 엔진에서 얻어요 */
+    var ITEM = ND.zeros([1], 'int64').itemsize;   /* 8 — 엔진에서 얻는다 */
     var PTR = 8;         /* 64비트 파이썬의 포인터 하나 */
     var INTOBJ = 28;     /* CPython 정수 객체 하나 — 약 28바이트 (구현 의존) */
 
@@ -3901,7 +3901,7 @@ a.chip:hover { text-decoration: none; }
     function stop() { if (st.timer) { clearInterval(st.timer); st.timer = null; } }
 
     function tick() {
-      if (!document.body.contains(host)) { stop(); return; }   /* 다른 장으로 떠났어요 */
+      if (!document.body.contains(host)) { stop(); return; }   /* 다른 장으로 떠났다 */
       if (st.step >= TOTAL) { stop(); rebuild(); return; }
       st.step++;
       rebuild();
@@ -4070,7 +4070,7 @@ a.chip:hover { text-decoration: none; }
         var keep = null, t0 = performance.now();
         for (var r = 0; r < R; r++) keep = m.fn();
         var ms = (performance.now() - t0) / R;
-        if (keep === null) ms = -1;         /* 결과를 참조해 최적화로 지워지지 않게 해요 */
+        if (keep === null) ms = -1;         /* 결과를 참조해 최적화로 지워지지 않게 한다 */
         return { k: m.k, name: m.name, code: m.code, ms: ms, chk: chk };
       });
 
@@ -6773,7 +6773,7 @@ a.chip:hover { text-decoration: none; }
       var bits = v.split('|');
       st.src = bits[0]; st.track = null;
       srcCtl.setValue(bits[0]);
-      shapeCtl.setValue(bits[1]);      // setValue 안에서 onChange → rebuild 가 돌아요
+      shapeCtl.setValue(bits[1]);      // setValue 안에서 onChange → rebuild 가 돈다
     });
 
     /** 목표 shape 로 배치한 결과 격자 하나 만들기 */
@@ -7480,7 +7480,7 @@ a.chip:hover { text-decoration: none; }
         '수업자료는 2024년 3월 <b>NumPy 1.x</b> 기준이에요. 지금은 2.x 예요. ' +
         'reshape 자체는 그대로지만 이름이 바뀐 것들이 있어요 — ' +
         '<code>np.reshape(a, newshape=(3, 4))</code> 의 <code>newshape</code> 는 권장하지 않고 ' +
-        '<code>shape=</code> 를 쓴다(위치 인자 <code>np.reshape(a, (3, 4))</code> 는 문제없어요). ' +
+        '<code>shape=</code> 를 써요(위치 인자 <code>np.reshape(a, (3, 4))</code> 는 문제없어요). ' +
         '또 <code>np.NaN</code>, <code>np.Inf</code>, <code>np.float_</code>, <code>np.int</code> 는 ' +
         '<b>2.0 에서 삭제</b>되어 <code>AttributeError</code> 가 나요. ' +
         '<code>np.nan</code>, <code>np.inf</code> 를 써야 해요.'));
@@ -7818,8 +7818,8 @@ a.chip:hover { text-decoration: none; }
     if (/too many indices/.test(m)) {
       return '축 개수보다 많은 인덱스를 콤마로 나열했어요. 2차원 배열이면 콤마로 최대 2개, 3차원이면 3개까지예요.';
     }
-    if (/콜론이 너무 많다/.test(m)) return '슬라이스는 <code>start:stop:step</code> 까지예요. 콜론은 두 개까지만 쓸 수 있어요.';
-    if (/정수가 아니다|쓸 수 없는 값/.test(m)) {
+    if (/콜론이 너무 많아요/.test(m)) return '슬라이스는 <code>start:stop:step</code> 까지예요. 콜론은 두 개까지만 쓸 수 있어요.';
+    if (/정수가 아니에요|쓸 수 없는 값/.test(m)) {
       return 'NumPy 인덱스는 정수·슬라이스·<code>...</code>·<code>None</code>·정수/불리언 배열만 돼요. ' +
         '<code>a[1.5]</code> 같은 실수 인덱스는 IndexError 예요.';
     }
@@ -9638,7 +9638,7 @@ a.chip:hover { text-decoration: none; }
         else if (a.which === 'full_like') res = ND.fullLike(src, a.val);
         else res = ND.empty(src.shape, src.dtype);
 
-        var plain = ND.ones(src.shape);           // np.ones(arr3.shape) — dtype 을 물려받지 않아요
+        var plain = ND.ones(src.shape);           // np.ones(arr3.shape) — dtype 을 물려받지 않는다
         var kids = [
           UI.code(srcCode + '\n' + codeStr),
           el('div', { class: 'flow' }, [
@@ -11362,7 +11362,7 @@ a.chip:hover { text-decoration: none; }
         root.appendChild(UI.card({
           kicker: '시뮬레이터',
           title: '브로드캐스팅 3단계 시뮬레이터',
-          note: 'shape 두 개를 직접 입력해 보라(<code>4,1</code> 과 <code>3</code>). ' +
+          note: 'shape 두 개를 직접 입력해 보세요(<code>4,1</code> 과 <code>3</code>). ' +
             'B 를 빈 칸으로 두면 스칼라예요. 아래 칩은 성공·실패 사례를 섞어 놓은 것이에요 — ' +
             '<b>실패 사례를 꼭 눌러 보세요.</b> 어느 축에서 왜 실패하는지가 이 장의 절반이에요.',
           body: [UI.controls([inA, inB, opSeg]), chipRow, host]
@@ -14579,7 +14579,7 @@ a.chip:hover { text-decoration: none; }
             '<b>축을 지정하면 그 축이 사라져요.</b> ' + ND.shapeStr(data.shape) + ' 에서 ' +
             'axis=0 을 지우면 (' + nD + ',) 가 남고, axis=1 을 지우면 (' + nP + ',) 가 남아요. ' +
             '그래서 결과의 shape 만 보면 "날짜별인가 환자별인가"를 바로 판단할 수 있어요. ' +
-            '축 번호를 외우려 하지 말고 <b>결과 길이가 ' + nD + '이냐 ' + nP + '이냐</b>로 확인하는 습관을 들여라(8장).'),
+            '축 번호를 외우려 하지 말고 <b>결과 길이가 ' + nD + '이냐 ' + nP + '이냐</b>로 확인하는 습관을 들여 보세요(8장).'),
           el('p', { html: '없는 축을 지우려 하면 어떻게 되는지도 봐요. 2차원 배열의 축은 0 과 1 뿐이에요.' }),
           UI.code('data.mean(axis=2)'),
           tryBlock(function () { return UI.out(ND.format(ND.mean(data, 2))); })
@@ -16421,10 +16421,10 @@ a.chip:hover { text-decoration: none; }
     }
     activeKeys(d).forEach(function (k) { delete d[k]; });
 
-    var mine = d[BOX + name];           /* 전에 하던 것이 있으면 되돌려요 */
+    var mine = d[BOX + name];           /* 전에 하던 것이 있으면 되돌린다 */
     if (mine) {
       Object.keys(mine).forEach(function (k) { d[k] = mine[k]; });
-      delete d[BOX + name];             /* 사본을 남기지 않아요 — 지금 것이 원본이에요 */
+      delete d[BOX + name];             /* 사본을 남기지 않는다 — 지금 것이 원본이다 */
     }
 
     d[WHO] = name;

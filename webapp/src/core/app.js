@@ -90,7 +90,7 @@
           onChange: setTheme
         }),
         UI.btn('진도 초기화', function () {
-          if (confirm('풀었던 문제 기록을 모두 지워요 — 과제의 답·예측·메모도 함께 사라져요. 계속하겠나요?')) UI.progress.reset();
+          if (confirm('풀었던 문제 기록을 모두 지워요 — 과제의 답·예측·메모도 함께 사라져요. 계속할까요?')) UI.progress.reset();
         }),
         el('div', { class: 'prog-line' }, [progLine, el('div', { class: 'prog-bar' }, [progBar])])
       ])

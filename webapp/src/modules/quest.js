@@ -77,10 +77,10 @@
     }
     activeKeys(d).forEach(function (k) { delete d[k]; });
 
-    var mine = d[BOX + name];           /* 전에 하던 것이 있으면 되돌려요 */
+    var mine = d[BOX + name];           /* 전에 하던 것이 있으면 되돌린다 */
     if (mine) {
       Object.keys(mine).forEach(function (k) { d[k] = mine[k]; });
-      delete d[BOX + name];             /* 사본을 남기지 않아요 — 지금 것이 원본이에요 */
+      delete d[BOX + name];             /* 사본을 남기지 않는다 — 지금 것이 원본이다 */
     }
 
     d[WHO] = name;

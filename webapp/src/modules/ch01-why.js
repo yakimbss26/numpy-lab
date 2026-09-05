@@ -139,7 +139,7 @@
           outHost.appendChild(UI.errBlock(e.message));
         }
         outHost.appendChild(UI.callout('trap',
-          '세 평면이 한 점에서 만나지 않는 경우예요. 해가 아예 없거나(평행) 무한히 많다(겹침). ' +
+          '세 평면이 한 점에서 만나지 않는 경우예요. 해가 아예 없거나(평행) 무한히 많아요(겹침). ' +
           '행렬식이 0 이면 <code>np.linalg.solve</code> 는 답을 지어내지 않고 <b>예외를 던져요</b>. ' +
           '이런 경우에는 <code>np.linalg.lstsq</code> 처럼 다른 도구가 필요해요.'));
         return;
@@ -318,7 +318,7 @@
   function simMemory() {
     var st = { n: 6 };
     var host = el('div');
-    var ITEM = ND.zeros([1], 'int64').itemsize;   /* 8 — 엔진에서 얻어요 */
+    var ITEM = ND.zeros([1], 'int64').itemsize;   /* 8 — 엔진에서 얻는다 */
     var PTR = 8;         /* 64비트 파이썬의 포인터 하나 */
     var INTOBJ = 28;     /* CPython 정수 객체 하나 — 약 28바이트 (구현 의존) */
 
@@ -460,7 +460,7 @@
     function stop() { if (st.timer) { clearInterval(st.timer); st.timer = null; } }
 
     function tick() {
-      if (!document.body.contains(host)) { stop(); return; }   /* 다른 장으로 떠났어요 */
+      if (!document.body.contains(host)) { stop(); return; }   /* 다른 장으로 떠났다 */
       if (st.step >= TOTAL) { stop(); rebuild(); return; }
       st.step++;
       rebuild();
@@ -629,7 +629,7 @@
         var keep = null, t0 = performance.now();
         for (var r = 0; r < R; r++) keep = m.fn();
         var ms = (performance.now() - t0) / R;
-        if (keep === null) ms = -1;         /* 결과를 참조해 최적화로 지워지지 않게 해요 */
+        if (keep === null) ms = -1;         /* 결과를 참조해 최적화로 지워지지 않게 한다 */
         return { k: m.k, name: m.name, code: m.code, ms: ms, chk: chk };
       });
 

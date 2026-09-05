@@ -192,7 +192,7 @@
       var bits = v.split('|');
       st.src = bits[0]; st.track = null;
       srcCtl.setValue(bits[0]);
-      shapeCtl.setValue(bits[1]);      // setValue 안에서 onChange → rebuild 가 돌아요
+      shapeCtl.setValue(bits[1]);      // setValue 안에서 onChange → rebuild 가 돈다
     });
 
     /** 목표 shape 로 배치한 결과 격자 하나 만들기 */
@@ -899,7 +899,7 @@
         '수업자료는 2024년 3월 <b>NumPy 1.x</b> 기준이에요. 지금은 2.x 예요. ' +
         'reshape 자체는 그대로지만 이름이 바뀐 것들이 있어요 — ' +
         '<code>np.reshape(a, newshape=(3, 4))</code> 의 <code>newshape</code> 는 권장하지 않고 ' +
-        '<code>shape=</code> 를 쓴다(위치 인자 <code>np.reshape(a, (3, 4))</code> 는 문제없어요). ' +
+        '<code>shape=</code> 를 써요(위치 인자 <code>np.reshape(a, (3, 4))</code> 는 문제없어요). ' +
         '또 <code>np.NaN</code>, <code>np.Inf</code>, <code>np.float_</code>, <code>np.int</code> 는 ' +
         '<b>2.0 에서 삭제</b>되어 <code>AttributeError</code> 가 나요. ' +
         '<code>np.nan</code>, <code>np.inf</code> 를 써야 해요.'));

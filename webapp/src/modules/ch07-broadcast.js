@@ -783,7 +783,7 @@
         root.appendChild(UI.card({
           kicker: '시뮬레이터',
           title: '브로드캐스팅 3단계 시뮬레이터',
-          note: 'shape 두 개를 직접 입력해 보라(<code>4,1</code> 과 <code>3</code>). ' +
+          note: 'shape 두 개를 직접 입력해 보세요(<code>4,1</code> 과 <code>3</code>). ' +
             'B 를 빈 칸으로 두면 스칼라예요. 아래 칩은 성공·실패 사례를 섞어 놓은 것이에요 — ' +
             '<b>실패 사례를 꼭 눌러 보세요.</b> 어느 축에서 왜 실패하는지가 이 장의 절반이에요.',
           body: [UI.controls([inA, inB, opSeg]), chipRow, host]
