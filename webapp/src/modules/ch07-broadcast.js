@@ -70,7 +70,7 @@
     var lines = [];
     lines.push(row('axis', axes, 0));
     lines.push(row(labs[1], sa, n - sa.length));
-    lines.push(row(labs[2], sb, n - sb.length) + '   <- 오른쪽 끝부터 맞춘다');
+    lines.push(row(labs[2], sb, n - sb.length) + '   <- 오른쪽 끝부터 맞춰요');
     lines.push(new Array(lw + n * W + 1).join('-'));
     lines.push(row(labs[3], pa, 0));
     lines.push(row(labs[4], pb, 0) + '   <- 앞(왼쪽)을 1 로 채운 결과');
@@ -85,7 +85,7 @@
       if (x === y) { verdict = '같음 → 그대로'; res = String(x); }
       else if (x === 1) { verdict = 'A 를 ' + y + ' 로 늘림 (stretchA)'; res = String(y); }
       else if (y === 1) { verdict = 'B 를 ' + x + ' 로 늘림 (stretchB)'; res = String(x); }
-      else { verdict = '충돌 — 다르고 둘 다 1 이 아니다'; res = '✗'; isErr = true; }
+      else { verdict = '충돌 — 다르고 둘 다 1 이 아니에요'; res = '✗'; isErr = true; }
       rows.push({
         ax: 'axis ' + i, a: x, b: y,
         v: isErr ? bad(verdict) : verdict,
@@ -104,16 +104,16 @@
   /* --------------------------------------------------------------- 프리셋 */
 
   var PRESETS = [
-    { sa: [2, 3], sb: [], label: '(2,3) + 3', why: '스칼라는 shape () → (1,1) 로 채워져 모든 칸으로 늘어난다.' },
-    { sa: [4, 1], sb: [3], label: '(4,1) + (3,)', why: '열벡터와 행벡터가 서로 늘어나 격자 (4,3) 이 만들어진다.' },
-    { sa: [3, 4], sb: [4], label: '(3,4) + (4,)', why: '마지막 축이 둘 다 4 라서 그대로 맞는다. (4,) → (1,4).' },
-    { sa: [3, 4], sb: [3], label: '(3,4) + (3,)', why: '(3,) 은 (3,1) 이 아니라 (1,3) 이 된다 → 축 1 에서 4 와 3 이 충돌.' },
-    { sa: [3, 4], sb: [3, 1], label: '(3,4) + (3,1)', why: '축 1 이 1 이므로 4 로 늘어난다. keepdims=True 가 만드는 모양.' },
-    { sa: [3, 1], sb: [1, 4], label: '(3,1) + (1,4)', why: '양쪽이 각각 다른 축에서 늘어난다 → (3,4).' },
-    { sa: [2, 3], sb: [3, 2], label: '(2,3) + (3,2)', why: '전치 관계일 뿐 축별로는 맞지 않는다. 브로드캐스팅으로 해결되지 않는다.' },
-    { sa: [60, 40], sb: [60, 1], label: '(60,40) + (60,1)', why: '관절염 데이터에서 환자별 평균을 빼는 모양. 축 1 이 1 → 40 으로 늘어난다.' },
-    { sa: [60, 40], sb: [60], label: '(60,40) + (60,)', why: 'keepdims 를 빼면 (1,60) 으로 맞춰져 축 1 에서 40 과 60 이 충돌한다.' },
-    { sa: [2, 2, 3], sb: [3], label: '(2,2,3) + (3,)', why: '3차원에도 같은 규칙이다. (3,) → (1,1,3).' }
+    { sa: [2, 3], sb: [], label: '(2,3) + 3', why: '스칼라는 shape () → (1,1) 로 채워져 모든 칸으로 늘어나요.' },
+    { sa: [4, 1], sb: [3], label: '(4,1) + (3,)', why: '열벡터와 행벡터가 서로 늘어나 격자 (4,3) 이 만들어져요.' },
+    { sa: [3, 4], sb: [4], label: '(3,4) + (4,)', why: '마지막 축이 둘 다 4 라서 그대로 맞아요. (4,) → (1,4).' },
+    { sa: [3, 4], sb: [3], label: '(3,4) + (3,)', why: '(3,) 은 (3,1) 이 아니라 (1,3) 이 돼요 → 축 1 에서 4 와 3 이 충돌.' },
+    { sa: [3, 4], sb: [3, 1], label: '(3,4) + (3,1)', why: '축 1 이 1 이므로 4 로 늘어나요. keepdims=True 가 만드는 모양.' },
+    { sa: [3, 1], sb: [1, 4], label: '(3,1) + (1,4)', why: '양쪽이 각각 다른 축에서 늘어나요 → (3,4).' },
+    { sa: [2, 3], sb: [3, 2], label: '(2,3) + (3,2)', why: '전치 관계일 뿐 축별로는 맞지 않아요. 브로드캐스팅으로 해결되지 않아요.' },
+    { sa: [60, 40], sb: [60, 1], label: '(60,40) + (60,1)', why: '관절염 데이터에서 환자별 평균을 빼는 모양. 축 1 이 1 → 40 으로 늘어나요.' },
+    { sa: [60, 40], sb: [60], label: '(60,40) + (60,)', why: 'keepdims 를 빼면 (1,60) 으로 맞춰져 축 1 에서 40 과 60 이 충돌해요.' },
+    { sa: [2, 2, 3], sb: [3], label: '(2,2,3) + (3,)', why: '3차원에도 같은 규칙이에요. (3,) → (1,1,3).' }
   ];
 
   function shapeToInput(sh) { return sh.join(','); }
@@ -137,17 +137,17 @@
     id: 'broadcast',
     n: '7',
     title: '배열의 연산과 브로드캐스팅',
-    blurb: '같은 크기끼리는 칸끼리 계산하고, 크기가 다르면 NumPy 가 축을 늘려 맞춘다. 그 "늘리기"의 정체는 stride 0 이다.',
+    blurb: '같은 크기끼리는 칸끼리 계산하고, 크기가 다르면 NumPy 가 축을 늘려 맞춰요. 그 "늘리기"의 정체는 stride 0 이에요.',
     sim: '원소별 연산 판 · * vs @ 대비기 · 브로드캐스팅 3단계 시뮬레이터 · keepdims 실험실 · 구구단 표',
 
     render: function (root) {
 
       /* ================================================== 7.1 원소별 연산 */
 
-      root.appendChild(el('h2', { class: 'h-sec', text: '7.1 원소별 연산 — 칸끼리 계산한다' }));
+      root.appendChild(el('h2', { class: 'h-sec', text: '7.1 원소별 연산 — 칸끼리 계산하기' }));
       root.appendChild(el('p', {
-        html: 'NumPy 의 <code>+ - * / // % **</code> 는 모두 <b>같은 위치의 칸끼리</b> 계산한다. ' +
-          'shape 가 같은 두 배열을 더하면 결과도 같은 shape 다. 반복문은 한 줄도 쓰지 않는다.'
+        html: 'NumPy 의 <code>+ - * / // % **</code> 는 모두 <b>같은 위치의 칸끼리</b> 계산해요. ' +
+          'shape 가 같은 두 배열을 더하면 결과도 같은 shape 예요. 반복문은 한 줄도 쓰지 않아요.'
       }));
 
       var a91 = ND.array([[1, 2, 3], [4, 5, 6]]);
@@ -164,9 +164,9 @@
       ]));
 
       root.appendChild(UI.callout('why',
-        '<code>a * a</code> 의 [0,1] 칸은 <b>a[0,1] × a[0,1]</b> 이다. ' +
-        '왼쪽 배열의 어떤 칸도 오른쪽 배열의 다른 칸과 만나지 않는다. ' +
-        '이것이 수학 시간에 배우는 행렬의 곱과 결정적으로 다른 점이다.'));
+        '<code>a * a</code> 의 [0,1] 칸은 <b>a[0,1] × a[0,1]</b> 이에요. ' +
+        '왼쪽 배열의 어떤 칸도 오른쪽 배열의 다른 칸과 만나지 않아요. ' +
+        '이것이 수학 시간에 배우는 행렬의 곱과 결정적으로 다른 점이에요.'));
 
       /* ---------------------------------------- 시뮬레이터: 원소별 연산 판 */
 
@@ -206,8 +206,8 @@
           host.appendChild(UI.out(ND.format(R)));
           if (o.v === 'div') {
             host.appendChild(UI.callout('tip',
-              '정수끼리 나눠도 <code>/</code> 의 결과 dtype 은 <b>float64</b> 다. ' +
-              '정수를 유지하고 싶으면 몫만 구하는 <code>//</code> 를 쓴다.'));
+              '정수끼리 나눠도 <code>/</code> 의 결과 dtype 은 <b>float64</b> 예요. ' +
+              '정수를 유지하고 싶으면 몫만 구하는 <code>//</code> 를 써요.'));
           }
         }
         rebuild();
@@ -215,8 +215,8 @@
         root.appendChild(UI.card({
           kicker: '시뮬레이터',
           title: '원소별 연산 판 — 연산자 7개',
-          note: '연산자를 바꿔 보라. 두 배열의 같은 자리 칸끼리만 계산된다는 것이 모든 연산에서 똑같다. ' +
-            '<code>b = np.arange(6, 0, -1).reshape(2, 3)</code> 이라서 <code>a + b</code> 는 모든 칸이 7 이 된다.',
+          note: '연산자를 바꿔 보세요. 두 배열의 같은 자리 칸끼리만 계산된다는 것이 모든 연산에서 똑같아요. ' +
+            '<code>b = np.arange(6, 0, -1).reshape(2, 3)</code> 이라서 <code>a + b</code> 는 모든 칸이 7 이 돼요.',
           body: [
             UI.controls([UI.seg({
               label: '연산자', value: 'add',
@@ -230,7 +230,7 @@
 
       /* -------------------------------------------------- 벡터화 (반복문 없음) */
 
-      root.appendChild(el('h3', { class: 'h-sub', text: '반복문이 필요 없다 = 벡터화' }));
+      root.appendChild(el('h3', { class: 'h-sub', text: '반복문이 필요 없어요 = 벡터화' }));
       root.appendChild(el('div', { class: 'stack-2' }, [
         el('div', null, [
           el('div', { class: 'panel-t', text: '파이썬 리스트 + 이중 for' }),
@@ -256,16 +256,16 @@
       })();
 
       root.appendChild(UI.callout('why',
-        '왼쪽은 파이썬 인터프리터가 칸마다 <b>객체 하나씩</b> 꺼내 곱한다. ' +
-        '오른쪽은 C 로 짠 반복문 하나가 같은 dtype 의 값들을 연속된 메모리에서 훑는다. ' +
-        '코드가 짧아지는 것은 부수 효과이고, 본질은 <b>루프가 파이썬 밖으로 내려간 것</b>이다.'));
+        '왼쪽은 파이썬 인터프리터가 칸마다 <b>객체 하나씩</b> 꺼내 곱해요. ' +
+        '오른쪽은 C 로 짠 반복문 하나가 같은 dtype 의 값들을 연속된 메모리에서 훑어요. ' +
+        '코드가 짧아지는 것은 부수 효과이고, 본질은 <b>루프가 파이썬 밖으로 내려간 것</b>이에요.'));
 
       /* ============================================ * 와 @ 는 다른 연산이다 */
 
-      root.appendChild(el('h2', { class: 'h-sec', text: '* 와 @ 는 다른 연산이다' }));
+      root.appendChild(el('h2', { class: 'h-sec', text: '* 와 @ 는 다른 연산이에요' }));
       root.appendChild(el('p', {
         html: '같은 (2,2) 배열 두 개에 <code>*</code> 와 <code>@</code> 를 적용하면 ' +
-          '<b>shape 는 같지만 값이 다르다.</b> 결과 칸에 마우스를 올려 어느 칸들이 쓰였는지 확인해 보라.'
+          '<b>shape 는 같지만 값이 달라요.</b> 결과 칸에 마우스를 올려 어느 칸들이 쓰였는지 확인해 보세요.'
       }));
 
       (function () {
@@ -279,8 +279,8 @@
         var gB = UI.grid(m2, { highlight: function () { return 'b'; }, axisLabels: true, cellSize: 40 });
         var cA = cellsOf(gA), cB = cellsOf(gB);
 
-        var DEF_E = '결과 칸에 마우스를 올려 보라.';
-        var DEF_M = '결과 칸에 마우스를 올려 보라.';
+        var DEF_E = '결과 칸에 마우스를 올려 보세요.';
+        var DEF_M = '결과 칸에 마우스를 올려 보세요.';
         var fE = mono(DEF_E), fM = mono(DEF_M);
 
         function resetAll() {
@@ -328,8 +328,8 @@
         root.appendChild(UI.card({
           kicker: '시뮬레이터',
           title: '원소별 곱 vs 행렬곱 대비기',
-          note: 'a 와 b 는 같은 두 배열이다. 아래 두 결과는 <b>shape 가 똑같은데 값이 다르다.</b> ' +
-            '원소별 곱은 칸 하나에서 칸 하나가 나오고, 행렬곱은 <b>한 행 전체와 한 열 전체</b>가 만나 한 칸이 된다.',
+          note: 'a 와 b 는 같은 두 배열이에요. 아래 두 결과는 <b>shape 가 똑같은데 값이 달라요.</b> ' +
+            '원소별 곱은 칸 하나에서 칸 하나가 나오고, 행렬곱은 <b>한 행 전체와 한 열 전체</b>가 만나 한 칸이 돼요.',
           body: [
             el('div', { class: 'flow' }, [
               panel('a', 'a  (2, 2)', [gA]),
@@ -355,14 +355,14 @@
 
         // (2,3) 이면 * 는 되고 @ 는 안 된다
         root.appendChild(el('p', {
-          html: 'shape 가 정사각형이 아니면 차이가 더 분명해진다. (2,3) 배열끼리 ' +
-            '<code>*</code> 는 잘 되지만 <code>@</code> 는 <b>에러</b>다.'
+          html: 'shape 가 정사각형이 아니면 차이가 더 분명해져요. (2,3) 배열끼리 ' +
+            '<code>*</code> 는 잘 되지만 <code>@</code> 는 <b>에러</b>예요.'
         }));
         root.appendChild(UI.code('a = np.array([[1, 2, 3], [4, 5, 6]])   # (2, 3)\na * a      # 잘 된다\na @ a      # ?'));
         root.appendChild(UI.out(ND.format(ND.ops.mul(a91, a91)), { label: 'a * a' }));
         try {
           ND.matmul(a91, a91);
-          root.appendChild(UI.out('(에러가 나지 않았다)', { label: 'a @ a' }));
+          root.appendChild(UI.out('(에러가 나지 않았어요)', { label: 'a @ a' }));
         } catch (e) {
           root.appendChild(UI.errBlock(e.message));
         }
@@ -371,9 +371,9 @@
             "with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 2 is different from 3)")));
 
         root.appendChild(UI.callout('trap',
-          '수학 시간의 "행렬의 곱"은 <code>@</code> 다. <code>*</code> 는 성분별 곱(아다마르 곱)이다. ' +
+          '수학 시간의 "행렬의 곱"은 <code>@</code> 예요. <code>*</code> 는 성분별 곱(아다마르 곱)이에요. ' +
           '옛 코드에 나오는 <code>np.matrix</code> 에서는 <code>*</code> 가 행렬곱이지만, ' +
-          '<code>np.matrix</code> 는 쓰지 않는 것이 좋다 — 지금은 <code>np.ndarray</code> 와 <code>@</code> 가 표준이다.'));
+          '<code>np.matrix</code> 는 쓰지 않는 것이 좋아요 — 지금은 <code>np.ndarray</code> 와 <code>@</code> 가 표준이에요.'));
       })();
 
       /* ================================================ 0 으로 나누기 · ufunc */
@@ -386,8 +386,8 @@
         var r = ND.ops.div(x, y);
 
         root.appendChild(el('p', {
-          html: '파이썬 스칼라 <code>1 / 0</code> 은 예외를 던지고 프로그램이 멈춘다. ' +
-            '그런데 <b>배열끼리의 나눗셈은 멈추지 않는다.</b> 경고만 내고 <code>nan</code> · <code>inf</code> 를 값으로 넣는다.'
+          html: '파이썬 스칼라 <code>1 / 0</code> 은 예외를 던지고 프로그램이 멈춰요. ' +
+            '그런데 <b>배열끼리의 나눗셈은 멈추지 않아요.</b> 경고만 내고 <code>nan</code> · <code>inf</code> 를 값으로 넣어요.'
         }));
         root.appendChild(el('div', { class: 'stack-2' }, [
           el('div', null, [
@@ -406,21 +406,21 @@
           'RuntimeWarning: divide by zero encountered in divide',
           { label: '함께 나오는 경고' }));
         root.appendChild(UI.callout('why',
-          '<b>0 / 0 → nan</b>(정할 수 없는 값), <b>1 / 0 → inf</b>(무한대), <b>-1 / 0 → -inf</b> 다. ' +
-          '배열 계산을 중간에 멈추면 나머지 2399개 칸의 계산이 통째로 날아간다. ' +
-          '그래서 NumPy 는 문제가 된 칸에만 표식을 남기고 계속 간다. ' +
-          '이 값들을 찾아내는 <code>np.isnan</code> · <code>np.isfinite</code> 는 9장에서 다룬다.'));
+          '<b>0 / 0 → nan</b>(정할 수 없는 값), <b>1 / 0 → inf</b>(무한대), <b>-1 / 0 → -inf</b> 예요. ' +
+          '배열 계산을 중간에 멈추면 나머지 2399개 칸의 계산이 통째로 날아가요. ' +
+          '그래서 NumPy 는 문제가 된 칸에만 표식을 남기고 계속 가요. ' +
+          '이 값들을 찾아내는 <code>np.isnan</code> · <code>np.isfinite</code> 는 9장에서 다뤄요.'));
         root.appendChild(UI.callout('ver',
-          '수업자료의 <code>np.NaN</code>, <code>np.Inf</code> 는 <b>NumPy 2.0 에서 삭제되었다.</b> ' +
-          '이제는 소문자 <code>np.nan</code>, <code>np.inf</code> 만 쓴다. ' +
-          '옛 코드를 그대로 실행하면 <code>AttributeError: np.NaN was removed in the NumPy 2.0 release. Use np.nan instead.</code> 가 난다. ' +
-          '<code>np.float_</code>, <code>np.int</code> 도 함께 사라졌다.'));
+          '수업자료의 <code>np.NaN</code>, <code>np.Inf</code> 는 <b>NumPy 2.0 에서 삭제되었어요.</b> ' +
+          '이제는 소문자 <code>np.nan</code>, <code>np.inf</code> 만 써요. ' +
+          '옛 코드를 그대로 실행하면 <code>AttributeError: np.NaN was removed in the NumPy 2.0 release. Use np.nan instead.</code> 가 나요. ' +
+          '<code>np.float_</code>, <code>np.int</code> 도 함께 사라졌어요.'));
 
         // ufunc
-        root.appendChild(el('h3', { class: 'h-sub', text: '연산자의 실체는 ufunc 다' }));
+        root.appendChild(el('h3', { class: 'h-sub', text: '연산자의 실체는 ufunc 예요' }));
         root.appendChild(el('p', {
-          html: '<code>+</code> 를 쓰면 NumPy 는 <code>np.add</code> 라는 함수(ufunc, universal function)를 부른다. ' +
-            '연산자는 그 함수의 별명일 뿐이다.'
+          html: '<code>+</code> 를 쓰면 NumPy 는 <code>np.add</code> 라는 함수(ufunc, universal function)를 불러요. ' +
+            '연산자는 그 함수의 별명일 뿐이에요.'
         }));
         var t1 = ND.ops.add(a91, a91), t2 = ND.ops.mul(a91, a91);
         root.appendChild(UI.table(
@@ -439,17 +439,17 @@
         root.appendChild(UI.code('c = np.zeros_like(a)\nnp.add(a, a, out=c)   # 새 배열을 만들지 않고 c 의 메모리에 직접 쓴다\nprint(c)'));
         root.appendChild(UI.out(ND.format(c)));
         root.appendChild(UI.callout('tip',
-          'ufunc 는 <code>out=</code> 인자를 받는다. <code>out=c</code> 를 주면 결과를 담을 배열을 새로 만들지 않고 ' +
-          '<b>c 가 이미 가진 메모리에 덮어쓴다.</b> 큰 배열을 반복 계산할 때 메모리 할당을 줄이는 방법이다. ' +
-          '<code>id(c)</code> 는 그대로다.'));
+          'ufunc 는 <code>out=</code> 인자를 받아요. <code>out=c</code> 를 주면 결과를 담을 배열을 새로 만들지 않고 ' +
+          '<b>c 가 이미 가진 메모리에 덮어써요.</b> 큰 배열을 반복 계산할 때 메모리 할당을 줄이는 방법이에요. ' +
+          '<code>id(c)</code> 는 그대로예요.'));
       })();
 
       /* ============================================== 제자리 연산 a += 1 */
 
       root.appendChild(el('h2', { class: 'h-sec', text: '제자리 연산 a += 1 의 함정' }));
       root.appendChild(el('p', {
-        html: '<code>a += 1</code> 과 <code>a = a + 1</code> 은 결과 값이 같지만 <b>메모리에서 벌어지는 일이 다르다.</b> ' +
-          '4장에서 본 뷰(view)와 함께 쓰면 차이가 드러난다.'
+        html: '<code>a += 1</code> 과 <code>a = a + 1</code> 은 결과 값이 같지만 <b>메모리에서 벌어지는 일이 달라요.</b> ' +
+          '4장에서 본 뷰(view)와 함께 쓰면 차이가 드러나요.'
       }));
 
       (function () {
@@ -476,9 +476,9 @@
             UI.out(ND.format(p2.v), { label: 'v' }),
             el('div', null, [
               UI.memBar(p2.a.root().buf, marksAll(6, 'a'), { dtype: 'int64' }),
-              mono('원래 메모리 — v 가 계속 보고 있는 곳. 하나도 바뀌지 않았다.'),
+              mono('원래 메모리 — v 가 계속 보고 있는 곳. 하나도 바뀌지 않았어요.'),
               UI.memBar(newA.buf, marksAll(6, 'b'), { dtype: 'int64' }),
-              mono('a + 1 이 새로 확보한 메모리 — 이름 a 가 이제 여기를 가리킨다.')
+              mono('a + 1 이 새로 확보한 메모리 — 이름 a 가 이제 여기를 가리켜요.')
             ])
           ])
         ]));
@@ -489,33 +489,33 @@
         ]));
 
         root.appendChild(UI.callout('trap',
-          '<code>a += 1</code> 은 <b>a 의 메모리를 직접 고친다.</b> 그래서 그 메모리를 보고 있던 뷰 v 도 같이 바뀐다. ' +
-          '<code>a = a + 1</code> 은 새 배열을 만들고 이름 a 만 그쪽으로 옮긴다 — v 는 옛 메모리에 남아 그대로다. ' +
-          '슬라이싱한 배열을 넘겨받아 제자리 연산을 하면, 호출한 쪽의 원본이 조용히 바뀐다.'));
+          '<code>a += 1</code> 은 <b>a 의 메모리를 직접 고쳐요.</b> 그래서 그 메모리를 보고 있던 뷰 v 도 같이 바뀌어요. ' +
+          '<code>a = a + 1</code> 은 새 배열을 만들고 이름 a 만 그쪽으로 옮겨요 — v 는 옛 메모리에 남아 그대로예요. ' +
+          '슬라이싱한 배열을 넘겨받아 제자리 연산을 하면, 호출한 쪽의 원본이 조용히 바뀌어요.'));
 
-        root.appendChild(el('h3', { class: 'h-sub', text: '제자리 연산은 dtype 을 바꿔 주지 않는다' }));
+        root.appendChild(el('h3', { class: 'h-sub', text: '제자리 연산은 dtype 을 바꿔 주지 않아요' }));
         root.appendChild(el('div', { class: 'stack-2' }, [
           el('div', null, [
             UI.code('a = np.arange(6)    # int64\na += 0.5'),
             UI.errBlock("Cannot cast ufunc 'add' output from dtype('float64') to dtype('int64') with casting rule 'same_kind'", 'UFuncTypeError')
           ]),
           el('div', null, [
-            UI.code('a = np.arange(6)\na = a + 0.5         # 이건 된다'),
+            UI.code('a = np.arange(6)\na = a + 0.5         # 이건 돼요'),
             UI.out(ND.format(ND.ops.add(ND.arange(6), 0.5)) + '\ndtype: ' + ND.ops.add(ND.arange(6), 0.5).dtype, { label: false })
           ])
         ]));
         root.appendChild(UI.callout('why',
-          '제자리 연산은 <b>기존 메모리에 덮어쓰는 것</b>이므로 dtype 을 바꿀 수 없다. ' +
-          'int64 칸에 0.5 를 더한 float64 결과를 밀어 넣을 방법이 없으니 NumPy 는 조용히 버리는 대신 에러를 낸다. ' +
-          '반면 <code>a = a + 0.5</code> 는 새 배열을 만들 수 있으니 dtype 을 float64 로 승격한다.'));
+          '제자리 연산은 <b>기존 메모리에 덮어쓰는 것</b>이므로 dtype 을 바꿀 수 없어요. ' +
+          'int64 칸에 0.5 를 더한 float64 결과를 밀어 넣을 방법이 없으니 NumPy 는 조용히 버리는 대신 에러를 내요. ' +
+          '반면 <code>a = a + 0.5</code> 는 새 배열을 만들 수 있으니 dtype 을 float64 로 승격해요.'));
       })();
 
       /* ================================================ 7.2 행렬곱과 전치 */
 
       root.appendChild(el('h2', { class: 'h-sec', text: '7.2 행렬곱과 전치' }));
       root.appendChild(el('p', {
-        html: '행렬곱의 수학은 2장에서 익혔다. 여기서는 <b>NumPy 에서 어떻게 쓰는지</b>만 정리한다. ' +
-          '표기가 네 가지나 있지만 하는 일은 같다.'
+        html: '행렬곱의 수학은 2장에서 익혔어요. 여기서는 <b>NumPy 에서 어떻게 쓰는지</b>만 정리해요. ' +
+          '표기가 네 가지나 있지만 하는 일은 같아요.'
       }));
 
       (function () {
@@ -542,11 +542,11 @@
           '          ^         ^\n' +
           '          +---------+  <- 안쪽 두 수(n)가 같아야 한다\n' +
           '      ^                                 ^\n' +
-          '      +---------------------------------+  <- 바깥 두 수가 결과 shape 이 된다'));
+          '      +---------------------------------+  <- 바깥 두 수가 결과 shape 이 돼요'));
 
         root.appendChild(UI.callout('tip',
-          '규칙은 <b>(m, n) @ (n, p) → (m, p)</b> 하나다. 안쪽 n 이 맞지 않으면 계산할 방법이 없다 — ' +
-          '행의 원소 개수와 열의 원소 개수가 달라 짝을 지을 수 없기 때문이다.'));
+          '규칙은 <b>(m, n) @ (n, p) → (m, p)</b> 하나예요. 안쪽 n 이 맞지 않으면 계산할 방법이 없어요 — ' +
+          '행의 원소 개수와 열의 원소 개수가 달라 짝을 지을 수 없기 때문이에요.'));
 
         // 1차원이 섞이면
         root.appendChild(el('h3', { class: 'h-sub', text: '1차원이 섞이면' }));
@@ -556,13 +556,13 @@
         root.appendChild(UI.table(
           [{ k: 'e', label: '식' }, { k: 's', label: '결과 shape' }, { k: 'r', label: '값' }, { k: 'm', label: '무엇인가' }],
           [
-            { e: 'u @ v', s: ND.shapeStr(innerP.shape), r: ND.format(innerP), m: '내적 — 축이 모두 사라져 스칼라(0차원)가 된다' },
+            { e: 'u @ v', s: ND.shapeStr(innerP.shape), r: ND.format(innerP), m: '내적 — 축이 모두 사라져 스칼라(0차원)가 돼요' },
             { e: 'a @ u', s: ND.shapeStr(matVec.shape), r: ND.format(matVec), m: '행렬 × 벡터 — (2,3) @ (3,) → (2,)' }
           ]));
         root.appendChild(UI.code('u = np.array([1, 2, 3])\nv = np.array([4, 5, 6])\nu @ v          # ' + ND.format(innerP) + '\na @ u          # (2, 3) @ (3, )'));
 
         // 전치
-        root.appendChild(el('h3', { class: 'h-sub', text: '.T 는 뷰다' }));
+        root.appendChild(el('h3', { class: 'h-sub', text: '.T 는 뷰예요' }));
         root.appendChild(el('div', { class: 'flow' }, [
           panel('a', 'a  ' + ND.shapeStr(a.shape), [UI.grid(a, { highlight: function () { return 'a'; }, showIndex: true, cellSize: 40 })]),
           op('→'),
@@ -571,20 +571,20 @@
         root.appendChild(UI.code('a.transpose()\na.T            # 같은 것. 둘 다 뷰다\nnp.shares_memory(a, a.T)'));
         root.appendChild(UI.statRow([
           { k: 'a.strides', v: ND.shapeStr(a.strides), sub: '원소 단위' },
-          { k: 'a.T.strides', v: ND.shapeStr(a.T.strides), sub: '순서만 뒤집혔다' },
-          { k: 'shares_memory(a, a.T)', v: ND.sharesMemory(a, a.T) ? 'True' : 'False', sub: '값을 옮기지 않았다' }
+          { k: 'a.T.strides', v: ND.shapeStr(a.T.strides), sub: '순서만 뒤집혔어요' },
+          { k: 'shares_memory(a, a.T)', v: ND.sharesMemory(a, a.T) ? 'True' : 'False', sub: '값을 옮기지 않았어요' }
         ]));
         root.appendChild(UI.callout('why',
-          '전치는 값을 하나도 옮기지 않는다. <b>stride 의 순서만 뒤집어</b> 같은 메모리를 세로로 읽는 것이다. ' +
-          '그래서 <code>a.T</code> 는 크기와 무관하게 즉시 끝나고, <code>a.T</code> 를 고치면 <code>a</code> 도 바뀐다.'));
+          '전치는 값을 하나도 옮기지 않아요. <b>stride 의 순서만 뒤집어</b> 같은 메모리를 세로로 읽는 것이에요. ' +
+          '그래서 <code>a.T</code> 는 크기와 무관하게 즉시 끝나고, <code>a.T</code> 를 고치면 <code>a</code> 도 바뀌어요.'));
 
         // 1차원 .T 함정
         var w = ND.arange(3);
         var colR = w.reshape([-1, 1]);
         var colN = w.idx(':, None');
-        root.appendChild(el('h3', { class: 'h-sub', text: '함정 — 1차원의 .T 는 아무 일도 하지 않는다' }));
+        root.appendChild(el('h3', { class: 'h-sub', text: '함정 — 1차원의 .T 는 아무 일도 하지 않아요' }));
         root.appendChild(UI.code('w = np.arange(3)\nw.shape        # ' + ND.shapeStr(w.shape) +
-          '\nw.T.shape      # ' + ND.shapeStr(w.T.shape) + '  ← 그대로다!\n\n' +
+          '\nw.T.shape      # ' + ND.shapeStr(w.T.shape) + '  ← 그대로예요!\n\n' +
           'w.reshape(-1, 1).shape      # ' + ND.shapeStr(colR.shape) +
           '\nw[:, np.newaxis].shape      # ' + ND.shapeStr(colN.shape)));
         root.appendChild(el('div', { class: 'flow' }, [
@@ -594,24 +594,24 @@
           panel('r', 'w[:, None]  ' + ND.shapeStr(colN.shape), [UI.grid(colN, { highlight: function () { return 'r'; }, cellSize: 36 })])
         ]));
         root.appendChild(UI.callout('trap',
-          '1차원 배열에는 뒤집을 축이 하나뿐이라 <code>.T</code> 가 그대로 자기 자신을 돌려준다. ' +
-          '"행벡터를 열벡터로" 만들려면 <b>축을 하나 늘려야</b> 한다 — ' +
+          '1차원 배열에는 뒤집을 축이 하나뿐이라 <code>.T</code> 가 그대로 자기 자신을 돌려줘요. ' +
+          '"행벡터를 열벡터로" 만들려면 <b>축을 하나 늘려야</b> 해요 — ' +
           '<code>w.reshape(-1, 1)</code> 또는 <code>w[:, np.newaxis]</code>. ' +
-          '이 열벡터 만들기는 곧 브로드캐스팅에서 결정적으로 쓰인다.'));
+          '이 열벡터 만들기는 곧 브로드캐스팅에서 결정적으로 쓰여요.'));
 
         root.appendChild(UI.callout('tip',
-          '<code>a @ b</code> 는 파이썬 반복문이 아니라 <b>BLAS</b>(선형대수 전용 최적화 라이브러리)를 호출한다. ' +
-          'BLAS 는 캐시 크기에 맞춰 행렬을 블록으로 잘라 계산하고 CPU 의 SIMD 명령을 쓴다. ' +
-          '같은 계산을 파이썬 삼중 for 문으로 쓰면 원소 하나마다 인터프리터가 개입한다 — ' +
-          '실습 과제 1의 <code>%timeit</code> 으로 직접 재 보라.'));
+          '<code>a @ b</code> 는 파이썬 반복문이 아니라 <b>BLAS</b>(선형대수 전용 최적화 라이브러리)를 호출해요. ' +
+          'BLAS 는 캐시 크기에 맞춰 행렬을 블록으로 잘라 계산하고 CPU 의 SIMD 명령을 써요. ' +
+          '같은 계산을 파이썬 삼중 for 문으로 쓰면 원소 하나마다 인터프리터가 개입해요 — ' +
+          '실습 과제 1의 <code>%timeit</code> 으로 직접 재 보세요.'));
       })();
 
       /* ========================================== 7.3 브로드캐스팅 (핵심) */
 
       root.appendChild(el('h2', { class: 'h-sec', text: '7.3 브로드캐스팅 — 규칙 3단계' }));
       root.appendChild(el('p', {
-        html: '지금까지는 shape 가 같은 배열끼리만 계산했다. <b>shape 가 다르면?</b> ' +
-          'NumPy 는 작은 쪽을 정해진 규칙대로 늘려 맞춘다. 이것이 브로드캐스팅이다.'
+        html: '지금까지는 shape 가 같은 배열끼리만 계산했어요. <b>shape 가 다르면?</b> ' +
+          'NumPy 는 작은 쪽을 정해진 규칙대로 늘려 맞춰요. 이것이 브로드캐스팅이에요.'
       }));
 
       (function () {
@@ -623,12 +623,12 @@
       })();
 
       root.appendChild(UI.steps([
-        { state: 'done', html: '<b>1단계 · 차원 수 맞추기</b> — ndim 이 작은 쪽 shape 의 <b>앞(왼쪽)</b> 에 1 을 채워 길이를 맞춘다. ' +
-            '즉 <b>오른쪽 끝(마지막 축)부터 짝을 맞춘다.</b> <code>(3,)</code> 은 <code>(1,3)</code> 이 되고, <code>(3,1)</code> 은 되지 <b>않는다.</b>' },
-        { state: 'done', html: '<b>2단계 · 축별 호환 검사</b> — 각 축에서 두 크기가 <b>같거나</b>, <b>한쪽이 1</b> 이어야 한다. ' +
-            '그렇지 않은 축이 하나라도 있으면 연산 자체가 실패한다.' },
-        { state: 'done', html: '<b>3단계 · 늘리기</b> — 크기가 1 인 축을 상대 크기만큼 늘린다. ' +
-            '결과 shape 의 각 축은 두 크기 중 <b>큰 값</b>이다. 늘어난 칸은 <b>값을 복사한 것이 아니라 같은 값을 다시 읽는 것</b>이다.' }
+        { state: 'done', html: '<b>1단계 · 차원 수 맞추기</b> — ndim 이 작은 쪽 shape 의 <b>앞(왼쪽)</b> 에 1 을 채워 길이를 맞춰요. ' +
+            '즉 <b>오른쪽 끝(마지막 축)부터 짝을 맞춰요.</b> <code>(3,)</code> 은 <code>(1,3)</code> 이 되고, <code>(3,1)</code> 은 되지 <b>않아요.</b>' },
+        { state: 'done', html: '<b>2단계 · 축별 호환 검사</b> — 각 축에서 두 크기가 <b>같거나</b>, <b>한쪽이 1</b> 이어야 해요. ' +
+            '그렇지 않은 축이 하나라도 있으면 연산 자체가 실패해요.' },
+        { state: 'done', html: '<b>3단계 · 늘리기</b> — 크기가 1 인 축을 상대 크기만큼 늘려요. ' +
+            '결과 shape 의 각 축은 두 크기 중 <b>큰 값</b>이에요. 늘어난 칸은 <b>값을 복사한 것이 아니라 같은 값을 다시 읽는 것</b>이에요.' }
       ]));
 
       /* --------------------- 시뮬레이터 ②: 브로드캐스팅 3단계 시뮬레이터 --- */
@@ -690,7 +690,7 @@
         function rebuild() {
           UI.clear(host);
           if (state.sa === null || state.sb === null) {
-            host.appendChild(UI.errBlock('shape 은 양의 정수를 콤마로 구분해 쓴다. 축은 3개까지, 각 축은 400 까지. 예: 4,1', '입력 오류'));
+            host.appendChild(UI.errBlock('shape 은 양의 정수를 콤마로 구분해 써요. 축은 3개까지, 각 축은 400 까지. 예: 4,1', '입력 오류'));
             return;
           }
           var sa = state.sa, sb = state.sb;
@@ -702,14 +702,14 @@
             { state: 'done', html: '차원 수 맞추기 — <code>' + ND.shapeStr(sa) + '</code> 와 <code>' + ND.shapeStr(sb) +
                 '</code> → <code>' + ND.shapeStr(pa) + '</code> 와 <code>' + ND.shapeStr(pb) + '</code>' },
             { state: bc.ok ? 'done' : 'failed', html: '축별 호환 검사 — ' +
-                (bc.ok ? '모든 축이 같거나 한쪽이 1 이다.' : '<b>축 ' + bc.failAxis + ' 에서 실패.</b> ' + bc.reason) },
+                (bc.ok ? '모든 축이 같거나 한쪽이 1 이에요.' : '<b>축 ' + bc.failAxis + ' 에서 실패.</b> ' + bc.reason) },
             { state: bc.ok ? 'done' : 'failed', html: bc.ok
                 ? '늘리기 — 결과 shape 는 <code>' + ND.shapeStr(bc.shape) + '</code>'
-                : '늘리기 — 진행할 수 없다. 연산이 예외를 던진다.' }
+                : '늘리기 — 진행할 수 없어요. 연산이 예외를 던져요.' }
           ]));
 
           // ---- 1단계 시각화
-          host.appendChild(el('div', { class: 'panel-t', text: '1단계 · 오른쪽 끝부터 맞추고 앞을 1 로 채운다' }));
+          host.appendChild(el('div', { class: 'panel-t', text: '1단계 · 오른쪽 끝부터 맞추고 앞을 1 로 채워요' }));
           host.appendChild(UI.ascii(padAscii(sa, sb, pa, pb)));
 
           // ---- 2단계 시각화
@@ -723,8 +723,8 @@
             host.appendChild(UI.errBlock(bc.error + '\n  → ' + bc.reason));
             host.appendChild(UI.callout('trap',
               '축 <b>' + bc.failAxis + '</b> 에서 <b>' + pa[bc.failAxis] + '</b> 과 <b>' + pb[bc.failAxis] +
-              '</b> 이 만났다. 둘 다 1 이 아니고 서로 다르므로 늘릴 방법이 없다. ' +
-              '한쪽 shape 을 <code>reshape</code> 하거나 <code>keepdims=True</code> 로 축을 남겨 1 을 만들어야 한다.'));
+              '</b> 이 만났어요. 둘 다 1 이 아니고 서로 다르므로 늘릴 방법이 없어요. ' +
+              '한쪽 shape 을 <code>reshape</code> 하거나 <code>keepdims=True</code> 로 축을 남겨 1 을 만들어야 해요.'));
             return;
           }
 
@@ -733,7 +733,7 @@
           var A = makeA(sa), B = makeB(sb);
           var Ab = ND.broadcastTo(A, shape), Bb = ND.broadcastTo(B, shape);
 
-          host.appendChild(el('div', { class: 'panel-t', text: '3단계 · 크기 1 인 축을 늘린다 (점선 칸 = 가상 복제)' }));
+          host.appendChild(el('div', { class: 'panel-t', text: '3단계 · 크기 1 인 축을 늘려요 (점선 칸 = 가상 복제)' }));
 
           if (drawable(shape)) {
             host.appendChild(el('div', { class: 'flow' }, [
@@ -750,15 +750,15 @@
             host.appendChild(UI.legend([
               { color: 'var(--s1)', label: 'A 의 진짜 칸' },
               { color: 'var(--s2)', label: 'B 의 진짜 칸' },
-              { color: 'var(--surface-3)', label: '점선 = 늘어난 가상 칸 (메모리에 없다)' },
+              { color: 'var(--surface-3)', label: '점선 = 늘어난 가상 칸 (메모리에 없어요)' },
               { color: 'var(--s3)', label: '결과' }
             ]));
           } else {
             var R = ND.prod(shape) <= 4000 ? FN[state.op](A, B) : null;
             host.appendChild(UI.callout('tip',
-              '결과가 <b>' + ND.shapeStr(shape) + ' = ' + ND.prod(shape) + '칸</b> 이라 격자로 그리지 않는다. ' +
-              '규칙 검사와 stride 증거는 아래에서 그대로 확인할 수 있다.' +
-              (R ? ' 값은 실제로 계산했다: 결과의 [0,0] 칸 = ' + ND.fmtScalar(R.get(new Array(shape.length).fill(0)), R.dtype) + '.' : '')));
+              '결과가 <b>' + ND.shapeStr(shape) + ' = ' + ND.prod(shape) + '칸</b> 이라 격자로 그리지 않아요. ' +
+              '규칙 검사와 stride 증거는 아래에서 그대로 확인할 수 있어요.' +
+              (R ? ' 값은 실제로 계산했어요: 결과의 [0,0] 칸 = ' + ND.fmtScalar(R.get(new Array(shape.length).fill(0)), R.dtype) + '.' : '')));
           }
 
           // ---- stride 증거
@@ -768,15 +768,15 @@
             { k: "A' shape", v: ND.shapeStr(Ab.shape), sub: 'A 의 원래 shape ' + ND.shapeStr(A.shape) },
             { k: "A' strides", v: ND.shapeStr(Ab.strides), sub: '원소 단위 · 0 = 늘어난 축' },
             { k: "B' strides", v: ND.shapeStr(Bb.strides), sub: '원소 단위' },
-            { k: 'shares_memory(A, A′)', v: ND.sharesMemory(A, Ab) ? 'True' : 'False', sub: '복사하지 않았다' },
+            { k: 'shares_memory(A, A′)', v: ND.sharesMemory(A, Ab) ? 'True' : 'False', sub: '복사하지 않았어요' },
             { k: '실제 메모리', v: (A.size * A.itemsize) + ' B', sub: "A' 의 논리 크기는 " + (ND.prod(shape) * A.itemsize) + ' B' }
           ]));
           host.appendChild(mono("A'.strides = " + strideStr(Ab) + "     B'.strides = " + strideStr(Bb)));
           host.appendChild(UI.callout('why',
-            'stride 는 "다음 칸으로 가려면 메모리에서 몇 칸 건너뛰나" 다. ' +
-            '늘어난 축의 stride 가 <b>0</b> 이면 인덱스를 올려도 <b>같은 자리를 다시 읽는다.</b> ' +
-            '그래서 (60,1) 을 (60,40) 으로 늘려도 메모리는 1바이트도 늘지 않는다. ' +
-            '브로드캐스팅은 복제가 아니라 <b>읽는 방법을 바꾸는 것</b>이다.'));
+            'stride 는 "다음 칸으로 가려면 메모리에서 몇 칸 건너뛰나" 예요. ' +
+            '늘어난 축의 stride 가 <b>0</b> 이면 인덱스를 올려도 <b>같은 자리를 다시 읽어요.</b> ' +
+            '그래서 (60,1) 을 (60,40) 으로 늘려도 메모리는 1바이트도 늘지 않아요. ' +
+            '브로드캐스팅은 복제가 아니라 <b>읽는 방법을 바꾸는 것</b>이에요.'));
         }
         rebuild();
 
@@ -784,8 +784,8 @@
           kicker: '시뮬레이터',
           title: '브로드캐스팅 3단계 시뮬레이터',
           note: 'shape 두 개를 직접 입력해 보라(<code>4,1</code> 과 <code>3</code>). ' +
-            'B 를 빈 칸으로 두면 스칼라다. 아래 칩은 성공·실패 사례를 섞어 놓은 것이다 — ' +
-            '<b>실패 사례를 꼭 눌러 보라.</b> 어느 축에서 왜 실패하는지가 이 장의 절반이다.',
+            'B 를 빈 칸으로 두면 스칼라예요. 아래 칩은 성공·실패 사례를 섞어 놓은 것이에요 — ' +
+            '<b>실패 사례를 꼭 눌러 보세요.</b> 어느 축에서 왜 실패하는지가 이 장의 절반이에요.',
           body: [UI.controls([inA, inB, opSeg]), chipRow, host]
         }));
 
@@ -808,9 +808,9 @@
         root.appendChild(el('h3', { class: 'h-sub', text: '안 되는 조합' }));
         root.appendChild(UI.table(cols, noRows));
         root.appendChild(UI.callout('trap',
-          '실패의 대부분은 <b>1차원 배열이 어디에 붙는지</b>를 착각해서 생긴다. ' +
-          '<code>(3,)</code> 은 <b>맨 뒤 축</b>에 붙는다 — <code>(1,3)</code> 이지 <code>(3,1)</code> 이 아니다. ' +
-          '"행 방향으로 늘리고 싶다"면 스스로 <code>(3,1)</code> 을 만들어 줘야 한다.'));
+          '실패의 대부분은 <b>1차원 배열이 어디에 붙는지</b>를 착각해서 생겨요. ' +
+          '<code>(3,)</code> 은 <b>맨 뒤 축</b>에 붙어요 — <code>(1,3)</code> 이지 <code>(3,1)</code> 이 아니에요. ' +
+          '"행 방향으로 늘리고 싶어요"면 스스로 <code>(3,1)</code> 을 만들어 줘야 해요.'));
       })();
 
       /* ============================================ keepdims 는 왜 있는가 */
@@ -820,12 +820,12 @@
       var data = D && D.nd ? D.nd('inflammation') : null;
 
       if (!data) {
-        root.appendChild(UI.callout('tip', '관절염 데이터가 이 빌드에 임베드되지 않았다. 이 절의 실험은 데이터가 있어야 돌아간다.'));
+        root.appendChild(UI.callout('tip', '관절염 데이터가 이 빌드에 임베드되지 않았어요. 이 절의 실험은 데이터가 있어야 돌아가요.'));
       } else {
         root.appendChild(el('p', {
-          html: '관절염 데이터는 <b>' + ND.shapeStr(data.shape) + '</b>(환자 60명 × 40일)이다. ' +
-            '환자마다 염증 수치의 기준선이 다르므로, <b>각 환자의 평균을 빼서</b> 비교 가능하게 만들고 싶다. ' +
-            '여기서 브로드캐스팅을 모르면 반드시 막힌다.'
+          html: '관절염 데이터는 <b>' + ND.shapeStr(data.shape) + '</b>(환자 60명 × 40일)이에요. ' +
+            '환자마다 염증 수치의 기준선이 다르므로, <b>각 환자의 평균을 빼서</b> 비교 가능하게 만들고 싶어요. ' +
+            '여기서 브로드캐스팅을 모르면 반드시 막혀요.'
         }));
 
         (function () {
@@ -841,7 +841,7 @@
               'centered = data - m'));
             host.appendChild(UI.statRow([
               { k: 'data.shape', v: ND.shapeStr(data.shape), sub: '환자 × 날짜' },
-              { k: 'm.shape', v: ND.shapeStr(m.shape), sub: st.keep ? '축이 1 로 남았다' : '축이 사라졌다' }
+              { k: 'm.shape', v: ND.shapeStr(m.shape), sub: st.keep ? '축이 1 로 남았어요' : '축이 사라졌어요' }
             ]));
 
             var bc = ND.broadcastShapes(data.shape, m.shape);
@@ -853,16 +853,16 @@
             if (err) {
               host.appendChild(UI.errBlock(err.message));
               host.appendChild(UI.callout('trap',
-                '<code>data.mean(axis=1)</code> 의 shape 은 <b>' + ND.shapeStr(m.shape) + '</b> 이다. ' +
+                '<code>data.mean(axis=1)</code> 의 shape 은 <b>' + ND.shapeStr(m.shape) + '</b> 이에요. ' +
                 '1단계에서 앞에 1 이 채워져 <b>' + ND.shapeStr(bc.padded[1]) + '</b> 가 되므로, ' +
-                '축 1 에서 40 과 60 이 충돌한다. <b>keepdims=True 를 켜 보라.</b>'));
+                '축 1 에서 40 과 60 이 충돌해요. <b>keepdims=True 를 켜 보세요.</b>'));
               return;
             }
 
             var mean0 = ND.mean(c).toNested();
             host.appendChild(UI.statRow([
-              { k: '결과 shape', v: ND.shapeStr(c.shape), sub: '원본과 같다' },
-              { k: '결과 전체 평균', v: (Math.abs(mean0) < 1e-12 ? '0' : mean0.toFixed(6)), sub: '중심화되었다' },
+              { k: '결과 shape', v: ND.shapeStr(c.shape), sub: '원본과 같아요' },
+              { k: '결과 전체 평균', v: (Math.abs(mean0) < 1e-12 ? '0' : mean0.toFixed(6)), sub: '중심화되었어요' },
               { k: '최솟값', v: UI.round2(ND.min(c).toNested()), sub: '' },
               { k: '최댓값', v: UI.round2(ND.max(c).toNested()), sub: '' }
             ]));
@@ -877,18 +877,18 @@
             }));
             if (st.axis === 0 && !st.keep) {
               host.appendChild(UI.callout('why',
-                'axis=0 은 <b>keepdims 없이도 우연히 맞는다.</b> 줄어든 축이 앞쪽이라, ' +
-                '남은 <code>(40,)</code> 이 마지막 축에 붙어 <code>(1,40)</code> 이 되고 그게 마침 맞는 짝이기 때문이다. ' +
-                '이 "우연"에 기대면 axis 를 1 로 바꾸는 순간 코드가 깨진다. 그래서 <b>keepdims=True 를 습관으로</b> 하는 것이 안전하다.'));
+                'axis=0 은 <b>keepdims 없이도 우연히 맞아요.</b> 줄어든 축이 앞쪽이라, ' +
+                '남은 <code>(40,)</code> 이 마지막 축에 붙어 <code>(1,40)</code> 이 되고 그게 마침 맞는 짝이기 때문이에요. ' +
+                '이 "우연"에 기대면 axis 를 1 로 바꾸는 순간 코드가 깨져요. 그래서 <b>keepdims=True 를 습관으로</b> 하는 것이 안전해요.'));
             }
           }
           rebuild();
 
           root.appendChild(UI.card({
             kicker: '시뮬레이터',
-            title: 'keepdims 실험실 — 네 조합 중 하나만 실패한다',
-            note: 'axis 와 keepdims 를 바꿔 네 조합을 모두 눌러 보라. ' +
-              '<b>axis=1 · keepdims=False</b> 만 실패한다. 왜 그 하나만 실패하는지가 keepdims 의 존재 이유다.',
+            title: 'keepdims 실험실 — 네 조합 중 하나만 실패해요',
+            note: 'axis 와 keepdims 를 바꿔 네 조합을 모두 눌러 보세요. ' +
+              '<b>axis=1 · keepdims=False</b> 만 실패해요. 왜 그 하나만 실패하는지가 keepdims 의 존재 이유예요.',
             body: [
               UI.controls([
                 UI.seg({
@@ -919,23 +919,23 @@
             (function () {
               try {
                 ND.ops.sub(data, ND.mean(data, 1));
-                return UI.out('(에러가 나지 않았다)', { label: false });
+                return UI.out('(에러가 나지 않았어요)', { label: false });
               } catch (e) { return UI.errBlock(e.message); }
             })()
           ])
         ]));
         root.appendChild(UI.callout('tip',
-          '<code>keepdims=True</code> 는 <b>줄어든 축을 크기 1 로 남겨 둔다.</b> ' +
-          '크기 1 인 축은 브로드캐스팅에서 무엇으로든 늘어날 수 있으므로, 원본과 바로 계산이 된다. ' +
-          '축을 남기지 않고 나중에 <code>m.reshape(-1, 1)</code> 이나 <code>m[:, None]</code> 로 되살려도 결과는 같다.'));
+          '<code>keepdims=True</code> 는 <b>줄어든 축을 크기 1 로 남겨 둬요.</b> ' +
+          '크기 1 인 축은 브로드캐스팅에서 무엇으로든 늘어날 수 있으므로, 원본과 바로 계산이 돼요. ' +
+          '축을 남기지 않고 나중에 <code>m.reshape(-1, 1)</code> 이나 <code>m[:, None]</code> 로 되살려도 결과는 같아요.'));
       }
 
       /* ======================================== 스칼라 연산과 구구단 표 */
 
       root.appendChild(el('h2', { class: 'h-sec', text: '스칼라 연산과 구구단 표' }));
       root.appendChild(el('p', {
-        html: '<code>a + 3</code> 도 브로드캐스팅이다. 스칼라의 shape 은 <code>()</code> 이므로 ' +
-          '1단계에서 <code>(1, 1)</code> 이 되고, 3단계에서 모든 칸으로 늘어난다.'
+        html: '<code>a + 3</code> 도 브로드캐스팅이에요. 스칼라의 shape 은 <code>()</code> 이므로 ' +
+          '1단계에서 <code>(1, 1)</code> 이 되고, 3단계에서 모든 칸으로 늘어나요.'
       }));
 
       (function () {
@@ -962,7 +962,7 @@
         function rebuild() {
           UI.clear(host);
           var row = ND.arange(1, 10);
-          var line = mono('칸에 마우스를 올리면 어느 두 수의 곱인지 보여 준다.');
+          var line = mono('칸에 마우스를 올리면 어느 두 수의 곱인지 보여 줘요.');
           if (st.newaxis) {
             var col = row.idx(':, None');                 // (9, 1)
             var r = ND.ops.mul(col, row);                 // (9, 1) × (9,) → (9, 9)
@@ -984,7 +984,7 @@
                 onHover: function (idx, val) {
                   line.textContent = idx
                     ? ((idx[0] + 1) + ' × ' + (idx[1] + 1) + ' = ' + val + '   ← 결과[' + idx.join(', ') + ']')
-                    : '칸에 마우스를 올리면 어느 두 수의 곱인지 보여 준다.';
+                    : '칸에 마우스를 올리면 어느 두 수의 곱인지 보여 줘요.';
                 }
               })
             ]));
@@ -1000,18 +1000,18 @@
             host.appendChild(UI.grid(r2, { highlight: function () { return 'x'; }, cellSize: 34 }));
             host.appendChild(UI.out(ND.format(r2)));
             host.appendChild(UI.callout('trap',
-              '축을 늘리지 않으면 두 배열의 shape 이 <b>똑같이 (9,)</b> 라서 그냥 원소별 곱이 된다 — ' +
-              '1×1, 2×2, … 9×9 만 남는 제곱수 목록이다. ' +
-              '표를 만들려면 한쪽을 <b>열벡터로 세워</b> 축을 어긋나게 놓아야 한다.'));
+              '축을 늘리지 않으면 두 배열의 shape 이 <b>똑같이 (9,)</b> 라서 그냥 원소별 곱이 돼요 — ' +
+              '1×1, 2×2, … 9×9 만 남는 제곱수 목록이에요. ' +
+              '표를 만들려면 한쪽을 <b>열벡터로 세워</b> 축을 어긋나게 놓아야 해요.'));
           }
         }
         rebuild();
 
         root.appendChild(UI.card({
           kicker: '시뮬레이터',
-          title: '구구단 표 — 축 하나를 세우면 표가 된다',
-          note: '<code>np.newaxis</code> 를 켜고 끄며 비교해 보라. ' +
-            '한쪽을 <code>(9, 1)</code> 로 세우면 축 0 과 축 1 이 어긋나 서로 늘어나면서 <b>모든 조합</b>이 만들어진다.',
+          title: '구구단 표 — 축 하나를 세우면 표가 돼요',
+          note: '<code>np.newaxis</code> 를 켜고 끄며 비교해 보세요. ' +
+            '한쪽을 <code>(9, 1)</code> 로 세우면 축 0 과 축 1 이 어긋나 서로 늘어나면서 <b>모든 조합</b>이 만들어져요.',
           body: [
             UI.controls([UI.seg({
               label: 'np.newaxis', value: 'on',
@@ -1033,7 +1033,7 @@
         root.appendChild(UI.code(
           'np.broadcast_shapes((4, 1), (3,))   # 계산해 보기 전에 결과 shape 만 물어볼 수 있다\n' +
           'b = np.arange(3)\n' +
-          'x = np.broadcast_to(b, (4, 3))      # 늘린 뷰를 직접 만든다\n' +
+          'x = np.broadcast_to(b, (4, 3))      # 늘린 뷰를 직접 만들어요\n' +
           'x.strides\n' +
           'np.shares_memory(b, x)\n' +
           'x.flags.writeable'));
@@ -1044,14 +1044,14 @@
           (ND.sharesMemory(b, bt) ? 'True' : 'False') + '\n' +
           'False'));
         root.appendChild(UI.callout('tip',
-          '이 엔진의 <code>strides</code> 는 보기 쉽게 <b>원소 단위</b>로 보여 준다. ' +
-          '실제 NumPy 의 <code>.strides</code> 는 <b>바이트 단위</b>다 — int64 배열이면 원소 단위 값에 8 을 곱하면 된다. ' +
+          '이 엔진의 <code>strides</code> 는 보기 쉽게 <b>원소 단위</b>로 보여 줘요. ' +
+          '실제 NumPy 의 <code>.strides</code> 는 <b>바이트 단위</b>다 — int64 배열이면 원소 단위 값에 8 을 곱하면 돼요. ' +
           '위 <code>' + ND.shapeStr(bt.strides) + '</code> 는 NumPy 에서 ' +
-          '<code>' + ND.shapeStr(bt.strides.map(function (s) { return s * bt.itemsize; })) + '</code> 로 보인다.'));
+          '<code>' + ND.shapeStr(bt.strides.map(function (s) { return s * bt.itemsize; })) + '</code> 로 보여요.'));
         root.appendChild(UI.callout('why',
-          '<code>np.broadcast_to</code> 로 만든 배열은 <b>읽기 전용</b>(<code>writeable=False</code>)이다. ' +
-          'stride 0 인 축에 값을 쓰면 한 번의 대입이 여러 칸을 동시에 바꿔 버려 결과가 예측 불가해지기 때문이다. ' +
-          '늘린 배열을 고쳐야 한다면 <code>.copy()</code> 로 진짜 배열을 만들어야 한다.'));
+          '<code>np.broadcast_to</code> 로 만든 배열은 <b>읽기 전용</b>(<code>writeable=False</code>)이에요. ' +
+          'stride 0 인 축에 값을 쓰면 한 번의 대입이 여러 칸을 동시에 바꿔 버려 결과가 예측 불가해지기 때문이에요. ' +
+          '늘린 배열을 고쳐야 한다면 <code>.copy()</code> 로 진짜 배열을 만들어야 해요.'));
       })();
 
       /* ============================================================ 퀴즈 */
@@ -1065,22 +1065,22 @@
 
       root.appendChild(UI.quiz([
         {
-          q: '<code>data.shape</code> 는 (60, 40) 이고 <code>data.mean(axis=1).shape</code> 는 (60,) 이다. ' +
-             '<code>data - data.mean(axis=1)</code> 은 왜 실패하는가?',
+          q: '<code>data.shape</code> 는 (60, 40) 이고 <code>data.mean(axis=1).shape</code> 는 (60,) 이에요. ' +
+             '<code>data - data.mean(axis=1)</code> 은 왜 실패하나요?',
           choices: [
-            '(60,) 이 오른쪽 끝부터 맞춰져 <b>(1, 60)</b> 이 되고, 축 1 에서 40 과 60 이 충돌한다',
-            '(60,) 이 <b>(60, 1)</b> 로 맞춰지지만 축 0 에서 60 과 60 이 겹쳐 충돌한다',
-            '평균은 float64 이고 원본은 정수라서 dtype 이 충돌한다',
-            '브로드캐스팅은 2차원과 1차원 사이에서는 동작하지 않는다'
+            '(60,) 이 오른쪽 끝부터 맞춰져 <b>(1, 60)</b> 이 되고, 축 1 에서 40 과 60 이 충돌해요',
+            '(60,) 이 <b>(60, 1)</b> 로 맞춰지지만 축 0 에서 60 과 60 이 겹쳐 충돌해요',
+            '평균은 float64 이고 원본은 정수라서 dtype 이 충돌해요',
+            '브로드캐스팅은 2차원과 1차원 사이에서는 동작하지 않아요'
           ],
           answer: 0,
-          explain: '규칙 1단계는 <b>앞(왼쪽)</b> 에 1 을 채운다. 그래서 (60,) → (1, 60) 이고 마지막 축에서 40 vs 60 이 되어 실패한다. ' +
-            '<code>keepdims=True</code> 로 (60, 1) 을 만들면 축 1 이 1 이므로 40 으로 늘어나 성공한다. ' +
-            'dtype 은 관계가 없고, 브로드캐스팅은 차원 수가 달라도 잘 동작한다.'
+          explain: '규칙 1단계는 <b>앞(왼쪽)</b> 에 1 을 채워요. 그래서 (60,) → (1, 60) 이고 마지막 축에서 40 vs 60 이 되어 실패해요. ' +
+            '<code>keepdims=True</code> 로 (60, 1) 을 만들면 축 1 이 1 이므로 40 으로 늘어나 성공해요. ' +
+            'dtype 은 관계가 없고, 브로드캐스팅은 차원 수가 달라도 잘 동작해요.'
         },
         {
           q: '<code>a = np.array([[1, 2], [3, 4]])</code>, <code>b = np.array([[5, 6], [7, 8]])</code> 일 때 ' +
-             '<code>(a * b)[0, 0]</code> 과 <code>(a @ b)[0, 0]</code> 은 각각 얼마인가?',
+             '<code>(a * b)[0, 0]</code> 과 <code>(a @ b)[0, 0]</code> 은 각각 얼마인가요?',
           choices: [
             qEq + ' 과 ' + qMm,
             qMm + ' 과 ' + qEq,
@@ -1088,38 +1088,38 @@
             qMm + ' 과 ' + qMm
           ],
           answer: 0,
-          explain: '<code>*</code> 는 같은 자리끼리 곱한다: 1 × 5 = ' + qEq + '. ' +
-            '<code>@</code> 는 a 의 0행과 b 의 0열을 짝지어 더한다: 1×5 + 2×7 = ' + qMm + '. ' +
-            'shape 는 둘 다 (2, 2) 로 같아서 <b>모양만 보면 구분할 수 없다</b> — 연산자를 봐야 한다.'
+          explain: '<code>*</code> 는 같은 자리끼리 곱해요: 1 × 5 = ' + qEq + '. ' +
+            '<code>@</code> 는 a 의 0행과 b 의 0열을 짝지어 더해요: 1×5 + 2×7 = ' + qMm + '. ' +
+            'shape 는 둘 다 (2, 2) 로 같아서 <b>모양만 보면 구분할 수 없어요</b> — 연산자를 봐야 해요.'
         },
         {
-          q: '<code>b = np.arange(3)</code> 에 대해 <code>x = np.broadcast_to(b, (4, 3))</code> 을 실행했다. 맞는 설명은?',
+          q: '<code>b = np.arange(3)</code> 에 대해 <code>x = np.broadcast_to(b, (4, 3))</code> 을 실행했어요. 맞는 설명은?',
           choices: [
-            '12개 값을 새 메모리에 복사한 (4, 3) 배열이 만들어진다',
-            '축 0 의 stride 가 <b>0</b> 인 뷰가 만들어지고, x 는 b 와 메모리를 공유한다',
-            'b 자체의 shape 이 (4, 3) 으로 바뀐다',
-            '(4, 3) 은 (3,) 보다 크므로 ValueError 가 난다'
+            '12개 값을 새 메모리에 복사한 (4, 3) 배열이 만들어져요',
+            '축 0 의 stride 가 <b>0</b> 인 뷰가 만들어지고, x 는 b 와 메모리를 공유해요',
+            'b 자체의 shape 이 (4, 3) 으로 바뀌어요',
+            '(4, 3) 은 (3,) 보다 크므로 ValueError 가 나요'
           ],
           answer: 1,
           explain: 'x.strides 는 원소 단위로 <code>' + ND.shapeStr(qBt.strides) + '</code> (NumPy 표기로는 ' +
-            '<code>' + ND.shapeStr(qBt.strides.map(function (s) { return s * qBt.itemsize; })) + '</code> 바이트)다. ' +
-            'stride 0 은 "인덱스를 올려도 같은 자리를 다시 읽는다"는 뜻이므로 복사가 필요 없다. ' +
+            '<code>' + ND.shapeStr(qBt.strides.map(function (s) { return s * qBt.itemsize; })) + '</code> 바이트)예요. ' +
+            'stride 0 은 "인덱스를 올려도 같은 자리를 다시 읽어요"는 뜻이므로 복사가 필요 없어요. ' +
             '<code>np.shares_memory(b, x)</code> 는 ' + (ND.sharesMemory(ND.arange(3), qBt) ? 'True' : 'True') +
-            ' 이고, b 는 아무것도 바뀌지 않는다. 뷰를 사본으로 착각하는 것이 가장 흔한 실수다.'
+            ' 이고, b 는 아무것도 바뀌지 않아요. 뷰를 사본으로 착각하는 것이 가장 흔한 실수예요.'
         },
         {
-          q: '<code>a = np.arange(6)</code> 다음 <code>v = a[:3]</code> 을 만들고 <code>a += 1</code> 을 실행했다. ' +
+          q: '<code>a = np.arange(6)</code> 다음 <code>v = a[:3]</code> 을 만들고 <code>a += 1</code> 을 실행했어요. ' +
              '<code>v</code> 를 출력하면?',
           choices: [
-            '[0 1 2] — v 는 사본이므로 영향을 받지 않는다',
-            '[1 2 3] — <code>+=</code> 는 a 의 메모리를 직접 고치고, v 는 그 메모리를 보는 뷰다',
-            '[1 2 3 4 5 6] — v 도 a 와 같은 크기가 된다',
-            'a 가 새 배열이 되었으므로 v 는 무효가 되어 에러가 난다'
+            '[0 1 2] — v 는 사본이므로 영향을 받지 않아요',
+            '[1 2 3] — <code>+=</code> 는 a 의 메모리를 직접 고치고, v 는 그 메모리를 보는 뷰예요',
+            '[1 2 3 4 5 6] — v 도 a 와 같은 크기가 돼요',
+            'a 가 새 배열이 되었으므로 v 는 무효가 되어 에러가 나요'
           ],
           answer: 1,
-          explain: '슬라이싱은 <b>뷰</b>를 만든다(4장). <code>a += 1</code> 은 제자리 연산이라 원본 메모리를 고치므로 v 도 함께 바뀐다. ' +
-            '만약 <code>a = a + 1</code> 이었다면 새 배열이 만들어지고 이름 a 만 옮겨가므로 v 는 [0 1 2] 그대로다. ' +
-            '이 차이 때문에 함수에 슬라이스를 넘길 때는 제자리 연산을 조심해야 한다.'
+          explain: '슬라이싱은 <b>뷰</b>를 만들어요(4장). <code>a += 1</code> 은 제자리 연산이라 원본 메모리를 고치므로 v 도 함께 바뀌어요. ' +
+            '만약 <code>a = a + 1</code> 이었다면 새 배열이 만들어지고 이름 a 만 옮겨가므로 v 는 [0 1 2] 그대로예요. ' +
+            '이 차이 때문에 함수에 슬라이스를 넘길 때는 제자리 연산을 조심해야 해요.'
         }
       ], { id: 'broadcast' }));
     }

@@ -29,7 +29,7 @@
   PGErr.prototype = Object.create(Error.prototype);
 
   function unsupported(desc) {
-    var e = new PGErr('지원하지 않는 문법이다: ' + desc);
+    var e = new PGErr('지원하지 않는 문법이에요: ' + desc);
     e.unsupported = true;
     throw e;
   }
@@ -106,7 +106,7 @@
           if (line[jj] === '\\' && jj + 1 < n) { buf += line[jj + 1]; jj += 2; }
           else { buf += line[jj]; jj++; }
         }
-        if (jj >= n) unsupported('문자열이 닫히지 않았다: ' + line.slice(i));
+        if (jj >= n) unsupported('문자열이 닫히지 않았어요: ' + line.slice(i));
         jj++;
         toks.push({ type: 'STR', value: buf, start: i, end: jj });
         i = jj; continue;
@@ -121,7 +121,7 @@
       if (TWO_CHAR_OPS.indexOf(two) !== -1) { toks.push({ type: two, value: two, start: i, end: i + 2 }); i += 2; continue; }
       if ('()[],.:'.indexOf(c) !== -1) { toks.push({ type: c, value: c, start: i, end: i + 1 }); i++; continue; }
       if ('+-*/%@><&|^~='.indexOf(c) !== -1) { toks.push({ type: c, value: c, start: i, end: i + 1 }); i++; continue; }
-      unsupported("알 수 없는 문자다: '" + c + "'");
+      unsupported("알 수 없는 문자예요: '" + c + "'");
     }
     toks.push({ type: 'EOF', value: null, start: n, end: n });
     return toks;
@@ -165,11 +165,11 @@
   Parser.prototype.at = function (ty) { var p = this.peek(); return !!p && p.type === ty; };
   Parser.prototype.next = function () { return this.t[this.i++]; };
   Parser.prototype.expect = function (ty) {
-    if (!this.at(ty)) unsupported('"' + ty + '" 이(가) 필요한 자리에 다른 것이 왔다.');
+    if (!this.at(ty)) unsupported('"' + ty + '" 이(가) 필요한 자리에 다른 것이 왔어요.');
     return this.next();
   };
   Parser.prototype.expectEOF = function () {
-    if (!this.at('EOF')) unsupported('여기서부터 해석할 수 없다: "' + this.line.slice(this.peek().start) + '"');
+    if (!this.at('EOF')) unsupported('여기서부터 해석할 수 없어요: "' + this.line.slice(this.peek().start) + '"');
   };
 
   Parser.prototype.parseArgs = function () {
@@ -233,7 +233,7 @@
       this.expect(']');
       return { type: 'list', elements: els };
     }
-    unsupported('여기서 이해할 수 없는 표현이 나왔다: "' + (t.value !== null && t.value !== undefined ? t.value : t.type) + '"');
+    unsupported('여기서 이해할 수 없는 표현이 나왔어요: "' + (t.value !== null && t.value !== undefined ? t.value : t.type) + '"');
   };
 
   Parser.prototype.parsePostfix = function () {
@@ -256,7 +256,7 @@
           if (depth > 0) j++;
         }
         if (depth !== 0 || !this.t[j] || this.t[j].type !== ']') {
-          unsupported('대괄호가 맞지 않는다: [ 를 닫는 ] 를 찾지 못했다.');
+          unsupported('대괄호가 맞지 않아요: [ 를 닫는 ] 를 찾지 못했어요.');
         }
         var rb = this.t[j];
         var raw = this.line.slice(lb.end, rb.start);
@@ -358,7 +358,7 @@
     if (typeof v === 'number') return v;
     if (typeof v === 'boolean') return v ? 1 : 0;
     if (v instanceof ND.ND && v.ndim === 0) return v.toNested();
-    unsupported('숫자가 필요한 자리에 숫자가 아닌 값이 왔다');
+    unsupported('숫자가 필요한 자리에 숫자가 아닌 값이 왔어요');
   }
   function toIntStrict(v) { return Math.trunc(toNum(v)); }
   function toBool(v) {
@@ -370,7 +370,7 @@
   }
   function toStr(v) {
     if (typeof v === 'string') return v;
-    unsupported('문자열이 필요한 자리에 문자열이 아닌 값이 왔다');
+    unsupported('문자열이 필요한 자리에 문자열이 아닌 값이 왔어요');
   }
   function toNestedJS(v) {
     if (isListOrTuple(v)) return v.items.map(toNestedJS);
@@ -378,21 +378,21 @@
     if (typeof v === 'boolean') return v;
     if (typeof v === 'number') return v;
     if (v instanceof ND.ND) return v.toNested();
-    unsupported('리스트 리터럴 안에 배열로 바꿀 수 없는 값이 있다');
+    unsupported('리스트 리터럴 안에 배열로 바꿀 수 없는 값이 있어요');
   }
   function asNDArg(v) {
     if (v instanceof ND.ND) return v;
     if (isFloatVal(v)) return ND.asND(v.value);
     if (typeof v === 'number' || typeof v === 'boolean') return ND.asND(v);
     if (isListOrTuple(v)) return ND.array(toNestedJS(v));
-    unsupported('배열이 필요한 자리에 배열이 아닌 값이 왔다');
+    unsupported('배열이 필요한 자리에 배열이 아닌 값이 왔어요');
   }
   function unwrapForND(v) {
     if (isFloatVal(v)) return v.value;
     if (typeof v === 'boolean' || typeof v === 'number') return v;
     if (isListOrTuple(v)) return ND.array(toNestedJS(v));
     if (v instanceof ND.ND) return v;
-    unsupported('배열 연산에 쓸 수 없는 값이다');
+    unsupported('배열 연산에 쓸 수 없는 값이에요');
   }
   function toShapeFromArgs(args) {
     if (args.length === 1 && isListOrTuple(args[0])) return args[0].items.map(toIntStrict);
@@ -409,7 +409,7 @@
   }
   function toArrList(v) {
     if (isListOrTuple(v)) return v.items.map(asNDArg);
-    unsupported('배열의 리스트나 튜플이 필요하다');
+    unsupported('배열의 리스트나 튜플이 필요해요');
   }
   function callReduce(op, self, restArgs, kw) {
     kw = kw || {};
@@ -500,7 +500,7 @@
       if (typeof val === 'number') return ~val;
       if (typeof val === 'boolean') return ~(val ? 1 : 0);
     }
-    unsupported('단항 연산자 ' + op + ' 를 이 값에는 쓸 수 없다');
+    unsupported('단항 연산자 ' + op + ' 를 이 값에는 쓸 수 없어요');
   }
 
   /* =======================================================================
@@ -510,9 +510,9 @@
 
   function evalIndexNode(node, env) {
     var obj = evalNode(node.obj, env);
-    if (!(obj instanceof ND.ND)) unsupported('배열이 아닌 값은 인덱싱할 수 없다');
+    if (!(obj instanceof ND.ND)) unsupported('배열이 아닌 값은 인덱싱할 수 없어요');
     var trimmed = node.raw.trim();
-    if (trimmed === '') unsupported('빈 인덱스는 쓸 수 없다');
+    if (trimmed === '') unsupported('빈 인덱스는 쓸 수 없어요');
     var hasComma = topLevelHasComma(trimmed);
     try {
       var spec = ND.parseIndex(trimmed);
@@ -843,15 +843,15 @@
       if (name === 'pi') return mkFloat(Math.PI);
       if (name === 'e') return mkFloat(Math.E);
       if (Object.prototype.hasOwnProperty.call(NP_FUNCS, name)) return makeCallable(NP_FUNCS[name], 'np.' + name);
-      unsupported('np.' + name + ' 은(는) 지원하지 않는다');
+      unsupported('np.' + name + ' 은(는) 지원하지 않아요');
     }
     if (obj && obj.__ns === 'np.linalg') {
       if (Object.prototype.hasOwnProperty.call(NP_LINALG_FUNCS, name)) return makeCallable(NP_LINALG_FUNCS[name], 'np.linalg.' + name);
-      unsupported('np.linalg.' + name + ' 은(는) 지원하지 않는다');
+      unsupported('np.linalg.' + name + ' 은(는) 지원하지 않아요');
     }
     if (obj && obj.__ns === 'np.random') {
       if (Object.prototype.hasOwnProperty.call(NP_RANDOM_FUNCS, name)) return makeCallable(NP_RANDOM_FUNCS[name], 'np.random.' + name);
-      unsupported('np.random.' + name + ' 은(는) 지원하지 않는다');
+      unsupported('np.random.' + name + ' 은(는) 지원하지 않아요');
     }
     if (obj instanceof ND.ND) {
       if (name === 'shape') return PyTuple(obj.shape);
@@ -866,9 +866,9 @@
       if (Object.prototype.hasOwnProperty.call(ND_METHODS, name)) {
         return makeCallable(function (pos, kw) { return ND_METHODS[name](obj, pos, kw); }, name);
       }
-      unsupported('배열의 .' + name + ' 은(는) 지원하지 않는다');
+      unsupported('배열의 .' + name + ' 은(는) 지원하지 않아요');
     }
-    unsupported('.' + name + ' 을(를) 쓸 수 있는 값이 아니다');
+    unsupported('.' + name + ' 을(를) 쓸 수 있는 값이 아니에요');
   }
 
   /* =======================================================================
@@ -896,7 +896,7 @@
         var kwVals = {};
         for (var k in node.kwargs) kwVals[k] = evalNode(node.kwargs[k], env);
         if (callee && typeof callee.__call === 'function') return callee.__call(argVals, kwVals);
-        unsupported('호출할 수 없는 값이다');
+        unsupported('호출할 수 없는 값이에요');
         return;
       }
       case 'index': return evalIndexNode(node, env);
@@ -969,7 +969,7 @@
     'broadcast_to cumsum clip sort argsort unique, np.linalg.{norm,solve,inv,det}, np.random.{seed,rand,randint,uniform,normal}, ' +
     'np.nan np.inf np.pi np.e<br>' +
     '<b>연산자</b>: <code>+ - * / // % ** @ &gt; &gt;= &lt; &lt;= == != &amp; | ^</code> 그리고 단항 <code>- ~</code><br>' +
-    '<b>대입</b>: <code>c = a + b</code> 한 줄 (이후 c 를 계속 쓸 수 있다)';
+    '<b>대입</b>: <code>c = a + b</code> 한 줄 (이후 c 를 계속 쓸 수 있어요)';
 
   function buildResultDom(res) {
     var box = el('div');
@@ -1081,10 +1081,10 @@
 
     root.appendChild(el('p', {
       class: 'lede', html:
-        '이 장은 <b>직접 코드를 써서 돌려 보는</b> 실습실이다. 탭 1 은 브라우저 안 미니 엔진 위에서 도는 ' +
-        '제한된 파이썬 표현식 평가기 — 인터넷 없이 항상 동작한다. 탭 2 는 버튼을 눌렀을 때만 CDN 에서 ' +
-        '<b>Pyodide</b> 를 불러와 진짜 NumPy 를 돌린다. 두 결과를 맞대어 보면서 이 앱이 근사한 부분과 ' +
-        '진짜 NumPy 가 어떻게 다른지 확인해 보자.'
+        '이 장은 <b>직접 코드를 써서 돌려 보는</b> 실습실이에요. 탭 1 은 브라우저 안 미니 엔진 위에서 도는 ' +
+        '제한된 파이썬 표현식 평가기 — 인터넷 없이 항상 동작해요. 탭 2 는 버튼을 눌렀을 때만 CDN 에서 ' +
+        '<b>Pyodide</b> 를 불러와 진짜 NumPy 를 돌려요. 두 결과를 맞대어 보면서 이 앱이 근사한 부분과 ' +
+        '진짜 NumPy 가 어떻게 다른지 확인해 봐요.'
     }));
 
     /* ---------------------------------------------------------- 11.1 */
@@ -1092,14 +1092,14 @@
     root.appendChild(el('h2', { class: 'h-sec', text: '11.1 미니 엔진 표현식 평가기' }));
     root.appendChild(el('p', {
       html:
-        '아래 이름들이 미리 정의되어 있다. 표의 shape·dtype 은 하드코딩이 아니라 지금 이 배열들을 ' +
-        '실제로 만들어서 <code>ND</code> 엔진으로 읽은 값이다.'
+        '아래 이름들이 미리 정의되어 있어요. 표의 shape·dtype 은 하드코딩이 아니라 지금 이 배열들을 ' +
+        '실제로 만들어서 <code>ND</code> 엔진으로 읽은 값이에요.'
     }));
 
     if (!hasRealData) {
       root.appendChild(UI.callout('ver',
-        '관절염 데이터(<code>data.js</code>)를 아직 불러오지 못했다 — <code>node webapp/build.js</code> 를 ' +
-        '실행하지 않았을 때만 벌어진다. 지금은 대신 0~2399 를 60×40 으로 채운 배열을 <code>data</code> 로 쓴다.'));
+        '관절염 데이터(<code>data.js</code>)를 아직 불러오지 못했어요 — <code>node webapp/build.js</code> 를 ' +
+        '실행하지 않았을 때만 벌어져요. 지금은 대신 0~2399 를 60×40 으로 채운 배열을 <code>data</code> 로 써요.'));
     }
 
     var defRows = [
@@ -1120,28 +1120,28 @@
     ));
 
     root.appendChild(UI.callout('ver',
-      '이 평가기는 미니 엔진 위에서 돌기 때문에 <b>실제 NumPy 와 다르게 나오는 것이 몇 가지</b> 있다. ' +
-      '아래 결과를 진짜 NumPy 값으로 그대로 외우지 마라.' +
+      '이 평가기는 미니 엔진 위에서 돌기 때문에 <b>실제 NumPy 와 다르게 나오는 것이 몇 가지</b> 있어요. ' +
+      '아래 결과를 진짜 NumPy 값으로 그대로 외우지 마세요.' +
       '<ul style="margin:.4rem 0 0 1.1rem;padding:0">' +
-      '<li><code>.strides</code> — 이 엔진은 보기 쉽게 <b>원소 단위</b>로 보여 준다. ' +
-      '실제 NumPy 는 <b>바이트 단위</b>이고, <code>바이트 보폭 = 원소 보폭 × itemsize</code> 다. ' +
-      'itemsize 는 dtype 에 따라 달라지므로 같은 코드라도 환경에 따라 숫자가 다르게 나온다. ' +
-      '<code>a.T.strides</code> 를 예로 들면 세 값이 모두 같은 것을 뜻한다:' +
+      '<li><code>.strides</code> — 이 엔진은 보기 쉽게 <b>원소 단위</b>로 보여 줘요. ' +
+      '실제 NumPy 는 <b>바이트 단위</b>이고, <code>바이트 보폭 = 원소 보폭 × itemsize</code> 예요. ' +
+      'itemsize 는 dtype 에 따라 달라지므로 같은 코드라도 환경에 따라 숫자가 다르게 나와요. ' +
+      '<code>a.T.strides</code> 를 예로 들면 세 값이 모두 같은 것을 뜻해요:' +
       '<br>· 이 실습실(원소 단위) → <code>(1, 4)</code>' +
       '<br>· 아래 탭 2 의 Pyodide → <code>(4, 16)</code> ' +
       '<span class="muted">(WASM 은 32비트라 기본 정수가 int32, itemsize 4)</span>' +
       '<br>· 보통의 64비트 데스크톱 NumPy → <code>(8, 32)</code> ' +
       '<span class="muted">(기본 정수가 int64, itemsize 8)</span>' +
-      '<br>보폭의 <i>비율</i>과 “0 이면 늘어난 축”이라는 뜻은 세 경우 모두 똑같다. ' +
-      '외울 것은 숫자가 아니라 이 구조다.</li>' +
+      '<br>보폭의 <i>비율</i>과 “0 이면 늘어난 축”이라는 뜻은 세 경우 모두 똑같아요. ' +
+      '외울 것은 숫자가 아니라 이 구조예요.</li>' +
       '<li><code>dtype</code> — 이 엔진과 64비트 데스크톱 NumPy 는 정수 기본형이 <code>int64</code> 지만, ' +
-      '탭 2 의 Pyodide 는 <code>int32</code> 다. <code>a.dtype</code> 을 양쪽에서 돌려 직접 확인해 보라.</li>' +
-      '<li><code>np.random.*</code> — 난수 알고리즘이 달라 <code>seed</code> 를 줘도 NumPy 와 같은 수열이 나오지 않는다.</li>' +
-      '<li><code>np.empty</code> — 초기화하지 않은 메모리를 흉내 낸 것이라 값이 실제와 다르다(원래 예측 불가한 것이 요점이다).</li>' +
-      '<li>아주 큰 정수와 실수의 마지막 자리 — JS 수 표현의 한계로 어긋날 수 있다.</li>' +
-      '<li>리스트끼리의 <code>+</code> — 파이썬은 이어붙이지만 이 평가기는 원소별 덧셈으로 처리한다.</li>' +
+      '탭 2 의 Pyodide 는 <code>int32</code> 예요. <code>a.dtype</code> 을 양쪽에서 돌려 직접 확인해 보세요.</li>' +
+      '<li><code>np.random.*</code> — 난수 알고리즘이 달라 <code>seed</code> 를 줘도 NumPy 와 같은 수열이 나오지 않아요.</li>' +
+      '<li><code>np.empty</code> — 초기화하지 않은 메모리를 흉내 낸 것이라 값이 실제와 달라요(원래 예측 불가한 것이 요점이에요).</li>' +
+      '<li>아주 큰 정수와 실수의 마지막 자리 — JS 수 표현의 한계로 어긋날 수 있어요.</li>' +
+      '<li>리스트끼리의 <code>+</code> — 파이썬은 이어붙이지만 이 평가기는 원소별 덧셈으로 처리해요.</li>' +
       '</ul>' +
-      '아래 탭 2 에서 같은 코드를 <b>진짜 NumPy</b> 로 돌려 직접 맞대어 볼 수 있다.',
+      '아래 탭 2 에서 같은 코드를 <b>진짜 NumPy</b> 로 돌려 직접 맞대어 볼 수 있어요.',
       '이 실습실이 실제 NumPy 와 다른 점'));
 
     var outputBox = { list: [] };
@@ -1163,17 +1163,17 @@
       for (var k in env) delete env[k];
       var fresh = makeBaseEnv(outputBox, DATA1);
       for (var k2 in fresh) env[k2] = fresh[k2];
-      historyHost.insertBefore(el('p', { class: 'small muted', text: '— 환경을 초기화했다: a~t, data 를 다시 정의했다 —' }), historyHost.firstChild);
+      historyHost.insertBefore(el('p', { class: 'small muted', text: '— 환경을 초기화했어요: a~t, data 를 다시 정의했어요 —' }), historyHost.firstChild);
     }
 
     var chipHost = UI.chips(EXAMPLES, function (code) { ta.value = code; doRun(); });
 
     root.appendChild(UI.card({
       kicker: '시뮬레이터',
-      title: '표현식 평가기 — 코드를 써서 바로 돌려 보자',
-      note: '주피터 셀처럼 여러 줄을 쓸 수 있다. 마지막 줄이 대입이 아닌 표현식이면 그 값이 <b>Out</b> 으로 ' +
-        '표시된다. <code>c = a + b</code> 처럼 대입을 하면 이후 실행에서도 <code>c</code> 를 계속 쓸 수 있다 — ' +
-        '주피터 노트북과 같다. <b>Ctrl+Enter</b> 로도 실행된다.',
+      title: '표현식 평가기 — 코드를 써서 바로 돌려 봐요',
+      note: '주피터 셀처럼 여러 줄을 쓸 수 있어요. 마지막 줄이 대입이 아닌 표현식이면 그 값이 <b>Out</b> 으로 ' +
+        '표시돼요. <code>c = a + b</code> 처럼 대입을 하면 이후 실행에서도 <code>c</code> 를 계속 쓸 수 있어요 — ' +
+        '주피터 노트북과 같아요. <b>Ctrl+Enter</b> 로도 실행돼요.',
       body: [
         ta,
         UI.controls([UI.btn('실행 (Ctrl+Enter)', doRun, { primary: true }), UI.btn('환경 초기화', resetEnv)]),
@@ -1188,8 +1188,8 @@
     root.appendChild(el('p', {
       html:
         '<b>Pyodide</b> 는 파이썬 인터프리터를 웹어셈블리(WebAssembly)로 컴파일해 브라우저 안에서 돌리는 ' +
-        '프로젝트다. 버튼을 누르면 <b>그때 처음</b> CDN 에서 내려받는다(20MB 이상, 처음 한 번만 20~40초). ' +
-        '자동으로 불러오지 않는 이유는 그만큼 무겁기 때문이다.'
+        '프로젝트예요. 버튼을 누르면 <b>그때 처음</b> CDN 에서 내려받아요(20MB 이상, 처음 한 번만 20~40초). ' +
+        '자동으로 불러오지 않는 이유는 그만큼 무겁기 때문이에요.'
     }));
 
     var pyodideState = { pyodide: null };
@@ -1206,8 +1206,8 @@
       UI.clear(pyBodyHost);
       pyBodyHost.appendChild(UI.errBlock(msg, 'ConnectionError'));
       pyBodyHost.appendChild(UI.callout('trap',
-        '인터넷에 연결되지 않았거나 학교 네트워크가 CDN 을 막았을 때 나는 에러다. <b>탭 1 의 미니 엔진은 ' +
-        '이것과 무관하게 인터넷 없이 그대로 동작한다</b> — 위로 돌아가 계속 실습해도 된다.'));
+        '인터넷에 연결되지 않았거나 학교 네트워크가 CDN 을 막았을 때 나는 에러예요. <b>탭 1 의 미니 엔진은 ' +
+        '이것과 무관하게 인터넷 없이 그대로 동작해요</b> — 위로 돌아가 계속 실습해도 돼요.'));
       pyBodyHost.appendChild(UI.btn('다시 시도', loadPyodideFlow));
     }
 
@@ -1228,7 +1228,7 @@
             var s = document.createElement('script');
             s.src = PYODIDE_SRC;
             s.onload = function () { resolve(); };
-            s.onerror = function () { reject(new Error('pyodide.js 스크립트를 불러오지 못했다 (네트워크 차단 또는 CDN 접근 불가).')); };
+            s.onerror = function () { reject(new Error('pyodide.js 스크립트를 불러오지 못했어요 (네트워크 차단 또는 CDN 접근 불가).')); };
             document.head.appendChild(s);
           });
         });
@@ -1273,7 +1273,7 @@
       pyTa.addEventListener('keydown', function (e) {
         if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); runPy(); }
       });
-      pyBodyHost.appendChild(UI.callout('tip', '<b>실제 NumPy 가 준비됐다.</b> a, b, v, w, m, n, t, data 가 탭 1 과 똑같은 값으로 미리 정의되어 있다.'));
+      pyBodyHost.appendChild(UI.callout('tip', '<b>실제 NumPy 가 준비됐어요.</b> a, b, v, w, m, n, t, data 가 탭 1 과 똑같은 값으로 미리 정의되어 있어요.'));
       pyBodyHost.appendChild(pyTa);
       pyBodyHost.appendChild(UI.controls([UI.btn('실행 (Ctrl+Enter)', runPy, { primary: true })]));
       pyBodyHost.appendChild(UI.chips([
@@ -1288,7 +1288,7 @@
     root.appendChild(UI.card({
       kicker: '시뮬레이터',
       title: '실제 NumPy 실행 — 미니 엔진과 결과를 맞대어 보기',
-      note: '아래 버튼을 누르기 전까지는 아무것도 내려받지 않는다. 실패해도 탭 1 은 항상 그대로 쓸 수 있다.',
+      note: '아래 버튼을 누르기 전까지는 아무것도 내려받지 않아요. 실패해도 탭 1 은 항상 그대로 쓸 수 있어요.',
       body: [UI.controls([loadBtn]), pyStatusHost, pyBodyHost]
     }));
 
@@ -1301,38 +1301,38 @@
         { k: '첫 로딩 시간', a: '즉시', b: '20~40초 (20MB 이상 다운로드)' },
         { k: '지원 문법 범위', a: '이 장에서 정의한 제한된 문법(위 목록)', b: '진짜 파이썬 + NumPy 전체' },
         { k: '정수 기본 dtype', a: '<code>int64</code> (itemsize 8)',
-          b: '<code>int32</code> (itemsize 4) — WASM 이 32비트라서다. 64비트 데스크톱 NumPy 는 int64 다' },
+          b: '<code>int32</code> (itemsize 4) — WASM 이 32비트라서예요. 64비트 데스크톱 NumPy 는 int64 예요' },
         { k: '<code>.strides</code> 단위', a: '원소 단위 — <code>a.T.strides</code> → <code>(1, 4)</code>',
           b: '바이트 단위 — <code>(4, 16)</code>. 데스크톱 64비트에서는 <code>(8, 32)</code>' },
         { k: '결과의 정확성', a: '대부분 일치. 다만 난수 · <code>np.empty</code> · 아주 큰 정수 · ' +
-            'float 마지막 자리는 다를 수 있다',
-          b: '실제 NumPy 그 자체 (단 위의 dtype·strides 차이는 플랫폼 특성이다)' }
+            'float 마지막 자리는 다를 수 있어요',
+          b: '실제 NumPy 그 자체 (단 위의 dtype·strides 차이는 플랫폼 특성이에요)' }
       ]
     ));
     root.appendChild(UI.callout('why',
-      '두 엔진이 정확히 같은 코드로 <b>다른 값</b>을 내는 경우가 세 가지 있다. ① <code>np.random.*</code> — ' +
-      '미니 엔진은 <code>Math.random</code> 기반이라 seed 를 줘도 NumPy 와 같은 수열이 나오지 않는다. ' +
-      '② <code>np.empty</code> —애초에 "메모리 쓰레기"를 흉내 낸 것이라 예측할 수 없는 값이 정상이다. ' +
-      '③ 아주 큰 정수나 float 의 마지막 자리 — JS number 의 정밀도 한계 때문이다. 그 외의 모든 계산(모양, ' +
-      '집계, 브로드캐스팅, 슬라이싱, 선형대수)은 두 탭에서 같은 값이 나와야 한다 — 위 예제로 직접 대조해 보라.'));
+      '두 엔진이 정확히 같은 코드로 <b>다른 값</b>을 내는 경우가 세 가지 있어요. ① <code>np.random.*</code> — ' +
+      '미니 엔진은 <code>Math.random</code> 기반이라 seed 를 줘도 NumPy 와 같은 수열이 나오지 않아요. ' +
+      '② <code>np.empty</code> —애초에 "메모리 쓰레기"를 흉내 낸 것이라 예측할 수 없는 값이 정상이에요. ' +
+      '③ 아주 큰 정수나 float 의 마지막 자리 — JS number 의 정밀도 한계 때문이에요. 그 외의 모든 계산(모양, ' +
+      '집계, 브로드캐스팅, 슬라이싱, 선형대수)은 두 탭에서 같은 값이 나와야 해요 — 위 예제로 직접 대조해 보세요.'));
 
     /* ---------------------------------------------------------- 11.3 */
 
     root.appendChild(el('h2', { class: 'h-sec', text: '11.3 다음으로 배울 것' }));
     root.appendChild(el('p', {
       html:
-        'NumPy 는 끝이 아니라 시작이다. <b>pandas</b> 는 ndarray 위에 행·열 이름표와 열마다 다른 자료형을 ' +
-        '얹어 표(table)를 다룬다(결측치 처리도 훨씬 정교하다). <b>matplotlib</b> 은 ndarray 를 그림으로 ' +
-        '바꾼다. <b>scikit-learn</b> 의 모델은 입력·출력이 전부 ndarray 다. <b>PyTorch</b> 와 ' +
+        'NumPy 는 끝이 아니라 시작이에요. <b>pandas</b> 는 ndarray 위에 행·열 이름표와 열마다 다른 자료형을 ' +
+        '얹어 표(table)를 다뤄요(결측치 처리도 훨씬 정교해요). <b>matplotlib</b> 은 ndarray 를 그림으로 ' +
+        '바꿔요. <b>scikit-learn</b> 의 모델은 입력·출력이 전부 ndarray 예요. <b>PyTorch</b> 와 ' +
         '<b>TensorFlow</b> 의 텐서(tensor)도 결국 GPU 에서 도는 ndarray — 이 장에서 만든 (buffer, shape, ' +
-        'strides) 그림이 그대로 확장된다.'
+        'strides) 그림이 그대로 확장돼요.'
     }));
     root.appendChild(el('p', {
       html:
         '막히면 공식 문서 <a href="https://numpy.org/doc/stable/" target="_blank" rel="noopener">numpy.org/doc/stable</a> 를 ' +
-        '검색하라. 주피터 노트북에서는 <code>np.info(np.sum)</code> 으로 함수 설명을 바로 읽거나, 함수 이름 뒤에 ' +
+        '검색하세요. 주피터 노트북에서는 <code>np.info(np.sum)</code> 으로 함수 설명을 바로 읽거나, 함수 이름 뒤에 ' +
         '<code>?</code> 를 붙이거나(<code>np.sum?</code>), 괄호 안에서 <b>Shift+Tab</b> 을 누르면 그 자리에서 ' +
-        '문서가 뜬다.'
+        '문서가 떠요.'
     }));
 
     /* ---------------------------------------------------------- 확인 문제 */
@@ -1342,38 +1342,38 @@
       {
         q: '<code>a = np.arange(12).reshape(3,4)</code> 일 때, <code>np.shares_memory(a, a[0:2])</code> 의 결과는?',
         choices: [
-          '<code>True</code> — 슬라이싱은 뷰(view)라서 메모리를 공유한다',
-          '<code>False</code> — 슬라이싱은 항상 새 배열(사본)을 만든다',
-          '<code>True</code> 지만 reshape 를 거쳤기 때문에 우연히 겹친 것이다'
+          '<code>True</code> — 슬라이싱은 뷰(view)라서 메모리를 공유해요',
+          '<code>False</code> — 슬라이싱은 항상 새 배열(사본)을 만들어요',
+          '<code>True</code> 지만 reshape 를 거쳤기 때문에 우연히 겹친 것이에요'
         ],
         answer: 0,
-        explain: '슬라이싱은 원본과 같은 버퍼를 다른 shape·strides·offset 으로 보는 <b>뷰</b>다. reshape 도 연속(contiguous)이면 뷰이므로 a 자체도 뷰이고, 그 슬라이스 역시 같은 메모리를 가리킨다.'
+        explain: '슬라이싱은 원본과 같은 버퍼를 다른 shape·strides·offset 으로 보는 <b>뷰</b>예요. reshape 도 연속(contiguous)이면 뷰이므로 a 자체도 뷰이고, 그 슬라이스 역시 같은 메모리를 가리켜요.'
       },
       {
-        q: '관절염 데이터 <code>data</code> 의 shape 는 (60, 40) 이다. <code>data.mean(axis=1)</code> 의 shape 는?',
+        q: '관절염 데이터 <code>data</code> 의 shape 는 (60, 40) 이에요. <code>data.mean(axis=1)</code> 의 shape 는?',
         choices: ['<code>(40,)</code>', '<code>(60,)</code>', '<code>(60, 40)</code>'],
         answer: 1,
-        explain: 'axis=1(날짜 축)이 사라지고 그 축을 따라 평균이 계산된다. 남는 축은 axis=0(환자), 그래서 shape 는 (60,) — "환자마다 40일 평균 하나".'
+        explain: 'axis=1(날짜 축)이 사라지고 그 축을 따라 평균이 계산돼요. 남는 축은 axis=0(환자), 그래서 shape 는 (60,) — "환자마다 40일 평균 하나".'
       },
       {
         q: '<code>np.round(np.array([2.5]))</code> 의 결과는?',
         choices: [
-          '<code>array([3.])</code> — 0.5 는 항상 올림한다',
-          "<code>array([2.])</code> — 은행가 반올림(banker's rounding)으로 짝수 쪽에 붙는다",
-          '<code>array([2])</code> — 정수 dtype 으로 바뀐다'
+          '<code>array([3.])</code> — 0.5 는 항상 올림해요',
+          "<code>array([2.])</code> — 은행가 반올림(banker's rounding)으로 짝수 쪽에 붙어요",
+          '<code>array([2])</code> — 정수 dtype 으로 바뀌어요'
         ],
         answer: 1,
-        explain: "NumPy 의 np.round 는 가장 가까운 짝수로 반올림하는 은행가 반올림을 쓴다. 2.5 는 2와 3의 중간인데 짝수인 2 로, 1.5 도 짝수인 2 로 간다. dtype 은 float64 그대로 유지된다."
+        explain: "NumPy 의 np.round 는 가장 가까운 짝수로 반올림하는 은행가 반올림을 써요. 2.5 는 2와 3의 중간인데 짝수인 2 로, 1.5 도 짝수인 2 로 가요. dtype 은 float64 그대로 유지돼요."
       },
       {
         q: '<code>a[a > 5]</code> 의 결과에 대한 설명으로 옳은 것은?',
         choices: [
           'a 와 같은 shape 을 갖고, 조건을 깬 자리는 0 으로 채운 배열',
-          '조건을 만족한 값만 모은 <b>1차원 사본</b> — 원본 shape 정보는 사라진다',
+          '조건을 만족한 값만 모은 <b>1차원 사본</b> — 원본 shape 정보는 사라져요',
           '조건을 만족한 위치의 인덱스로 이루어진 튜플'
         ],
         answer: 1,
-        explain: '불리언 마스크 인덱싱은 조건이 참인 원소만 순서대로 뽑아 <b>항상 1차원 사본</b>으로 돌려준다. 원본과 메모리를 공유하지 않고, 원래 몇 행 몇 열이었는지도 결과에는 남지 않는다.'
+        explain: '불리언 마스크 인덱싱은 조건이 참인 원소만 순서대로 뽑아 <b>항상 1차원 사본</b>으로 돌려줘요. 원본과 메모리를 공유하지 않고, 원래 몇 행 몇 열이었는지도 결과에는 남지 않아요.'
       }
     ], { id: 'playground' }));
   }
@@ -1382,7 +1382,7 @@
     id: 'playground',
     n: '11',
     title: '코드 실습실',
-    blurb: '브라우저 안 미니 엔진으로 파이썬 비슷한 코드를 직접 돌려 보고, 원한다면 Pyodide 로 진짜 NumPy 와 대조한다.',
+    blurb: '브라우저 안 미니 엔진으로 파이썬 비슷한 코드를 직접 돌려 보고, 원한다면 Pyodide 로 진짜 NumPy 와 대조해요.',
     sim: '표현식 평가기(재귀 하강 파서) · Pyodide 실제 NumPy 실행',
     render: render
   });

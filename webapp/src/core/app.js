@@ -90,7 +90,7 @@
           onChange: setTheme
         }),
         UI.btn('진도 초기화', function () {
-          if (confirm('풀었던 문제 기록을 모두 지운다 — 과제의 답·예측·메모도 함께 사라진다. 계속하겠는가?')) UI.progress.reset();
+          if (confirm('풀었던 문제 기록을 모두 지워요 — 과제의 답·예측·메모도 함께 사라져요. 계속하겠나요?')) UI.progress.reset();
         }),
         el('div', { class: 'prog-line' }, [progLine, el('div', { class: 'prog-bar' }, [progBar])])
       ])
@@ -127,13 +127,13 @@
     root.appendChild(el('div', { class: 'hero' }, [
       el('h1', { text: 'NumPy Lab' }),
       el('p', { class: 'sub', html:
-        'NumPy 를 <b>읽어서 외우는 대신 직접 움직여 보며</b> 배우는 실습장이다. ' +
+        'NumPy 를 <b>읽어서 외우는 대신 직접 움직여 보며</b> 배우는 실습장이에요. ' +
         '축(axis)이 어떻게 사라지는지, 브로드캐스팅이 배열을 어떻게 늘리는지, ' +
-        '슬라이싱한 배열이 왜 원본을 바꿔 버리는지 — 모두 화면에서 직접 확인할 수 있다.' }),
+        '슬라이싱한 배열이 왜 원본을 바꿔 버리는지 — 모두 화면에서 직접 확인할 수 있어요.' }),
       el('p', { class: 'sub small', html:
-        '이 페이지 안에는 브라우저에서 도는 <b>미니 NumPy 엔진</b>이 들어 있다. ' +
-        '보이는 숫자는 미리 적어 둔 값이 아니라 <b>그 자리에서 계산한 결과</b>다. ' +
-        '설치도, 인터넷도 필요 없다.' })
+        '이 페이지 안에는 브라우저에서 도는 <b>미니 NumPy 엔진</b>이 들어 있어요. ' +
+        '보이는 숫자는 미리 적어 둔 값이 아니라 <b>그 자리에서 계산한 결과</b>예요. ' +
+        '설치도, 인터넷도 필요 없어요.' })
     ]));
 
     var tiles = el('div', { class: 'tiles' });
@@ -157,28 +157,28 @@
     });
 
     root.appendChild(UI.callout('tip',
-      '왼쪽 목록의 점은 진도 표시다. 회색은 방문한 장, 초록은 확인 문제를 모두 맞힌 장이다. ' +
-      '기록은 서버가 아니라 <b>이 컴퓨터의 브라우저</b>에 저장된다. 그래서 다른 사람의 컴퓨터와는 절대 섞이지 않지만, ' +
-      '<b>한 컴퓨터를 여러 사람이 쓰면 같은 기록을 보게 된다.</b> ' +
-      '실습실처럼 공용 컴퓨터라면 <a href="#/quest">과제</a> 화면에서 이름을 넣어 자기 기록을 따로 두자 ' +
-      '(장별 확인 문제 진도는 이름과 무관하게 이 컴퓨터에 하나로 쌓인다).', '기록은 어디에 남나'));
+      '왼쪽 목록의 점은 진도 표시예요. 회색은 방문한 장, 초록은 확인 문제를 모두 맞힌 장이에요. ' +
+      '기록은 서버가 아니라 <b>이 컴퓨터의 브라우저</b>에 저장돼요. 그래서 다른 사람의 컴퓨터와는 절대 섞이지 않지만, ' +
+      '<b>한 컴퓨터를 여러 사람이 쓰면 같은 기록을 보게 돼요.</b> ' +
+      '실습실처럼 공용 컴퓨터라면 <a href="#/quest">과제</a> 화면에서 이름을 넣어 자기 기록을 따로 둬요 ' +
+      '(장별 확인 문제 진도는 이름과 무관하게 이 컴퓨터에 하나로 쌓여요).', '기록은 어디에 남나'));
 
     root.appendChild(UI.callout('why',
-      '화면에 나오는 파이썬 코드는 오른쪽 위 <b>복사</b> 버튼을 누르면 그대로 가져갈 수 있다. ' +
-      '<code>import numpy as np</code> 가 빠진 코드에는 복사할 때 자동으로 붙여 준다. ' +
-      '장 맨 아래에는 <b>그 장의 코드를 전부 모아 <code>.py</code> 파일로 저장</b>하는 버튼도 있다.' +
+      '화면에 나오는 파이썬 코드는 오른쪽 위 <b>복사</b> 버튼을 누르면 그대로 가져갈 수 있어요. ' +
+      '<code>import numpy as np</code> 가 빠진 코드에는 복사할 때 자동으로 붙여 줘요. ' +
+      '장 맨 아래에는 <b>그 장의 코드를 전부 모아 <code>.py</code> 파일로 저장</b>하는 버튼도 있어요.' +
       '<ol style="margin:.5rem 0 0 1.15rem;padding:0">' +
-      '<li>파이썬을 설치한다 — <a href="https://www.python.org/downloads/">python.org/downloads</a> ' +
-      '(설치할 때 <b>Add python.exe to PATH</b> 를 켜라)</li>' +
-      '<li>명령 프롬프트에서 <code>pip install numpy</code> 를 한 번 실행한다</li>' +
-      '<li>저장한 <code>.py</code> 파일을 우클릭 → <b>Edit with IDLE</b> 로 연다</li>' +
-      '<li><b>F5</b> 를 누르면 결과가 IDLE 셸 창에 나온다</li>' +
+      '<li>파이썬을 설치해요 — <a href="https://www.python.org/downloads/">python.org/downloads</a> ' +
+      '(설치할 때 <b>Add python.exe to PATH</b> 를 켜세요)</li>' +
+      '<li>명령 프롬프트에서 <code>pip install numpy</code> 를 한 번 실행해요</li>' +
+      '<li>저장한 <code>.py</code> 파일을 우클릭 → <b>Edit with IDLE</b> 로 열어요</li>' +
+      '<li><b>F5</b> 를 누르면 결과가 IDLE 셸 창에 나와요</li>' +
       '</ol>' +
-      '<b>블록 하나만 복사했을 때</b>는 IDLE <b>셸</b>(<code>&gt;&gt;&gt;</code> 창)에 붙여넣어라. ' +
-      '셸은 <code>arr5</code> 처럼 값만 쓴 줄도 결과를 바로 보여 준다. ' +
-      '반대로 <b>편집창</b>에 붙여넣고 F5 를 누르면 <code>print()</code> 로 감싼 것만 보인다 — ' +
-      '주피터와 다른 점이다. 장 아래 <code>.py</code> 파일에는 이 감싸기를 자동으로 해 두었다.' +
-      '설치 없이 바로 해 보려면 11장 <b>코드 실습실</b>을 쓰면 된다. 브라우저 안에서 바로 실행된다.',
+      '<b>블록 하나만 복사했을 때</b>는 IDLE <b>셸</b>(<code>&gt;&gt;&gt;</code> 창)에 붙여넣어 주세요. ' +
+      '셸은 <code>arr5</code> 처럼 값만 쓴 줄도 결과를 바로 보여 줘요. ' +
+      '반대로 <b>편집창</b>에 붙여넣고 F5 를 누르면 <code>print()</code> 로 감싼 것만 보여요 — ' +
+      '주피터와 다른 점이에요. 장 아래 <code>.py</code> 파일에는 이 감싸기를 자동으로 해 두었어요.' +
+      '설치 없이 바로 해 보려면 11장 <b>코드 실습실</b>을 쓰면 돼요. 브라우저 안에서 바로 실행돼요.',
       'IDLE 에서 직접 실행하는 방법'));
 
     root.appendChild(el('h2', { class: 'h-sec', text: '이 실습장에 든 시뮬레이터' }));
@@ -211,10 +211,10 @@
       rows.push('    ' + flat.slice(i, i + 40).join(','));
     }
     return [
-      '# ── 이 장은 관절염 환자 염증 수치(' + sh[0] + '명 × ' + sh[1] + '일)를 쓴다 ──',
-      '# 수업에서 받은 CSV 가 있으면 아래 한 줄로 읽는 것이 원래 방식이다:',
+      '# ── 이 장은 관절염 환자 염증 수치(' + sh[0] + '명 × ' + sh[1] + '일)를 써요 ──',
+      '# 수업에서 받은 CSV 가 있으면 아래 한 줄로 읽는 것이 원래 방식이에요:',
       "#   data = np.loadtxt('lab_inflammation-01.csv', delimiter=',')",
-      '# 파일이 없어도 되게, 같은 값을 그대로 적어 두었다.',
+      '# 파일이 없어도 되게, 같은 값을 그대로 적어 두었어요.',
       '# 출처: Software Carpentry, Programming with Python (CC-BY 4.0)',
       'data = np.array([',
       rows.join(',\n'),
@@ -304,15 +304,15 @@
     var lines = [
       '# ' + mod.n + '. ' + mod.title,
       '# NumPy Lab (https://yakimbss26.github.io/numpy-lab/) — 이 장에 나온 파이썬 코드를',
-      '# 화면에 나온 순서대로 모은 것이다.',
+      '# 화면에 나온 순서대로 모은 것이에요.',
       '#',
       '# IDLE 에서 실행하려면',
-      '#   1) 이 파일을 IDLE 로 연다 (파일 우클릭 → Edit with IDLE)',
-      '#   2) F5 를 누른다',
+      '#   1) 이 파일을 IDLE 로 열어요 (파일 우클릭 → Edit with IDLE)',
+      '#   2) F5 를 눌러요',
       '#   3) numpy 가 없다면 명령 프롬프트에서 먼저:  pip install numpy',
       '#',
-      '# 앞 블록에서 만든 변수를 뒤 블록이 쓰는 곳이 있으므로 위에서부터 순서대로 두었다.',
-      '# 일부러 에러를 보여 주는 예제도 섞여 있다 — 거기서 멈추면 그 줄을 주석 처리하고 계속하라.',
+      '# 앞 블록에서 만든 변수를 뒤 블록이 쓰는 곳이 있으므로 위에서부터 순서대로 두었어요.',
+      '# 일부러 에러를 보여 주는 예제도 섞여 있어요 — 거기서 멈추면 그 줄을 주석 처리하고 계속하세요.',
       '',
       'import numpy as np',
       ''
@@ -341,7 +341,7 @@
       // import 만 있던 블록은 알맹이가 없어진다 → 맨 위 import 로 갈음하고 주석만 남긴다
       if (!b.trim()) {
         lines.push('# ' + new Array(60).join('-'));
-        lines.push('# [' + n + ']   맨 위에서 이미 import 했다');
+        lines.push('# [' + n + ']   맨 위에서 이미 import 했어요');
         lines.push('# ' + raw.split('\n').join('\n# '));
         lines.push('');
         commented++;
@@ -353,11 +353,11 @@
       // 배포하지 않는 파일을 읽는 블록 → 전체 주석
       if (!skipAll && READ_FILE.test(b) && !INFLAM.test(b)) {
         skipAll = true;
-        note = '   이 파일은 함께 배포하지 않는다 — 주석으로 넣었다';
+        note = '   이 파일은 함께 배포하지 않아요 — 주석으로 넣었어요';
       } else if (skipAll) {
         note = w.__notPython
-          ? '   파이썬 코드가 아니다(명령 프롬프트) — 주석으로 넣었다'
-          : '   IDLE 에서 실행되지 않는 코드 — 주석으로 넣었다';
+          ? '   파이썬 코드가 아니에요(명령 프롬프트) — 주석으로 넣었어요'
+          : '   IDLE 에서 실행되지 않는 코드 — 주석으로 넣었어요';
       }
 
       lines.push('# ' + new Array(60).join('-'));
@@ -371,7 +371,7 @@
           // data 는 이미 위에서 만들어 두었으니 읽는 줄만 주석으로 바꾼다
           b = b.split('\n').map(function (l) {
             return READ_FILE.test(l)
-              ? '# ' + l + '        # ← data 는 맨 위에서 이미 만들어 두었다'
+              ? '# ' + l + '        # ← data 는 맨 위에서 이미 만들어 두었어요'
               : l;
           }).join('\n');
         }
@@ -416,17 +416,17 @@
         document.body.removeChild(a);
         setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
       } catch (e) {
-        alert('파일로 저장할 수 없다. "전체 복사" 를 눌러 IDLE 에 붙여넣어라.');
+        alert('파일로 저장할 수 없어요. "전체 복사" 를 눌러 IDLE 에 붙여넣어 주세요.');
       }
     });
 
     return el('div', { class: 'code-bar' }, [
       el('span', { class: 'cb-t', text: 'IDLE 에서 직접 해 보기' }),
       el('span', { class: 'cb-d', html:
-        '이 장의 파이썬 코드 <b>' + built.blocks + '개</b>를 순서대로 모았다. ' +
-        '<code>' + UI.esc(fname) + '</code> 로 저장해 IDLE 로 열고 F5 를 누르면 된다.' +
-        (built.withData ? ' 실습 데이터도 함께 넣어 두었으니 CSV 파일이 없어도 돌아간다.' : '') +
-        (built.commented ? ' (주피터 전용 ' + built.commented + '개는 주석으로 넣었다.)' : '') }),
+        '이 장의 파이썬 코드 <b>' + built.blocks + '개</b>를 순서대로 모았어요. ' +
+        '<code>' + UI.esc(fname) + '</code> 로 저장해 IDLE 로 열고 F5 를 누르면 돼요.' +
+        (built.withData ? ' 실습 데이터도 함께 넣어 두었으니 CSV 파일이 없어도 돌아가요.' : '') +
+        (built.commented ? ' (주피터 전용 ' + built.commented + '개는 주석으로 넣었어요.)' : '') }),
       copyBtn, saveBtn
     ]);
   }
@@ -471,7 +471,7 @@
     try {
       mod.render(body);
     } catch (e) {
-      body.appendChild(UI.errBlock('이 장을 그리는 중 오류가 났다: ' + (e && e.message), 'RenderError'));
+      body.appendChild(UI.errBlock('이 장을 그리는 중 오류가 났어요: ' + (e && e.message), 'RenderError'));
       console.error(e);
     }
 

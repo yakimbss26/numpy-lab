@@ -101,7 +101,7 @@
     id: 'axis',
     n: '8',
     title: '축(axis)과 수학·통계 함수',
-    blurb: 'axis=k 로 집계하면 k번째 축이 사라진다 — 그것이 전부다. 결과의 shape 를 보면 어느 축이 사라졌는지 항상 알 수 있다.',
+    blurb: 'axis=k 로 집계하면 k번째 축이 사라져요 — 그것이 전부예요. 결과의 shape 를 보면 어느 축이 사라졌는지 항상 알 수 있어요.',
     sim: 'axis 축소기(2·3차원) · 통계 함수 탐색기 · 수학 함수 적용기',
 
     render: function (root) {
@@ -111,7 +111,7 @@
       root.appendChild(el('h2', { class: 'h-sec', text: '8.1 집계의 기본 — sum 부터' }));
       root.appendChild(el('p', {
         class: 'lede',
-        html: '이 장 전체에서 예제로 쓸 배열 하나를 만든다. <code>1</code>부터 <code>12</code>까지를 <code>(3, 4)</code> 로 접은 것이다.'
+        html: '이 장 전체에서 예제로 쓸 배열 하나를 만들어요. <code>1</code>부터 <code>12</code>까지를 <code>(3, 4)</code> 로 접은 것이에요.'
       }));
 
       var arr5 = ND.arange(1, 13).reshape([3, 4]);
@@ -125,11 +125,11 @@
       root.appendChild(UI.code('np.sum(arr5)'));
       root.appendChild(UI.out(ND.fmtScalar(sumAll.toNested(), sumAll.dtype), { label: false }));
 
-      root.appendChild(UI.code('arr5.sum()          # 메서드형 — 결과는 np.sum(arr5) 와 완전히 같다'));
+      root.appendChild(UI.code('arr5.sum()          # 메서드형 — 결과는 np.sum(arr5) 와 완전히 같아요'));
       root.appendChild(el('p', {
-        html: '<code>np.sum(a)</code>(함수형)와 <code>a.sum()</code>(메서드형)은 <b>완전히 같은 계산</b>이다. ' +
-          '함수형은 "이 배열에 sum 이라는 동작을 적용한다"는 관점, 메서드형은 "배열 스스로 sum 을 안다"는 관점일 뿐이다. ' +
-          '이 실습장은 엔진 구조상 함수형(<code>ND.sum(a)</code>)으로 계산을 보여 주지만, 실제 NumPy 코드는 둘 다 자유롭게 섞어 쓴다.'
+        html: '<code>np.sum(a)</code>(함수형)와 <code>a.sum()</code>(메서드형)은 <b>완전히 같은 계산</b>이에요. ' +
+          '함수형은 "이 배열에 sum 이라는 동작을 적용해요"는 관점, 메서드형은 "배열 스스로 sum 을 알아요"는 관점일 뿐이에요. ' +
+          '이 실습장은 엔진 구조상 함수형(<code>ND.sum(a)</code>)으로 계산을 보여 주지만, 실제 NumPy 코드는 둘 다 자유롭게 섞어 써요.'
       }));
 
       // dtype=float — 오버플로 데모
@@ -139,41 +139,41 @@
         var fixed = ND.reduce(small, { op: 'sum', dtype: 'float64' });
         root.appendChild(el('h3', { class: 'h-sub', text: 'np.sum(a, dtype=float) 는 왜 있는가' }));
         root.appendChild(el('p', {
-          html: '<code>sum</code> 은 기본적으로 <b>입력과 같은 dtype 으로 결과를 낸다.</b> ' +
-            '작은 정수 dtype 은 담을 수 있는 범위가 좁아서, 합이 그 범위를 넘으면 랩어라운드(오버플로)가 난다.'
+          html: '<code>sum</code> 은 기본적으로 <b>입력과 같은 dtype 으로 결과를 내요.</b> ' +
+            '작은 정수 dtype 은 담을 수 있는 범위가 좁아서, 합이 그 범위를 넘으면 랩어라운드(오버플로)가 나요.'
         }));
         root.appendChild(UI.code('a = np.array([100, 100], dtype=np.int8)   # int8 범위: -128 ~ 127\nnp.sum(a)                 # dtype 을 안 주면?\nnp.sum(a, dtype=float)    # 명시하면?'));
         root.appendChild(UI.table(
           [{ k: 'e', label: '식' }, { k: 'd', label: '결과 dtype' }, { k: 'v', label: '값' }],
           [
-            { e: 'np.sum(a)', d: 'int8 (입력 그대로)', v: ND.fmtScalar(wrapped.toNested(), 'int8') + '  ← 100+100=200 인데 int8 은 127 까지라 감싸 넘어간다' },
+            { e: 'np.sum(a)', d: 'int8 (입력 그대로)', v: ND.fmtScalar(wrapped.toNested(), 'int8') + '  ← 100+100=200 인데 int8 은 127 까지라 감싸 넘어가요' },
             { e: 'np.sum(a, dtype=float)', d: 'float64', v: ND.fmtScalar(fixed.toNested(), 'float64') + '  (진짜 합)' }
           ]));
         root.appendChild(UI.callout('why',
-          'int8 은 8비트, 표현 범위 -128~127 이다. 200 은 이 범위를 넘어 <b>256 을 기준으로 접혀서 -56</b> 이 된다 ' +
+          'int8 은 8비트, 표현 범위 -128~127 이에요. 200 은 이 범위를 넘어 <b>256 을 기준으로 접혀서 -56</b> 이 돼요 ' +
           '(<code>200 → 200-256 = -56</code>). 큰 값을 더할 가능성이 있다면 <code>dtype=float</code> 이나 <code>dtype=np.int64</code> 처럼 ' +
-          '넉넉한 dtype 을 명시적으로 지정해야 한다.'));
+          '넉넉한 dtype 을 명시적으로 지정해야 해요.'));
       })();
 
       // axis 도입
       root.appendChild(el('h2', { class: 'h-sec', text: 'axis — "기준이 되는 축"' }));
       root.appendChild(el('p', {
-        html: '<code>np.sum(arr5, axis=1)</code> 처럼 axis 를 주면 그 축을 따라서만 합친다. ' +
-          '문제는 "axis=1 이 행이냐 열이냐"를 외우려다 늘 틀린다는 것이다. ' +
-          '정확한 규칙은 하나뿐이다 — <b>axis=k 로 집계하면 shape 튜플의 k번째 자리가 사라진다.</b>'
+        html: '<code>np.sum(arr5, axis=1)</code> 처럼 axis 를 주면 그 축을 따라서만 합쳐요. ' +
+          '문제는 "axis=1 이 행이냐 열이냐"를 외우려다 늘 틀린다는 거예요. ' +
+          '정확한 규칙은 하나뿐이에요 — <b>axis=k 로 집계하면 shape 튜플의 k번째 자리가 사라져요.</b>'
       }));
 
       (function () {
         var w = ND.arange(4);
         var w2 = w.idx('None, :');
         root.appendChild(el('p', {
-          html: '팁: <b>1차원이 2차원이 될 때 새로 생기는 축은 axis=0</b> 이다. 새 축은 항상 shape 튜플의 <b>앞</b>에 붙기 때문이다.'
+          html: '팁: <b>1차원이 2차원이 될 때 새로 생기는 축은 axis=0</b> 이에요. 새 축은 항상 shape 튜플의 <b>앞</b>에 붙기 때문이에요.'
         }));
         root.appendChild(UI.code('w = np.arange(4)          # shape ' + ND.shapeStr(w.shape) +
-          '\nw2 = w[np.newaxis, :]     # shape ' + ND.shapeStr(w2.shape) + '  ← 새로 생긴 축이 위치 0 이다 = axis 0'));
+          '\nw2 = w[np.newaxis, :]     # shape ' + ND.shapeStr(w2.shape) + '  ← 새로 생긴 축이 위치 0 이에요 = axis 0'));
         root.appendChild(UI.statRow([
           { k: 'w.shape', v: ND.shapeStr(w.shape) },
-          { k: 'w[np.newaxis, :].shape', v: ND.shapeStr(w2.shape), sub: '앞에 1 이 붙었다 → 그 자리가 axis 0' }
+          { k: 'w[np.newaxis, :].shape', v: ND.shapeStr(w2.shape), sub: '앞에 1 이 붙었어요 → 그 자리가 axis 0' }
         ]));
       })();
 
@@ -233,10 +233,10 @@
           } catch (e) {
             resHost.appendChild(UI.errBlock(e.message));
             resHost.appendChild(UI.callout('why',
-              '<code>axis</code> 는 항상 <code>0 ≤ axis &lt; ndim</code> 범위여야 한다. ' +
+              '<code>axis</code> 는 항상 <code>0 ≤ axis &lt; ndim</code> 범위여야 해요. ' +
               '지금 배열은 <b>' + arr.ndim + '차원</b>이므로 axis 는 ' +
-              (arr.ndim === 1 ? '0' : '0 ~ ' + (arr.ndim - 1)) + ' 까지만 쓸 수 있다. ' +
-              '실제 NumPy 도 똑같은 <code>IndexError</code> 를 던진다.'));
+              (arr.ndim === 1 ? '0' : '0 ~ ' + (arr.ndim - 1)) + ' 까지만 쓸 수 있어요. ' +
+              '실제 NumPy 도 똑같은 <code>IndexError</code> 를 던져요.'));
             return;
           }
 
@@ -251,7 +251,7 @@
           var gOrig = UI.grid(arr, { highlight: groupHi, axisLabels: true, cellSize: 38 });
           var cellsOrig = cellsOf(gOrig);
 
-          var explainEl = mono('결과 칸에 마우스를 올려 보라.');
+          var explainEl = mono('결과 칸에 마우스를 올려 보세요.');
 
           var gRes = UI.grid(result, {
             highlight: function () { return 'r'; }, axisLabels: true, cellSize: 44,
@@ -259,7 +259,7 @@
               if (!idx) {
                 repaint(cellsOrig, arr, groupHi);
                 repaint(cellsOf(gRes), result, function () { return 'r'; });
-                explainEl.textContent = '결과 칸에 마우스를 올려 보라.';
+                explainEl.textContent = '결과 칸에 마우스를 올려 보세요.';
                 return;
               }
               var keepIdx = toKeepIdx(idx, axisNum, keepdims);
@@ -286,7 +286,7 @@
           }
           resHost.appendChild(explainEl);
           resHost.appendChild(UI.legend([
-            { color: 'var(--s1)', label: 'A 그룹 (같은 색 = 같은 결과 칸으로 합쳐진다)' },
+            { color: 'var(--s1)', label: 'A 그룹 (같은 색 = 같은 결과 칸으로 합쳐져요)' },
             { color: 'var(--s2)', label: 'B 그룹' },
             { color: 'var(--s4)', label: '지금 가리키는 결과가 쓰는 원본 칸' },
             { color: 'var(--s3)', label: '결과' }
@@ -295,15 +295,15 @@
           if (state.ndim === '3') {
             var a1 = ND.reduce(arr, { op: state.fn, axis: 1 });
             var a2 = ND.reduce(arr, { op: state.fn, axis: 2 });
-            resHost.appendChild(el('h3', { class: 'h-sub', text: 'axis=1 과 axis=2 대비 — shape 는 같은데 값이 다르다' }));
+            resHost.appendChild(el('h3', { class: 'h-sub', text: 'axis=1 과 axis=2 대비 — shape 는 같은데 값이 달라요' }));
             resHost.appendChild(el('div', { class: 'stack-2' }, [
               panel('r', 'axis=1  ' + ND.shapeStr(a1.shape), UI.grid(a1, { highlight: function () { return 'r'; }, axisLabels: true, cellSize: 38 })),
               panel('r', 'axis=2  ' + ND.shapeStr(a2.shape), UI.grid(a2, { highlight: function () { return 'r'; }, axisLabels: true, cellSize: 38 }))
             ]));
             resHost.appendChild(UI.callout('trap',
-              '두 결과 모두 shape <code>(3, 2)</code> 다. 그런데 <b>값은 완전히 다르다.</b> ' +
-              'axis=1 은 각 층(layer) 안에서 <b>세로</b>로 합치고, axis=2 는 같은 층 안에서 <b>가로</b>로 합친다. ' +
-              'shape 가 같다고 같은 계산이라고 넘겨짚으면 안 된다 — 항상 <code>axis</code> 숫자 자체를 확인해야 한다.'));
+              '두 결과 모두 shape <code>(3, 2)</code> 예요. 그런데 <b>값은 완전히 달라요.</b> ' +
+              'axis=1 은 각 층(layer) 안에서 <b>세로</b>로 합치고, axis=2 는 같은 층 안에서 <b>가로</b>로 합쳐요. ' +
+              'shape 가 같다고 같은 계산이라고 넘겨짚으면 안 돼요 — 항상 <code>axis</code> 숫자 자체를 확인해야 해요.'));
           }
         }
 
@@ -313,9 +313,9 @@
         root.appendChild(UI.card({
           kicker: '시뮬레이터',
           title: 'axis 축소기 — 이 장의 핵심',
-          note: '함수·axis·keepdims 를 자유롭게 바꿔 보라. <b>axis=k 를 주면 k번째 축이 사라진다.</b> ' +
-            '결과 칸에 마우스를 올리면 원본의 어느 칸들이 그 값을 만들었는지 노란색으로 뜬다. ' +
-            '"범위 밖" axis 를 골라 실제 에러 메시지도 확인하라.',
+          note: '함수·axis·keepdims 를 자유롭게 바꿔 보세요. <b>axis=k 를 주면 k번째 축이 사라져요.</b> ' +
+            '결과 칸에 마우스를 올리면 원본의 어느 칸들이 그 값을 만들었는지 노란색으로 떠요. ' +
+            '"범위 밖" axis 를 골라 실제 에러 메시지도 확인하세요.',
           body: [ctlHost, resHost]
         }));
       })();
@@ -325,7 +325,7 @@
       root.appendChild(el('h2', { class: 'h-sec', text: '기초 통계 함수' }));
       root.appendChild(el('p', {
         html: 'NumPy 는 <code>mean, std, var, min, max, median, percentile, argmin, argmax, ptp, cumsum</code> 등 ' +
-          '통계에 필요한 함수를 거의 다 갖고 있다. 배열 하나를 바꿔 가며 값이 한꺼번에 갱신되는 것을 보자.'
+          '통계에 필요한 함수를 거의 다 갖고 있어요. 배열 하나를 바꿔 가며 값이 한꺼번에 갱신되는 것을 봐요.'
       }));
 
       (function () {
@@ -349,7 +349,7 @@
             highlight: function () { return 'a'; }, axisLabels: true, cellSize: 42,
             onClick: function (idx, val, ev) { bump(idx[0], idx[1], ev); }
           });
-          host.appendChild(el('p', { class: 'small muted', text: '칸을 클릭하면 값이 1씩 늘어난다(Shift+클릭은 1씩 줄어든다). 아래 통계값이 실시간으로 다시 계산된다.' }));
+          host.appendChild(el('p', { class: 'small muted', text: '칸을 클릭하면 값이 1씩 늘어나요(Shift+클릭은 1씩 줄어들어요). 아래 통계값이 실시간으로 다시 계산돼요.' }));
           host.appendChild(g);
 
           var m = ND.mean(a).toNested();
@@ -391,7 +391,7 @@
           host.appendChild(el('p', {
             html: '<code>np.argmax(a)</code> = <b>' + flat + '</b> (평평한 위치). ' +
               '2차원 자리로 바꾸려면 <code>np.unravel_index(' + flat + ', ' + ND.shapeStr(a.shape) + ')</code> → <b>' +
-              ND.shapeStr(pos) + '</b>. 아래 격자에서 노란 칸이 바로 그 자리다.'
+              ND.shapeStr(pos) + '</b>. 아래 격자에서 노란 칸이 바로 그 자리예요.'
           }));
           host.appendChild(UI.grid(a, {
             highlight: function (idx) { return (idx[0] === pos[0] && idx[1] === pos[1]) ? 'x' : 'dim'; },
@@ -403,26 +403,26 @@
         root.appendChild(UI.card({
           kicker: '시뮬레이터',
           title: '통계 함수 탐색기',
-          note: '기본값은 <code>np.arange(1, 13).reshape(3, 4)</code> 다(arr5 와 같다). ' +
-            '칸을 클릭해 값을 바꾸면 sum·mean·std·percentile 등 모든 통계값이 함께 다시 계산된다.',
+          note: '기본값은 <code>np.arange(1, 13).reshape(3, 4)</code> 다(arr5 와 같아요). ' +
+            '칸을 클릭해 값을 바꾸면 sum·mean·std·percentile 등 모든 통계값이 함께 다시 계산돼요.',
           body: [host]
         }));
 
         root.appendChild(UI.callout('trap',
-          '<b><code>np.std</code> 의 기본은 <code>ddof=0</code>(모표준편차, n 으로 나눔)</b> 이다. ' +
-          '통계 시간에 배우는 표본표준편차는 <code>n-1</code> 로 나누는 <code>ddof=1</code> 이다. ' +
-          '식으로 쓰면 분산은 <code>Σ(x-평균)² / (n-ddof)</code> — ddof 가 0 이면 n, 1 이면 n-1 로 나눈다. ' +
-          'ddof 를 빼먹고 통계 수업 값과 비교하면 항상 NumPy 쪽이 조금 작게 나온다.'));
+          '<b><code>np.std</code> 의 기본은 <code>ddof=0</code>(모표준편차, n 으로 나눔)</b> 이에요. ' +
+          '통계 시간에 배우는 표본표준편차는 <code>n-1</code> 로 나누는 <code>ddof=1</code> 이에요. ' +
+          '식으로 쓰면 분산은 <code>Σ(x-평균)² / (n-ddof)</code> — ddof 가 0 이면 n, 1 이면 n-1 로 나눠요. ' +
+          'ddof 를 빼먹고 통계 수업 값과 비교하면 항상 NumPy 쪽이 조금 작게 나와요.'));
         root.appendChild(UI.callout('tip',
-          '<code>np.percentile</code> 의 사분위수는 두 값 사이를 <b>직선으로 보간</b>해서 계산한다(NumPy 기본 방식). ' +
-          '예를 들어 위치가 정수가 아니면 앞뒤 두 값의 가중 평균을 쓴다 — 그래서 정수 배열에서도 사분위수는 소수가 될 수 있다.'));
+          '<code>np.percentile</code> 의 사분위수는 두 값 사이를 <b>직선으로 보간</b>해서 계산해요(NumPy 기본 방식). ' +
+          '예를 들어 위치가 정수가 아니면 앞뒤 두 값의 가중 평균을 써요 — 그래서 정수 배열에서도 사분위수는 소수가 될 수 있어요.'));
       })();
 
       root.appendChild(UI.callout('tip',
         '노트북 셀 129 는 <code>np.mean</code>, <code>np.std</code>, <code>np.argmax</code> 등을 ' +
-        '한 셀에 몰아 쓴다. 주피터는 <b>셀의 마지막 줄만 자동으로 출력</b>하므로 <code>np.percentile(arr5, 75)</code> 만 화면에 뜨고 ' +
-        '나머지 계산 결과는 눈에 보이지 않은 채 사라진다. 값을 전부 보고 싶으면 줄마다 <code>print()</code> 로 감싸야 한다.',
-        '주피터 함정 — 마지막 줄만 보인다'));
+        '한 셀에 몰아 써요. 주피터는 <b>셀의 마지막 줄만 자동으로 출력</b>하므로 <code>np.percentile(arr5, 75)</code> 만 화면에 뜨고 ' +
+        '나머지 계산 결과는 눈에 보이지 않은 채 사라져요. 값을 전부 보고 싶으면 줄마다 <code>print()</code> 로 감싸야 해요.',
+        '주피터 함정 — 마지막 줄만 보여요'));
 
       /* ------------------------------------------------ 관절염 데이터 실전 연습 */
 
@@ -430,20 +430,20 @@
       root.appendChild(el('h3', { class: 'h-sub', text: '관절염 데이터로 axis 실전 연습' }));
 
       if (!data) {
-        root.appendChild(UI.callout('tip', '관절염 데이터가 이 빌드에 임베드되지 않았다. 이 절의 실습은 데이터가 있어야 돌아간다.'));
+        root.appendChild(UI.callout('tip', '관절염 데이터가 이 빌드에 임베드되지 않았어요. 이 절의 실습은 데이터가 있어야 돌아가요.'));
       } else {
         var meta = D.inflammationMeta || {};
         root.appendChild(el('p', {
           html: '관절염 데이터 <code>data</code> 는 shape <b>' + ND.shapeStr(data.shape) + '</b> — ' +
-            (meta.rowMeaning || '환자') + ' × ' + (meta.colMeaning || '날짜') + ' 다. ' +
+            (meta.rowMeaning || '환자') + ' × ' + (meta.colMeaning || '날짜') + ' 예요. ' +
             '<code>data.mean(axis=0)</code> 과 <code>data.mean(axis=1)</code> 은 둘 다 "평균" 이지만 ' +
-            '<b>shape 가 완전히 다르다</b> — 그 shape 만 봐도 어느 쪽 평균인지 알 수 있어야 한다.'
+            '<b>shape 가 완전히 달라요</b> — 그 shape 만 봐도 어느 쪽 평균인지 알 수 있어야 해요.'
         }));
 
         var meanByDay = ND.mean(data, 0);   // (40,)
         var meanByPatient = ND.mean(data, 1); // (60,)
 
-        root.appendChild(UI.code('data.mean(axis=0)   # ' + ND.shapeStr(meanByDay.shape) + ' ← axis 0(환자)이 사라졌다 = "날짜별" 평균\ndata.mean(axis=1)   # ' + ND.shapeStr(meanByPatient.shape) + ' ← axis 1(날짜)이 사라졌다 = "환자별" 평균'));
+        root.appendChild(UI.code('data.mean(axis=0)   # ' + ND.shapeStr(meanByDay.shape) + ' ← axis 0(환자)이 사라졌어요 = "날짜별" 평균\ndata.mean(axis=1)   # ' + ND.shapeStr(meanByPatient.shape) + ' ← axis 1(날짜)이 사라졌어요 = "환자별" 평균'));
 
         root.appendChild(el('div', { class: 'panel-t', text: 'data.mean(axis=0) — 날짜별 평균, 길이 ' + meanByDay.shape[0] }));
         root.appendChild(UI.lineChart({
@@ -460,9 +460,9 @@
         }));
 
         root.appendChild(UI.callout('why',
-          '두 그래프는 <b>모양 자체가 다르다.</b> 날짜별 평균(길이 40)은 시간이 지나며 염증이 오르내리는 patterns 을 보여 주고, ' +
-          '환자별 평균(길이 60)은 환자마다 전반적인 염증 수준이 다르다는 것을 보여 준다. ' +
-          '어느 축을 없앴는지가 그래프가 무엇을 말하는지를 결정한다.'));
+          '두 그래프는 <b>모양 자체가 달라요.</b> 날짜별 평균(길이 40)은 시간이 지나며 염증이 오르내리는 patterns 을 보여 주고, ' +
+          '환자별 평균(길이 60)은 환자마다 전반적인 염증 수준이 다르다는 것을 보여 줘요. ' +
+          '어느 축을 없앴는지가 그래프가 무엇을 말하는지를 결정해요.'));
 
         var amaxDay = ND.argmax(data, 1); // 환자별 최고 염증 날짜, (60,)
         var first12 = amaxDay.flatValues().slice(0, 12);
@@ -473,17 +473,17 @@
           first12.map(function (v, i) { return { p: i, d: v }; })
         ));
         root.appendChild(UI.callout('tip',
-          '<code>argmax(axis=1)</code> 은 <code>argmax(arr5)</code> 처럼 그냥 부르는 것보다 훨씬 유용하다. ' +
-          '환자마다 <b>날짜 축(axis=1)만 따로</b> 최댓값 위치를 찾아 주기 때문이다 — 축을 지정하지 않으면 60×40칸을 통째로 편 뒤 ' +
-          '하나의 평평한 위치만 알려 준다.'));
+          '<code>argmax(axis=1)</code> 은 <code>argmax(arr5)</code> 처럼 그냥 부르는 것보다 훨씬 유용해요. ' +
+          '환자마다 <b>날짜 축(axis=1)만 따로</b> 최댓값 위치를 찾아 주기 때문이에요 — 축을 지정하지 않으면 60×40칸을 통째로 편 뒤 ' +
+          '하나의 평평한 위치만 알려 줘요.'));
       }
 
       /* ==================================================== 8.2 수학 함수 */
 
       root.appendChild(el('h2', { class: 'h-sec', text: '8.2 수학 함수 — ufunc' }));
       root.appendChild(el('p', {
-        html: 'NumPy 는 <code>np.함수(배열)</code> 형태로 쓰는 수학 함수를 아주 많이 제공한다. ' +
-          '모두 배열의 <b>칸마다</b> 적용되는 ufunc(universal function)다.'
+        html: 'NumPy 는 <code>np.함수(배열)</code> 형태로 쓰는 수학 함수를 아주 많이 제공해요. ' +
+          '모두 배열의 <b>칸마다</b> 적용되는 ufunc(universal function)이에요.'
       }));
 
       root.appendChild(UI.table(
@@ -498,7 +498,7 @@
           { f: 'np.round / floor / ceil / trunc', d: '반올림(은행가 방식) / 내림 / 올림 / 버림' },
           { f: 'np.sin / cos / tan / arcsin', d: '삼각함수 — 입력은 항상 라디안' },
           { f: 'np.deg2rad / rad2deg', d: '도(°) ↔ 라디안 변환' },
-          { f: 'np.clip(a, lo, hi)', d: '범위를 벗어난 값을 lo·hi 로 잘라낸다' },
+          { f: 'np.clip(a, lo, hi)', d: '범위를 벗어난 값을 lo·hi 로 잘라내요' },
           { f: 'np.gcd / lcm', d: '최대공약수 / 최소공배수' },
           { f: 'np.cumsum', d: '누적합' }
         ]));
@@ -608,40 +608,40 @@
         root.appendChild(UI.card({
           kicker: '시뮬레이터',
           title: '함수 적용기',
-          note: '함수를 골라 입력 배열에 적용해 보라. 입력 → 출력 대응을 그래프와 표로 함께 보여 준다. ' +
-            '<code>sqrt</code>·<code>log</code> 에 음수나 0을 넣으면 실제 NumPy 처럼 <code>nan</code>·<code>-inf</code> 가 나온다.',
+          note: '함수를 골라 입력 배열에 적용해 보세요. 입력 → 출력 대응을 그래프와 표로 함께 보여 줘요. ' +
+            '<code>sqrt</code>·<code>log</code> 에 음수나 0을 넣으면 실제 NumPy 처럼 <code>nan</code>·<code>-inf</code> 가 나와요.',
           body: [UI.controls([inputSeg, fnSeg2]), extraHost, host]
         }));
       })();
 
       // 도(deg) vs 라디안(rad)
-      root.appendChild(el('h3', { class: 'h-sub', text: '삼각함수는 라디안을 쓴다' }));
+      root.appendChild(el('h3', { class: 'h-sub', text: '삼각함수는 라디안을 써요' }));
       (function () {
         var wrongVal = Math.sin(30);
         var rightVal = Math.sin(30 * Math.PI / 180);
         root.appendChild(el('p', {
-          html: '<code>np.sin(30)</code> 은 <b>sin 30°</b> 가 아니다. NumPy 의 삼각함수는 항상 <b>라디안</b> 입력을 기대한다. ' +
-            '30 을 그대로 넣으면 "30 라디안(약 1719°)의 sin" 을 계산하는 것이다.'
+          html: '<code>np.sin(30)</code> 은 <b>sin 30°</b> 가 아니에요. NumPy 의 삼각함수는 항상 <b>라디안</b> 입력을 기대해요. ' +
+            '30 을 그대로 넣으면 "30 라디안(약 1719°)의 sin" 을 계산하는 것이에요.'
         }));
         root.appendChild(UI.code('np.sin(30)                  # 30 라디안의 sin — 원하는 값이 아니다\nnp.sin(np.deg2rad(30))       # 30°를 라디안으로 바꾼 뒤 sin — sin 30° = 0.5'));
         root.appendChild(UI.table(
           [{ k: 'e', label: '식' }, { k: 'v', label: '값' }, { k: 'm', label: '의미' }],
           [
-            { e: 'np.sin(30)', v: UI.round2(wrongVal), m: '30 라디안의 sin — 도(°) 로 계산한 게 아니다' },
+            { e: 'np.sin(30)', v: UI.round2(wrongVal), m: '30 라디안의 sin — 도(°) 로 계산한 게 아니에요' },
             { e: 'np.sin(np.deg2rad(30))', v: UI.round2(rightVal), m: 'sin 30° — 원하던 값' }
           ]));
         root.appendChild(UI.callout('trap',
-          '각도(°) 를 넣고 싶으면 반드시 <code>np.deg2rad()</code> 로 먼저 라디안으로 바꿔야 한다. ' +
-          '이걸 잊는 것이 과학고 학생이 삼각함수를 쓸 때 가장 흔히 저지르는 실수다.'));
+          '각도(°) 를 넣고 싶으면 반드시 <code>np.deg2rad()</code> 로 먼저 라디안으로 바꿔야 해요. ' +
+          '이걸 잊는 것이 과학고 학생이 삼각함수를 쓸 때 가장 흔히 저지르는 실수예요.'));
       })();
 
       // 은행가 반올림
-      root.appendChild(el('h3', { class: 'h-sub', text: 'np.round 는 은행가 반올림이다' }));
+      root.appendChild(el('h3', { class: 'h-sub', text: 'np.round 는 은행가 반올림이에요' }));
       (function () {
         var xs = [0.5, 1.5, 2.5, 3.5];
         root.appendChild(el('p', {
-          html: '학교에서 배운 반올림은 0.5 를 항상 위로 올린다. <b>NumPy 의 <code>np.round</code> 는 다르다</b> — ' +
-            '.5 를 만나면 <b>가까운 짝수</b>로 반올림한다("은행가 반올림", banker’s rounding).'
+          html: '학교에서 배운 반올림은 0.5 를 항상 위로 올려요. <b>NumPy 의 <code>np.round</code> 는 달라요</b> — ' +
+            '.5 를 만나면 <b>가까운 짝수</b>로 반올림해요("은행가 반올림", banker’s rounding).'
         }));
         root.appendChild(UI.code('np.round([0.5, 1.5, 2.5, 3.5])'));
         root.appendChild(UI.table(
@@ -649,22 +649,22 @@
           xs.map(function (x) { return { x: x, np: bankersRound(x).toFixed(1), js: Math.round(x).toFixed(1) }; })
         ));
         root.appendChild(UI.callout('trap',
-          '<code>np.round(0.5)</code> → <b>0.0</b>, <code>np.round(2.5)</code> → <b>2.0</b> 이다(모두 가까운 짝수로). ' +
-          '자바스크립트의 <code>Math.round</code> 는 반대로 .5 를 항상 위로 올린다(<code>Math.round(0.5) === 1</code>). ' +
-          '두 언어가 서로 다른 규칙을 쓴다는 것을 알아 두지 않으면 반올림 결과가 안 맞는 버그를 만든다.'));
+          '<code>np.round(0.5)</code> → <b>0.0</b>, <code>np.round(2.5)</code> → <b>2.0</b> 이에요(모두 가까운 짝수로). ' +
+          '자바스크립트의 <code>Math.round</code> 는 반대로 .5 를 항상 위로 올려요(<code>Math.round(0.5) === 1</code>). ' +
+          '두 언어가 서로 다른 규칙을 쓴다는 것을 알아 두지 않으면 반올림 결과가 안 맞는 버그를 만들어요.'));
       })();
 
       // exp 표기
       (function () {
         var big = ND.unop(arr5, Math.exp);
-        root.appendChild(el('h3', { class: 'h-sub', text: 'np.exp 의 큰 수는 지수 표기로 나온다' }));
+        root.appendChild(el('h3', { class: 'h-sub', text: 'np.exp 의 큰 수는 지수 표기로 나와요' }));
         root.appendChild(UI.code('np.exp(arr5)'));
         root.appendChild(UI.out(ND.format(big)));
         root.appendChild(UI.callout('tip',
-          '값이 커지면 NumPy 는 출력을 <b>지수 표기</b>(<code>1.23e+05</code> 같은 형태)로 자동 전환한다. ' +
-          '출력 형식만 그런 것이고 값 자체가 바뀌는 것은 아니다. ' +
-          '표기 방식은 <code>np.set_printoptions(precision=…, suppress=True)</code> 로 조절할 수 있다 ' +
-          '(<code>suppress=True</code> 는 지수 표기를 끄고 일반 소수로 보여 준다).'));
+          '값이 커지면 NumPy 는 출력을 <b>지수 표기</b>(<code>1.23e+05</code> 같은 형태)로 자동 전환해요. ' +
+          '출력 형식만 그런 것이고 값 자체가 바뀌는 것은 아니에요. ' +
+          '표기 방식은 <code>np.set_printoptions(precision=…, suppress=True)</code> 로 조절할 수 있어요 ' +
+          '(<code>suppress=True</code> 는 지수 표기를 끄고 일반 소수로 보여 줘요).'));
       })();
 
       // pi, e
@@ -676,7 +676,7 @@
       // 과제 3번 추천 조합
       root.appendChild(el('h3', { class: 'h-sub', text: '과제 3번(수학 함수 예제)에 참고할 조합' }));
       root.appendChild(el('p', {
-        html: '과제는 <b>학생이 직접 5개를 골라야</b> 한다. 여기서는 조합 하나만 완성 예제로 보여 준다 — 그대로 베끼지 말고 참고만 하라.'
+        html: '과제는 <b>학생이 직접 5개를 골라야</b> 해요. 여기서는 조합 하나만 완성 예제로 보여 줘요 — 그대로 베끼지 말고 참고만 하세요.'
       }));
       (function () {
         var s16 = ND.array([16, 25, 36]);
@@ -704,19 +704,19 @@
           q: 'shape <code>(3, 4)</code> 인 배열에 <code>np.sum(a, axis=1)</code> 을 하면 결과의 shape 는?',
           choices: ['<code>(4,)</code>', '<code>(3,)</code>', '<code>(3, 4)</code>', '스칼라 (shape 없음)'],
           answer: 1,
-          explain: 'axis=1 은 shape 튜플의 <b>1번째 자리(값 4)</b>가 사라진다는 뜻이다. 남는 것은 0번째 자리인 3 뿐이므로 결과 shape 는 <code>(3,)</code> 이다.'
+          explain: 'axis=1 은 shape 튜플의 <b>1번째 자리(값 4)</b>가 사라진다는 뜻이에요. 남는 것은 0번째 자리인 3 뿐이므로 결과 shape 는 <code>(3,)</code> 이에요.'
         },
         {
           q: 'shape <code>(3, 4)</code> 인 배열에 <code>a.sum(axis=0, keepdims=True)</code> 를 하면 결과의 shape 는?',
           choices: ['<code>(4,)</code>', '<code>(1, 4)</code>', '<code>(3, 1)</code>', '<code>(3, 4)</code>'],
           answer: 1,
-          explain: 'axis=0 이 사라지는 대신 keepdims=True 는 그 자리를 <b>지우지 않고 크기 1 로 남긴다.</b> 그래서 <code>(3, 4)</code> 의 0번째 자리가 1 이 되어 <code>(1, 4)</code> 다.'
+          explain: 'axis=0 이 사라지는 대신 keepdims=True 는 그 자리를 <b>지우지 않고 크기 1 로 남겨요.</b> 그래서 <code>(3, 4)</code> 의 0번째 자리가 1 이 되어 <code>(1, 4)</code> 예요.'
         },
         {
           q: '<code>np.round(2.5)</code> 의 결과는?',
-          choices: ['<code>2.0</code>', '<code>3.0</code>', '<code>2</code> (정수)', '에러가 난다'],
+          choices: ['<code>2.0</code>', '<code>3.0</code>', '<code>2</code> (정수)', '에러가 나요'],
           answer: 0,
-          explain: 'NumPy 의 반올림은 은행가 반올림이라 .5 는 <b>가까운 짝수</b>로 간다. 2 와 3 중 짝수인 2 로 반올림되어 <code>2.0</code> 이다.'
+          explain: 'NumPy 의 반올림은 은행가 반올림이라 .5 는 <b>가까운 짝수</b>로 가요. 2 와 3 중 짝수인 2 로 반올림되어 <code>2.0</code> 이에요.'
         },
         {
           q: '2차원 배열 <code>a</code>(shape (3,4))에 대해 <code>a.argmax()</code>(axis 없이)가 돌려주는 것은?',
@@ -727,8 +727,8 @@
             '축마다 하나씩, 총 2개의 위치'
           ],
           answer: 1,
-          explain: 'axis 를 주지 않은 <code>argmax</code> 는 배열 전체를 1차원으로 편 뒤의 <b>평평한 인덱스</b> 하나만 준다. ' +
-            '(행, 열) 위치로 되돌리려면 <code>np.unravel_index(idx, a.shape)</code> 를 따로 써야 한다.'
+          explain: 'axis 를 주지 않은 <code>argmax</code> 는 배열 전체를 1차원으로 편 뒤의 <b>평평한 인덱스</b> 하나만 줘요. ' +
+            '(행, 열) 위치로 되돌리려면 <code>np.unravel_index(idx, a.shape)</code> 를 따로 써야 해요.'
         }
       ], { id: 'axis' }));
     }

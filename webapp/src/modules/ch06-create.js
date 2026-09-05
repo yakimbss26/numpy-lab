@@ -116,23 +116,23 @@
     id: 'create',
     n: '6',
     title: '배열을 만드는 여러 방법',
-    blurb: '값을 하나하나 적지 않고 배열을 만든다 — 규칙적인 수열, 0/1 로 채운 그릇, 단위행렬, 난수. 그리고 만든 배열을 붙이고 쪼갠다.',
+    blurb: '값을 하나하나 적지 않고 배열을 만들어요 — 규칙적인 수열, 0/1 로 채운 그릇, 단위행렬, 난수. 그리고 만든 배열을 붙이고 쪼개요.',
     sim: '생성 함수 갤러리 · 난수 실험실 · 합치기 시각화 · 쪼개기 시각화',
 
     render: function (root) {
 
       root.appendChild(el('p', null, [
         '지금까지는 ', el('code', { text: 'np.array([1, 2, 3])' }),
-        ' 처럼 값을 직접 적어서 배열을 만들었다. 하지만 실제 계산에서 필요한 배열은 원소가 수천 개다. ',
+        ' 처럼 값을 직접 적어서 배열을 만들었어요. 하지만 실제 계산에서 필요한 배열은 원소가 수천 개예요. ',
         'NumPy 는 ', el('b', { text: '규칙만 알려 주면 배열을 만들어 주는 함수' }),
-        ' 들을 갖고 있다.'
+        ' 들을 갖고 있어요.'
       ]));
 
       root.appendChild(UI.callout('why',
-        'NumPy 배열은 <b>만들 때 크기가 정해지고, 그 뒤로는 늘어나지 않는다.</b> ' +
-        '파이썬 list 처럼 <code>append</code> 로 하나씩 붙여 나가는 방식이 아니다. ' +
-        '그래서 NumPy 로 계산할 때는 <b>결과를 담을 그릇을 먼저 만들어 두고</b> 그 안을 채우는 순서로 짠다. ' +
-        '이 장의 <code>zeros</code>·<code>ones</code>·<code>empty</code>·<code>*_like</code> 가 모두 그 "그릇"을 만드는 함수다.'));
+        'NumPy 배열은 <b>만들 때 크기가 정해지고, 그 뒤로는 늘어나지 않아요.</b> ' +
+        '파이썬 list 처럼 <code>append</code> 로 하나씩 붙여 나가는 방식이 아니에요. ' +
+        '그래서 NumPy 로 계산할 때는 <b>결과를 담을 그릇을 먼저 만들어 두고</b> 그 안을 채우는 순서로 짜요. ' +
+        '이 장의 <code>zeros</code>·<code>ones</code>·<code>empty</code>·<code>*_like</code> 가 모두 그 "그릇"을 만드는 함수예요.'));
 
       /* ================================================================
        * 1. 생성 함수 갤러리
@@ -141,8 +141,8 @@
       root.appendChild(el('h2', { class: 'h-sec', text: '생성 함수 갤러리' }));
 
       root.appendChild(el('p', null, [
-        '함수를 고르면 그 함수에 맞는 조절기가 나타난다. 값을 움직이면 코드와 결과가 함께 바뀐다. ',
-        '외우려 하지 말고 ', el('b', { text: '무엇이 입력이고 무엇이 결정되는지' }), ' 를 보라.'
+        '함수를 고르면 그 함수에 맞는 조절기가 나타나요. 값을 움직이면 코드와 결과가 함께 바뀌어요. ',
+        '외우려 하지 말고 ', el('b', { text: '무엇이 입력이고 무엇이 결정되는지' }), ' 를 보세요.'
       ]));
 
       root.appendChild(buildGallery());
@@ -151,7 +151,7 @@
        * 2. arange vs linspace
        * ============================================================== */
 
-      root.appendChild(el('h2', { class: 'h-sec', text: 'arange 와 linspace 는 정반대다' }));
+      root.appendChild(el('h2', { class: 'h-sec', text: 'arange 와 linspace 는 정반대예요' }));
       root.appendChild(buildRangeCompare());
 
       /* ================================================================
@@ -161,10 +161,10 @@
       root.appendChild(el('h2', { class: 'h-sec', text: '난수 실험실' }));
 
       root.appendChild(el('p', null, [
-        '난수는 장난이 아니라 도구다. ',
-        el('b', { text: '신경망의 가중치 초기화' }), '(모든 가중치가 0이면 학습이 시작되지 않는다), ',
+        '난수는 장난이 아니라 도구예요. ',
+        el('b', { text: '신경망의 가중치 초기화' }), '(모든 가중치가 0이면 학습이 시작되지 않아요), ',
         el('b', { text: '시뮬레이션' }), '(주사위·대기행렬·몬테카를로), ',
-        el('b', { text: '데이터 섞기와 표본 추출' }), '(학습/검증 데이터 분리)에 반드시 쓰인다.'
+        el('b', { text: '데이터 섞기와 표본 추출' }), '(학습/검증 데이터 분리)에 반드시 쓰여요.'
       ]));
 
       root.appendChild(buildRandomLab());
@@ -190,7 +190,7 @@
        * 6. 배열은 크기가 고정되어 있다
        * ============================================================== */
 
-      root.appendChild(el('h2', { class: 'h-sec', text: '배열은 크기가 고정되어 있다' }));
+      root.appendChild(el('h2', { class: 'h-sec', text: '배열은 크기가 고정되어 있어요' }));
       root.appendChild(buildGrowCost());
 
       /* ================================================================
@@ -208,10 +208,10 @@
 
   var FN_WHEN = {
     arange: '언제 쓰는가 — 인덱스, 시간축, 테스트용 데이터처럼 <b>일정한 간격으로 증가하는 수열</b>이 필요할 때.',
-    linspace: '언제 쓰는가 — 구간을 <b>정해진 개수로 균등하게 자를 때</b>. 그래프의 x축은 거의 항상 linspace 다.',
-    fill: '언제 쓰는가 — 계산 결과를 담을 <b>그릇을 미리 만들 때</b>. 0·1·특정 값으로 초기화해 둔다.',
-    empty: '언제 쓰는가 — 어차피 곧바로 전부 덮어쓸 예정이라 초기화가 낭비일 때. 아주 큰 배열에서 조금 빠르다.',
-    like: '언제 쓰는가 — 이미 있는 배열과 <b>똑같은 모양·타입의 그릇</b>이 필요할 때. shape 를 손으로 옮겨 적지 않아도 된다.',
+    linspace: '언제 쓰는가 — 구간을 <b>정해진 개수로 균등하게 자를 때</b>. 그래프의 x축은 거의 항상 linspace 예요.',
+    fill: '언제 쓰는가 — 계산 결과를 담을 <b>그릇을 미리 만들 때</b>. 0·1·특정 값으로 초기화해 둬요.',
+    empty: '언제 쓰는가 — 어차피 곧바로 전부 덮어쓸 예정이라 초기화가 낭비일 때. 아주 큰 배열에서 조금 빨라요.',
+    like: '언제 쓰는가 — 이미 있는 배열과 <b>똑같은 모양·타입의 그릇</b>이 필요할 때. shape 를 손으로 옮겨 적지 않아도 돼요.',
     eye: '언제 쓰는가 — 단위행렬이 필요할 때. 역행렬 검산(<code>A @ A⁻¹ = I</code>), 원-핫 인코딩.',
     diag: '언제 쓰는가 — 행렬의 <b>대각 성분만 뽑을 때</b>, 또는 주어진 수들로 <b>대각 행렬을 만들 때</b>.'
   };
@@ -411,21 +411,21 @@
         if (rsErr) {
           kids.push(errOf(rsErr));
           kids.push(el('p', { class: 'small', html:
-            'reshape 는 <b>size 가 나누어떨어질 때만</b> 된다. arange 가 만든 원소 개수는 ' + n + ' 개다.' }));
+            'reshape 는 <b>size 가 나누어떨어질 때만</b> 돼요. arange 가 만든 원소 개수는 ' + n + ' 개예요.' }));
         } else {
           kids.push(resultBlock(shown));
         }
         kids.push(el('p', { class: 'small', html:
           '원소 개수 = <b>ceil((stop − start) / step)</b> = ceil((' + a.stop + ' − ' + a.start + ') / ' +
           a.step + ') = <b>' + n + '</b> 개. ' +
-          'stop(' + a.stop + ') 은 결과에 <b>들어가지 않는다</b> — 파이썬 <code>range</code> 와 같은 규칙이다.' }));
+          'stop(' + a.stop + ') 은 결과에 <b>들어가지 않아요</b> — 파이썬 <code>range</code> 와 같은 규칙이에요.' }));
         if (isFloatStep) {
           kids.push(el('div', null, [
-            el('p', { class: 'small', html: '지금 step 이 실수(' + a.step + ')다. 같은 일을 파이썬 내장 <code>range</code> 로 하면:' }),
+            el('p', { class: 'small', html: '지금 step 이 실수(' + a.step + ')예요. 같은 일을 파이썬 내장 <code>range</code> 로 하면:' }),
             UI.code('list(range(' + a.start + ', ' + a.stop + ', ' + a.step + '))'),
             UI.errBlock("'float' object cannot be interpreted as an integer", 'TypeError'),
             el('p', { class: 'small', html:
-              '<code>range</code> 는 정수 간격만 허용한다. <b>실수 간격이 되는 것이 np.arange 의 장점</b>이다(셀 60).' })
+              '<code>range</code> 는 정수 간격만 허용해요. <b>실수 간격이 되는 것이 np.arange 의 장점</b>이에요(셀 60).' })
           ]));
         }
         return el('div', null, kids);
@@ -446,10 +446,10 @@
           el('p', { class: 'small', html:
             '간격 = (stop − start) / ' + (ep ? '(num − 1)' : 'num') + ' = <b>' + UI.round2(gap) + '</b>. ' +
             '마지막 원소(노랑)는 <b>' + ND.fmtScalar(last, 'float64') + '</b> — endpoint=' + a.endpoint +
-            ' 이므로 stop(' + a.stop + ') 이 ' + (ep ? '<b>포함된다</b>' : '<b>제외된다</b>') + '.' }),
+            ' 이므로 stop(' + a.stop + ') 이 ' + (ep ? '<b>포함돼요</b>' : '<b>제외돼요</b>') + '.' }),
           UI.callout('tip',
-            'linspace 는 <b>개수</b>를 주고 간격을 계산하게 한다. arange 는 <b>간격</b>을 주고 개수를 계산하게 한다. ' +
-            '그래프를 그릴 때 "점 200개로 부드럽게" 가 필요하면 linspace 다.')
+            'linspace 는 <b>개수</b>를 주고 간격을 계산하게 해요. arange 는 <b>간격</b>을 주고 개수를 계산하게 해요. ' +
+            '그래프를 그릴 때 "점 200개로 부드럽게" 가 필요하면 linspace 예요.')
         ]);
       },
 
@@ -468,18 +468,18 @@
         var kids = [UI.code(codeStr), resultBlock(res)];
         kids.push(el('p', { class: 'small', html:
           'dtype 은 <b>' + res.dtype + '</b> 이고 원소 하나가 ' + res.itemsize + ' 바이트, 전체 ' +
-          res.nbytes + ' 바이트를 쓴다.' }));
+          res.nbytes + ' 바이트를 써요.' }));
         if (a.dt === 'auto' && (a.which === 'zeros' || a.which === 'ones')) {
           kids.push(UI.callout('trap',
-            'dtype 을 지정하지 않은 <code>np.zeros</code>·<code>np.ones</code> 는 <b>float64</b> 다. ' +
-            '그래서 출력이 <code>0</code> 이 아니라 <b><code>0.</code></b> (점이 붙은 실수)로 나온다. ' +
-            '정수 배열이 필요하면 <code>dtype=int</code> 를 반드시 써야 한다(셀 63·64).'));
+            'dtype 을 지정하지 않은 <code>np.zeros</code>·<code>np.ones</code> 는 <b>float64</b> 예요. ' +
+            '그래서 출력이 <code>0</code> 이 아니라 <b><code>0.</code></b> (점이 붙은 실수)로 나와요. ' +
+            '정수 배열이 필요하면 <code>dtype=int</code> 를 반드시 써야 해요(셀 63·64).'));
         }
         if (a.which === 'full' && a.dt === 'auto') {
           kids.push(el('p', { class: 'small', html:
-            '<code>np.full</code> 은 dtype 을 지정하지 않으면 <b>넣은 값에서 추론</b>한다 — ' +
-            'fill_value 가 ' + a.val + ' 이므로 ' + res.dtype + ' 이 되었다. 값을 ' +
-            (Number.isInteger(a.val) ? '실수로 바꿔 보라' : '정수로 바꿔 보라') + '.' }));
+            '<code>np.full</code> 은 dtype 을 지정하지 않으면 <b>넣은 값에서 추론</b>해요 — ' +
+            'fill_value 가 ' + a.val + ' 이므로 ' + res.dtype + ' 이 되었어요. 값을 ' +
+            (Number.isInteger(a.val) ? '실수로 바꿔 보세요' : '정수로 바꿔 보세요') + '.' }));
         }
         return el('div', null, kids);
       },
@@ -492,14 +492,14 @@
           UI.code('np.empty((' + a.rows + ', ' + a.cols + ')' + dtArg(a.dt) + ')'),
           resultBlock(res),
           el('p', { class: 'small', html:
-            '<b>다시 뽑기</b> 를 눌러 보라. shape 와 dtype 은 그대로인데 <b>값은 달라진다.</b> ' +
-            '지금 이 배열에서 0 인 칸은 ' + zeroCount + '개 / 전체 ' + res.size + '개다 — ' +
-            '이 숫자도 누를 때마다 바뀐다.' }),
+            '<b>다시 뽑기</b> 를 눌러 보세요. shape 와 dtype 은 그대로인데 <b>값은 달라져요.</b> ' +
+            '지금 이 배열에서 0 인 칸은 ' + zeroCount + '개 / 전체 ' + res.size + '개예요 — ' +
+            '이 숫자도 누를 때마다 바뀌어요.' }),
           UI.callout('trap',
-            '<code>np.empty</code> 는 메모리를 <b>확보만 하고 초기화하지 않는다.</b> ' +
-            '거기 남아 있던 값이 그대로 보인다. 우연히 전부 0 이 나올 때도 많아서 ' +
-            '"0 으로 채우는 함수" 로 오해하기 쉽지만 <b>어떤 값이 나올지는 보장되지 않는다.</b> ' +
-            '값을 믿고 쓰면 안 되고, 반드시 전부 덮어쓸 때만 쓴다. 0 이 필요하면 <code>np.zeros</code> 를 써라.')
+            '<code>np.empty</code> 는 메모리를 <b>확보만 하고 초기화하지 않아요.</b> ' +
+            '거기 남아 있던 값이 그대로 보여요. 우연히 전부 0 이 나올 때도 많아서 ' +
+            '"0 으로 채우는 함수" 로 오해하기 쉽지만 <b>어떤 값이 나올지는 보장되지 않아요.</b> ' +
+            '값을 믿고 쓰면 안 되고, 반드시 전부 덮어쓸 때만 써요. 0 이 필요하면 <code>np.zeros</code> 를 쓰세요.')
         ]);
       },
 
@@ -517,7 +517,7 @@
         else if (a.which === 'full_like') res = ND.fullLike(src, a.val);
         else res = ND.empty(src.shape, src.dtype);
 
-        var plain = ND.ones(src.shape);           // np.ones(arr3.shape) — dtype 을 물려받지 않는다
+        var plain = ND.ones(src.shape);           // np.ones(arr3.shape) — dtype 을 물려받지 않아요
         var kids = [
           UI.code(srcCode + '\n' + codeStr),
           el('div', { class: 'flow' }, [
@@ -528,7 +528,7 @@
           UI.out(ND.format(res)),
           el('p', { class: 'small', html:
             '<code>' + a.which + '</code> 은 shape ' + ND.shapeStr(src.shape) + ' 뿐 아니라 ' +
-            '<b>dtype(' + src.dtype + ') 까지 물려받는다.</b> 그래서 결과 dtype 도 ' + res.dtype + ' 이다.' })
+            '<b>dtype(' + src.dtype + ') 까지 물려받아요.</b> 그래서 결과 dtype 도 ' + res.dtype + ' 이에요.' })
         ];
         if (a.which === 'ones_like') {
           kids.push(el('div', { class: 'stack-2' }, [
@@ -536,15 +536,15 @@
             panel('np.ones(arr3.shape)', null, [UI.out(ND.format(plain), { label: 'dtype ' + plain.dtype })])
           ]));
           kids.push(UI.callout('why',
-            '같은 shape 인데 출력이 다르다. <code>ones_like</code> 는 원본의 dtype(' + src.dtype + ')을 물려받아 ' +
+            '같은 shape 인데 출력이 달라요. <code>ones_like</code> 는 원본의 dtype(' + src.dtype + ')을 물려받아 ' +
             (src.dtype === 'int64' ? '<b>정수 1</b> 을 만들고' : '<b>실수 1.</b> 을 만들고') +
-            ', <code>np.ones(shape)</code> 는 dtype 을 모르니 기본값 float64 를 써서 <b>1.</b> 을 만든다. ' +
-            '셀 70 에서 <code>np.ones_like(arr3)</code> 가 <code>1.</code> 이 아니라 <code>1</code> 로 찍히는 이유다.'));
+            ', <code>np.ones(shape)</code> 는 dtype 을 모르니 기본값 float64 를 써서 <b>1.</b> 을 만들어요. ' +
+            '셀 70 에서 <code>np.ones_like(arr3)</code> 가 <code>1.</code> 이 아니라 <code>1</code> 로 찍히는 이유예요.'));
         }
         if (a.which === 'empty_like') {
           kids.push(UI.callout('trap',
-            '<code>empty_like</code> 도 <b>초기화하지 않는다.</b> shape 와 dtype 만 원본에서 가져온다. ' +
-            '함수를 다시 골라 보면 값이 달라진다.'));
+            '<code>empty_like</code> 도 <b>초기화하지 않아요.</b> shape 와 dtype 만 원본에서 가져와요. ' +
+            '함수를 다시 골라 보면 값이 달라져요.'));
         }
         return el('div', null, kids);
       },
@@ -569,16 +569,16 @@
           UI.shapeBadge(res),
           UI.out(ND.format(res)),
           el('p', { class: 'small', html:
-            '1 인 칸(노랑)은 <b>' + ones + '</b> 개다. ' +
+            '1 인 칸(노랑)은 <b>' + ones + '</b> 개예요. ' +
             (a.which === 'eye'
-              ? 'k=' + a.k + ' 이므로 <b>j = i + (' + a.k + ')</b> 인 칸이 1 이 된다. ' +
-                'k 를 키우면 대각선이 <b>오른쪽 위로</b>, 줄이면 <b>왼쪽 아래로</b> 움직인다. ' +
-                '대각선이 배열 밖으로 나가면 1 이 하나도 없는 배열이 된다 — k 를 끝까지 밀어 보라.'
-              : 'identity 는 <b>i = j</b> 인 칸만 1 이다. k 를 지정할 수 없다.') }),
+              ? 'k=' + a.k + ' 이므로 <b>j = i + (' + a.k + ')</b> 인 칸이 1 이 돼요. ' +
+                'k 를 키우면 대각선이 <b>오른쪽 위로</b>, 줄이면 <b>왼쪽 아래로</b> 움직여요. ' +
+                '대각선이 배열 밖으로 나가면 1 이 하나도 없는 배열이 돼요 — k 를 끝까지 밀어 보세요.'
+              : 'identity 는 <b>i = j</b> 인 칸만 1 이에요. k 를 지정할 수 없어요.') }),
           UI.callout('tip',
-            '<b>identity(n)</b> 은 항상 n×n 정사각이고 대각선이 고정이다. ' +
-            '<b>eye(N, M, k)</b> 는 직사각형도 되고 <code>k</code> 로 대각선을 옮길 수도 있다. ' +
-            'identity 는 eye 의 <code>k=0</code>, <code>M=N</code> 인 특수한 경우다.')
+            '<b>identity(n)</b> 은 항상 n×n 정사각이고 대각선이 고정이에요. ' +
+            '<b>eye(N, M, k)</b> 는 직사각형도 되고 <code>k</code> 로 대각선을 옮길 수도 있어요. ' +
+            'identity 는 eye 의 <code>k=0</code>, <code>M=N</code> 인 특수한 경우예요.')
         ]);
       },
 
@@ -606,8 +606,8 @@
             ]),
             UI.out(ND.format(res)),
             el('p', { class: 'small', html:
-              '노랑 칸(<b>j = i + ' + a.k + '</b>)만 순서대로 뽑아 1차원으로 돌려준다. ' +
-              '2차원 → 1차원, 차원이 <b>줄어든다</b>. 뽑힌 개수는 ' + res.size + ' 개다.' })
+              '노랑 칸(<b>j = i + ' + a.k + '</b>)만 순서대로 뽑아 1차원으로 돌려줘요. ' +
+              '2차원 → 1차원, 차원이 <b>줄어들어요</b>. 뽑힌 개수는 ' + res.size + ' 개예요.' })
           ]);
         }
         var v = ND.arange(1, a.n + 1);
@@ -629,12 +629,12 @@
           ]),
           UI.out(ND.format(m)),
           el('p', { class: 'small', html:
-            '1차원 → 2차원, 차원이 <b>늘어난다</b>. 결과는 (' + m.shape[0] + ', ' + m.shape[1] + ') 정사각이고 ' +
-            'k=' + a.k + ' 만큼 밀린 대각선(노랑)에 값이 놓인다. 나머지는 모두 0 이다.' }),
+            '1차원 → 2차원, 차원이 <b>늘어나요</b>. 결과는 (' + m.shape[0] + ', ' + m.shape[1] + ') 정사각이고 ' +
+            'k=' + a.k + ' 만큼 밀린 대각선(노랑)에 값이 놓여요. 나머지는 모두 0 이에요.' }),
           UI.callout('why',
-            '<code>np.diag</code> 는 <b>같은 이름의 함수가 입력 차원에 따라 정반대로 동작</b>한다. ' +
+            '<code>np.diag</code> 는 <b>같은 이름의 함수가 입력 차원에 따라 정반대로 동작</b>해요. ' +
             '2차원을 넣으면 <b>추출</b>(뽑아서 1차원), 1차원을 넣으면 <b>생성</b>(펼쳐서 2차원). ' +
-            '3차원을 넣으면 <code>ValueError: Input must be 1- or 2-d.</code> 가 난다.')
+            '3차원을 넣으면 <code>ValueError: Input must be 1- or 2-d.</code> 가 나요.')
         ]);
       }
     };
@@ -644,7 +644,7 @@
     return UI.card({
       kicker: '시뮬레이터',
       title: '생성 함수 갤러리',
-      note: '함수를 고르고 값을 움직여라. 코드·격자·<code>print</code> 출력이 모두 실제 계산 결과다.',
+      note: '함수를 고르고 값을 움직여 보세요. 코드·격자·<code>print</code> 출력이 모두 실제 계산 결과예요.',
       body: [UI.controls([fnSel]), whenHost, ctlHost, outHost]
     });
   }
@@ -666,14 +666,14 @@
         panel('np.linspace(' + st.lo + ', ' + st.hi + ', ' + st.n + ')', 'a', [
           UI.grid(lin, { highlight: function (idx) { return idx[0] === lin.size - 1 ? 'x' : 'a'; } }),
           UI.shapeBadge(lin),
-          el('p', { class: 'small', html: '개수를 <b>' + st.n + '</b> 로 지정했다 → 간격 ' +
-            UI.round2(gap) + ' 이 계산되어 나온다. 끝값 ' + st.hi + ' 이 <b>들어 있다</b>(노랑).' })
+          el('p', { class: 'small', html: '개수를 <b>' + st.n + '</b> 로 지정했어요 → 간격 ' +
+            UI.round2(gap) + ' 이 계산되어 나와요. 끝값 ' + st.hi + ' 이 <b>들어 있어요</b>(노랑).' })
         ]),
         panel('np.arange(' + st.lo + ', ' + st.hi + ', ' + UI.round2(gap) + ')', 'b', [
           UI.grid(ar, { highlight: function () { return 'b'; } }),
           UI.shapeBadge(ar),
           el('p', { class: 'small', html: '같은 간격을 지정했는데 개수가 <b>' + ar.size + '</b> 다 → ' +
-            '끝값 ' + st.hi + ' 이 <b>빠졌다</b>. stop 은 포함되지 않기 때문이다.' })
+            '끝값 ' + st.hi + ' 이 <b>빠졌어요</b>. stop 은 포함되지 않기 때문이에요.' })
         ])
       ]));
       host.appendChild(UI.out('linspace 개수 ' + lin.size + '  vs  arange 개수 ' + ar.size,
@@ -698,10 +698,10 @@
         body: [ctl, host]
       }),
       UI.callout('tip',
-        '<b>arange</b>: 간격을 내가 정한다 → 개수는 계산되어 나온다. stop 미포함. 실수 간격에서는 부동소수점 오차 때문에 ' +
-        '개수가 예상과 어긋날 수 있다.<br>' +
-        '<b>linspace</b>: 개수를 내가 정한다 → 간격이 계산되어 나온다. 기본으로 끝값 포함. ' +
-        '그래서 <b>그래프의 x축을 만들 때는 linspace</b> 가 표준이다.')
+        '<b>arange</b>: 간격을 내가 정해요 → 개수는 계산되어 나와요. stop 미포함. 실수 간격에서는 부동소수점 오차 때문에 ' +
+        '개수가 예상과 어긋날 수 있어요.<br>' +
+        '<b>linspace</b>: 개수를 내가 정해요 → 간격이 계산되어 나와요. 기본으로 끝값 포함. ' +
+        '그래서 <b>그래프의 x축을 만들 때는 linspace</b> 가 표준이에요.')
     ]);
   }
 
@@ -831,21 +831,21 @@
         fmtY: function (v) { return (v * 100).toFixed(1) + '%'; }
       }));
       outHost.appendChild(el('p', { class: 'small', html:
-        '<b>size 슬라이더를 오른쪽으로 밀어 보라.</b> 표본이 12개일 때는 파랑(표본)이 주황(이론)과 전혀 안 맞지만, ' +
-        '수천 개가 되면 두 선이 겹친다. 이것이 "많이 뽑으면 분포 모양이 드러난다" 는 뜻이다.' }));
+        '<b>size 슬라이더를 오른쪽으로 밀어 보세요.</b> 표본이 12개일 때는 파랑(표본)이 주황(이론)과 전혀 안 맞지만, ' +
+        '수천 개가 되면 두 선이 겹쳐요. 이것이 "많이 뽑으면 분포 모양이 드러나요" 는 뜻이에요.' }));
 
       if (st.dist === 'normal') {
         outHost.appendChild(UI.callout('ver',
-          '수업자료에는 "정규분포: <b>0~1 사이</b>의 각 숫자가 나타날 확률이 종모양" 이라고 적혀 있다. 이는 부정확하다. ' +
-          '표준정규분포는 0~1 에 갇히지 않는다 — 지금 뽑은 ' + n + '개 중 <b>음수가 ' + neg + '개</b>, ' +
+          '수업자료에는 "정규분포: <b>0~1 사이</b>의 각 숫자가 나타날 확률이 종모양" 이라고 적혀 있어요. 이는 부정확해요. ' +
+          '표준정규분포는 0~1 에 갇히지 않아요 — 지금 뽑은 ' + n + '개 중 <b>음수가 ' + neg + '개</b>, ' +
           '<b>1 을 넘는 값이 ' + over1 + '개</b> 나왔고 최소는 ' + UI.round2(mn) + ', 최대는 ' + UI.round2(mx) +
-          ' 다. 정규분포의 이론상 범위는 −∞ ~ +∞ 이며, <code>loc</code> 는 평균, <code>scale</code> 는 표준편차다. ' +
-          '0~1 로 제한된 것은 <code>np.random.uniform(0, 1, …)</code> 또는 <code>np.random.rand</code> 쪽이다.'));
+          ' 예요. 정규분포의 이론상 범위는 −∞ ~ +∞ 이며, <code>loc</code> 는 평균, <code>scale</code> 는 표준편차예요. ' +
+          '0~1 로 제한된 것은 <code>np.random.uniform(0, 1, …)</code> 또는 <code>np.random.rand</code> 쪽이에요.'));
       }
       outHost.appendChild(el('p', { class: 'small muted', html:
         st.fixed === 'on'
-          ? 'seed 를 고정했으므로 <b>다시 뽑기</b> 를 눌러도 같은 값이 나온다.'
-          : 'seed 를 고정하지 않았으므로 <b>실행할 때마다 값이 다르다.</b> 이 페이지에 적힌 어떤 난수도 "정답" 이 아니다.' }));
+          ? 'seed 를 고정했으므로 <b>다시 뽑기</b> 를 눌러도 같은 값이 나와요.'
+          : 'seed 를 고정하지 않았으므로 <b>실행할 때마다 값이 달라요.</b> 이 페이지에 적힌 어떤 난수도 "정답" 이 아니에요.' }));
     }
 
     rebuildCtl();
@@ -854,9 +854,9 @@
       kicker: '시뮬레이터',
       title: '난수 실험실',
       note: '<code>np.random.uniform(low, high, size)</code> 와 <code>np.random.normal(loc, scale, size)</code> 로 ' +
-        '표본을 뽑아 히스토그램을 그린다. 표본 개수를 늘리면 이론 분포에 가까워지는지 직접 확인하라. ' +
-        '(주의: 이 페이지의 난수 엔진은 NumPy 의 MT19937 과 다른 알고리즘이므로 <b>값 자체는 실제 NumPy 와 다르다.</b> ' +
-        '분포의 성질과 재현성만 같다.)',
+        '표본을 뽑아 히스토그램을 그려요. 표본 개수를 늘리면 이론 분포에 가까워지는지 직접 확인하세요. ' +
+        '(주의: 이 페이지의 난수 엔진은 NumPy 의 MT19937 과 다른 알고리즘이므로 <b>값 자체는 실제 NumPy 와 달라요.</b> ' +
+        '분포의 성질과 재현성만 같아요.)',
       body: [ctlHost, outHost]
     });
   }
@@ -889,10 +889,10 @@
       ]));
       host.appendChild(UI.out(same ? 'True' : 'False'));
       host.appendChild(el('p', { class: 'small', html: same
-        ? '두 번 뽑았는데 <b>완전히 같다.</b> 컴퓨터의 난수는 진짜 무작위가 아니라 시드에서 출발해 ' +
-          '정해진 규칙으로 계산되는 <b>의사난수(pseudo-random)</b> 이기 때문이다.'
-        : '두 번 뽑으니 <b>다르다.</b> 시드를 지정하지 않으면 시작점이 매번 달라진다. ' +
-          '실험을 남에게 재현시켜야 한다면 반드시 시드를 고정해야 한다.' }));
+        ? '두 번 뽑았는데 <b>완전히 같아요.</b> 컴퓨터의 난수는 진짜 무작위가 아니라 시드에서 출발해 ' +
+          '정해진 규칙으로 계산되는 <b>의사난수(pseudo-random)</b> 이기 때문이에요.'
+        : '두 번 뽑으니 <b>달라요.</b> 시드를 지정하지 않으면 시작점이 매번 달라져요. ' +
+          '실험을 남에게 재현시켜야 한다면 반드시 시드를 고정해야 해요.' }));
     }
 
     var ctl = UI.controls([
@@ -909,26 +909,26 @@
       UI.card({
         kicker: '시뮬레이터',
         title: '같은 결과를 다시 얻기 — np.random.seed',
-        note: '난수를 쓰는 실험은 "결과를 재현할 수 있는가" 가 늘 문제다. 시드를 고정하면 같은 값이 다시 나온다.',
+        note: '난수를 쓰는 실험은 "결과를 재현할 수 있는가" 가 늘 문제예요. 시드를 고정하면 같은 값이 다시 나와요.',
         body: [ctl, host]
       }),
       UI.callout('ver',
-        '<code>np.random.seed(0)</code> 와 <code>np.random.rand</code> 같은 옛 방식은 NumPy 2.x 에서도 그대로 동작한다. ' +
+        '<code>np.random.seed(0)</code> 와 <code>np.random.rand</code> 같은 옛 방식은 NumPy 2.x 에서도 그대로 동작해요. ' +
         '다만 지금 <b>권장되는 방식은 생성기 객체</b>다:<br>' +
         '<code>rng = np.random.default_rng(0)</code> → <code>rng.random(4)</code>, <code>rng.normal(0, 1, 12)</code>, ' +
         '<code>rng.integers(0, 10, 5)</code>.<br>' +
-        '전역 상태를 건드리지 않아서 여러 실험이 서로 간섭하지 않는다. 새 코드를 쓸 때는 이쪽을 쓰라.')
+        '전역 상태를 건드리지 않아서 여러 실험이 서로 간섭하지 않아요. 새 코드를 쓸 때는 이쪽을 쓰세요.')
     ]);
   }
 
   function buildRandomTable() {
     var rows = [
-      { f: 'np.random.rand(3, 2)', d: '0 이상 1 미만 균등분포. shape 를 콤마로 나열해서 넘긴다', r: 'uniform(0, 1, …) 과 같다' },
-      { f: 'np.random.randn(3, 2)', d: '표준정규분포(평균 0, 표준편차 1)', r: 'normal(0, 1, …) 과 같다' },
-      { f: 'np.random.randint(1, 7, 10)', d: '1 이상 7 미만 정수 10개 — 주사위 10번', r: 'high 는 포함되지 않는다' },
-      { f: 'np.random.choice(arr, 3)', d: '배열에서 3개를 뽑는다', r: 'replace=False 로 중복 없이' },
-      { f: 'np.random.shuffle(arr)', d: '배열을 제자리에서 섞는다', r: '원본을 바꾼다. 반환값은 None' },
-      { f: 'np.random.permutation(arr)', d: '섞은 새 배열을 돌려준다', r: '원본은 그대로' },
+      { f: 'np.random.rand(3, 2)', d: '0 이상 1 미만 균등분포. shape 를 콤마로 나열해서 넘겨요', r: 'uniform(0, 1, …) 과 같아요' },
+      { f: 'np.random.randn(3, 2)', d: '표준정규분포(평균 0, 표준편차 1)', r: 'normal(0, 1, …) 과 같아요' },
+      { f: 'np.random.randint(1, 7, 10)', d: '1 이상 7 미만 정수 10개 — 주사위 10번', r: 'high 는 포함되지 않아요' },
+      { f: 'np.random.choice(arr, 3)', d: '배열에서 3개를 뽑아요', r: 'replace=False 로 중복 없이' },
+      { f: 'np.random.shuffle(arr)', d: '배열을 제자리에서 섞어요', r: '원본을 바꿔요. 반환값은 None' },
+      { f: 'np.random.permutation(arr)', d: '섞은 새 배열을 돌려줘요', r: '원본은 그대로' },
       { f: 'np.random.uniform(0, 1, 12)', d: '균등분포 표본 12개 (셀 82)', r: 'low·high·size' },
       { f: 'np.random.normal(0, 1, 12)', d: '정규분포 표본 12개 (셀 84)', r: 'loc·scale·size' }
     ];
@@ -937,9 +937,9 @@
         { k: 'f', label: '함수' }, { k: 'd', label: '하는 일' }, { k: 'r', label: '알아둘 점' }
       ], rows),
       UI.callout('trap',
-        '<code>shuffle</code> 은 원본을 제자리에서 섞고 <b>None 을 돌려준다.</b> ' +
-        '<code>arr = np.random.shuffle(arr)</code> 라고 쓰면 arr 이 None 이 되어 버린다. ' +
-        '새 배열이 필요하면 <code>permutation</code> 을 쓰라.')
+        '<code>shuffle</code> 은 원본을 제자리에서 섞고 <b>None 을 돌려줘요.</b> ' +
+        '<code>arr = np.random.shuffle(arr)</code> 라고 쓰면 arr 이 None 이 되어 버려요. ' +
+        '새 배열이 필요하면 <code>permutation</code> 을 쓰세요.')
     ]);
   }
 
@@ -948,10 +948,10 @@
    * ==================================================================== */
 
   var OP_DESC = {
-    vstack: 'vstack 은 <b>위아래로</b> 쌓는다(vertical). 1차원 배열을 주면 각각을 (1, n) 짜리 행으로 <b>자동 승격</b>시켜 준다.',
-    hstack: 'hstack 은 <b>좌우로</b> 붙인다(horizontal). 1차원끼리는 그냥 이어 붙이고, 2차원이면 열 방향(axis=1)으로 붙인다.',
-    concatenate: 'concatenate 는 <b>붙일 축을 직접 지정</b>한다. 2차원에서 axis=0 은 vstack, axis=1 은 hstack 과 같은 결과다. 자동 승격은 해 주지 않는다.',
-    stack: 'stack 은 기존 축에 붙이는 것이 아니라 <b>새 축을 하나 만든다.</b> 그래서 결과의 ndim 이 1 늘어난다.'
+    vstack: 'vstack 은 <b>위아래로</b> 쌓아요(vertical). 1차원 배열을 주면 각각을 (1, n) 짜리 행으로 <b>자동 승격</b>시켜 줘요.',
+    hstack: 'hstack 은 <b>좌우로</b> 붙여요(horizontal). 1차원끼리는 그냥 이어 붙이고, 2차원이면 열 방향(axis=1)으로 붙여요.',
+    concatenate: 'concatenate 는 <b>붙일 축을 직접 지정</b>해요. 2차원에서 axis=0 은 vstack, axis=1 은 hstack 과 같은 결과예요. 자동 승격은 해 주지 않아요.',
+    stack: 'stack 은 기존 축에 붙이는 것이 아니라 <b>새 축을 하나 만들어요.</b> 그래서 결과의 ndim 이 1 늘어나요.'
   };
 
   function buildJoinSim() {
@@ -1011,7 +1011,7 @@
         { value: 'c89', label: '셀 89: concatenate 기본(axis=0)' },
         { value: 'err', label: '1차원에 axis=1 → 에러' },
         { value: 'sh', label: 'shape 가 안 맞으면 → 에러' },
-        { value: 'stk', label: 'stack 은 새 축을 만든다' }
+        { value: 'stk', label: 'stack 은 새 축을 만들어요' }
       ], function (v) {
         if (v === 'c86') { st.mode = '1d'; st.lenA = 3; st.lenB = 3; st.op = 'vstack'; }
         if (v === 'c87') { st.mode = '2d'; st.rA = 3; st.cA = 1; st.rB = 3; st.cB = 1; st.op = 'hstack'; }
@@ -1095,14 +1095,14 @@
         var msg = (err.message || '');
         if (/out of bounds for array of dimension/.test(msg)) {
           outHost.appendChild(el('p', { class: 'small', html:
-            '1차원 배열에는 <b>축이 하나뿐</b>이다(axis=0). 없는 축을 지정했으니 <code>AxisError</code> 다. ' +
-            '같은 상황에서 <code>np.vstack</code> 은 1차원을 (1, n) 짜리 2차원으로 <b>자동 승격</b>시켜 주기 때문에 에러가 나지 않는다. ' +
-            '함수를 vstack 으로 바꿔 확인해 보라.' }));
+            '1차원 배열에는 <b>축이 하나뿐</b>이에요(axis=0). 없는 축을 지정했으니 <code>AxisError</code> 예요. ' +
+            '같은 상황에서 <code>np.vstack</code> 은 1차원을 (1, n) 짜리 2차원으로 <b>자동 승격</b>시켜 주기 때문에 에러가 나지 않아요. ' +
+            '함수를 vstack 으로 바꿔 확인해 보세요.' }));
         } else {
           outHost.appendChild(el('p', { class: 'small', html:
-            '<b>붙이는 축을 제외한 나머지 shape 가 모두 같아야</b> 합칠 수 있다. ' +
-            'a 는 ' + ND.shapeStr(a.shape) + ', b 는 ' + ND.shapeStr(b.shape) + ' 다. ' +
-            '슬라이더로 어긋난 축을 맞춰 보라.' }));
+            '<b>붙이는 축을 제외한 나머지 shape 가 모두 같아야</b> 합칠 수 있어요. ' +
+            'a 는 ' + ND.shapeStr(a.shape) + ', b 는 ' + ND.shapeStr(b.shape) + ' 예요. ' +
+            '슬라이더로 어긋난 축을 맞춰 보세요.' }));
         }
       } else {
         outHost.appendChild(UI.out(ND.format(res)));
@@ -1111,7 +1111,7 @@
           'ndim ' + a.ndim + ' → <b>' + res.ndim + '</b>, shape ' + ND.shapeStr(a.shape) + ' + ' +
           ND.shapeStr(b.shape) + ' → <b>' + ND.shapeStr(res.shape) + '</b>.';
         if (madeNewAxis) {
-          line += ' stack 은 축이 <b>하나 늘어난다</b> — 이것이 concatenate 와의 결정적 차이다.';
+          line += ' stack 은 축이 <b>하나 늘어나요</b> — 이것이 concatenate 와의 결정적 차이에요.';
         }
         outHost.appendChild(el('p', { class: 'small', html: line }));
       }
@@ -1133,8 +1133,8 @@
         outHost.appendChild(el('div', null, [
           el('div', { class: 'panel-t', text: '같은 a, b 로 axis=0 비교' }), cmp,
           el('p', { class: 'small', html:
-            'concatenate 는 <b>있는 축을 길게</b> 만들고, stack 은 <b>축을 새로</b> 만든다. ' +
-            '원소 개수는 둘 다 같지만 shape 가 다르다.' })
+            'concatenate 는 <b>있는 축을 길게</b> 만들고, stack 은 <b>축을 새로</b> 만들어요. ' +
+            '원소 개수는 둘 다 같지만 shape 가 달라요.' })
         ]));
       }
     }
@@ -1145,8 +1145,8 @@
       UI.card({
         kicker: '시뮬레이터',
         title: '합치기 — vstack · hstack · concatenate · stack',
-        note: 'a(파랑)와 b(주황)가 <b>어느 방향으로</b> 붙어 결과가 되는지 본다. ' +
-          '결과 칸의 색은 그 값이 a 에서 왔는지 b 에서 왔는지를 나타낸다(초록 제목이 결과 배열이다).',
+        note: 'a(파랑)와 b(주황)가 <b>어느 방향으로</b> 붙어 결과가 되는지 봐요. ' +
+          '결과 칸의 색은 그 값이 a 에서 왔는지 b 에서 왔는지를 나타내요(초록 제목이 결과 배열이에요).',
         body: [ctlHost, outHost]
       }),
       buildExtraJoin()
@@ -1169,14 +1169,14 @@
       UI.table([
         { k: 'f', label: '함수' }, { k: 'd', label: '하는 일' }, { k: 'v', label: '결과', raw: true }
       ], [
-        { f: 'np.column_stack((a, b))', d: '1차원들을 각각 열로 세워 붙인다', v: cell(cs) },
-        { f: 'np.dstack((a, b))', d: '세 번째 축(깊이) 방향으로 붙인다', v: cell(ds) },
+        { f: 'np.column_stack((a, b))', d: '1차원들을 각각 열로 세워 붙여요', v: cell(cs) },
+        { f: 'np.dstack((a, b))', d: '세 번째 축(깊이) 방향으로 붙여요', v: cell(ds) },
         { f: 'np.repeat(a, 2)', d: '각 원소를 그 자리에서 2번 반복', v: cell(rep) },
-        { f: 'np.tile(a, 2)', d: '배열 전체를 2번 이어 붙인다', v: cell(til) }
+        { f: 'np.tile(a, 2)', d: '배열 전체를 2번 이어 붙여요', v: cell(til) }
       ]),
       el('p', { class: 'small', html:
-        '<code>repeat</code> 과 <code>tile</code> 의 차이를 위 결과에서 비교하라. ' +
-        'repeat 은 <b>원소 단위</b>로, tile 은 <b>배열 단위</b>로 반복한다.' })
+        '<code>repeat</code> 과 <code>tile</code> 의 차이를 위 결과에서 비교하세요. ' +
+        'repeat 은 <b>원소 단위</b>로, tile 은 <b>배열 단위</b>로 반복해요.' })
     ]));
   }
 
@@ -1252,9 +1252,9 @@
       if (err) {
         outHost.appendChild(errOf(err));
         outHost.appendChild(el('p', { class: 'small', html:
-          'axis=' + axis + ' 의 길이 ' + a.shape[axis] + ' 를 ' + st.n + ' 로 <b>나누어떨어지게 자를 수 없다.</b> ' +
-          '<code>np.split</code> 은 균등 분할만 허용한다. ' +
-          '<code>np.array_split</code> 로 바꾸면 앞쪽 조각을 하나씩 크게 만들어 나눠 준다.' }));
+          'axis=' + axis + ' 의 길이 ' + a.shape[axis] + ' 를 ' + st.n + ' 로 <b>나누어떨어지게 자를 수 없어요.</b> ' +
+          '<code>np.split</code> 은 균등 분할만 허용해요. ' +
+          '<code>np.array_split</code> 로 바꾸면 앞쪽 조각을 하나씩 크게 만들어 나눠 줘요.' }));
         return;
       }
 
@@ -1269,11 +1269,11 @@
         '조각 크기: <b>' + parts.map(function (p) { return p.shape[axis]; }).join(' + ') + ' = ' +
         a.shape[axis] + '</b> (axis=' + axis + ' 기준). ' +
         (st.mode === '2d'
-          ? 'axis=0 으로 자르는 것이 <code>np.vsplit</code>, axis=1 로 자르는 것이 <code>np.hsplit</code> 이다.'
-          : '1차원에는 축이 하나뿐이라 axis 를 지정할 필요가 없다.') }));
+          ? 'axis=0 으로 자르는 것이 <code>np.vsplit</code>, axis=1 로 자르는 것이 <code>np.hsplit</code> 이에요.'
+          : '1차원에는 축이 하나뿐이라 axis 를 지정할 필요가 없어요.') }));
       outHost.appendChild(el('p', { class: 'small muted', html:
-        'split 이 돌려주는 조각은 <b>뷰(view)</b> 다 — 원본과 메모리를 공유한다. ' +
-        '조각을 고치면 원본도 바뀐다(5장에서 다룬 내용).' }));
+        'split 이 돌려주는 조각은 <b>뷰(view)</b> 다 — 원본과 메모리를 공유해요. ' +
+        '조각을 고치면 원본도 바뀌어요(5장에서 다룬 내용).' }));
     }
 
     rebuildCtl();
@@ -1281,7 +1281,7 @@
     return UI.card({
       kicker: '시뮬레이터',
       title: '쪼개기 — split · array_split · hsplit · vsplit',
-      note: '합치기의 반대다. 원본 격자의 칸 색이 <b>어느 조각에 속하는지</b>를 나타낸다(파랑·주황 번갈아).',
+      note: '합치기의 반대예요. 원본 격자의 칸 색이 <b>어느 조각에 속하는지</b>를 나타내요(파랑·주황 번갈아).',
       body: [ctlHost, outHost]
     });
   }
@@ -1290,7 +1290,7 @@
 
   function buildInflammationSplit() {
     if (!D || !D.inflammation) {
-      return UI.callout('tip', '관절염 데이터가 이 빌드에 들어 있지 않아 실용 예제를 생략한다.');
+      return UI.callout('tip', '관절염 데이터가 이 빌드에 들어 있지 않아 실용 예제를 생략해요.');
     }
     var data = D.nd('inflammation');
     var halves = splitParts(data, 2, 1, true);      // hsplit(data, 2)
@@ -1302,8 +1302,8 @@
 
     return el('div', null, [
       el('p', null, [
-        '실제로 써 보자. 관절염 데이터는 ', el('b', { text: ND.shapeStr(data.shape) }),
-        ' (환자 60명 × 40일)이다. 이것을 앞 20일과 뒤 20일로 나눠 비교한다.'
+        '실제로 써 봐요. 관절염 데이터는 ', el('b', { text: ND.shapeStr(data.shape) }),
+        ' (환자 60명 × 40일)이에요. 이것을 앞 20일과 뒤 20일로 나눠 비교해요.'
       ]),
       UI.code("data = np.loadtxt('lab_inflammation-01.csv', delimiter=',')\n" +
         'first20, last20 = np.hsplit(data, 2)      # 열(날짜)을 반으로\n' +
@@ -1323,9 +1323,9 @@
         x: xs, xLabel: '나눈 뒤의 열 번호', yLabel: '환자 60명 평균 염증', height: 240, yMin: 0
       }),
       el('p', { class: 'small', html:
-        '두 조각을 같은 x축(0~19)에 겹쳐 놓으니 모양이 완전히 다르다. ' +
-        '앞 20일은 계속 올라가고, 뒤 20일은 처음부터 높다가 내려온다. ' +
-        '<b>쪼개기는 데이터를 구간별로 비교할 때 쓴다</b> — 학습/검증 데이터 분리도 같은 원리다.' })
+        '두 조각을 같은 x축(0~19)에 겹쳐 놓으니 모양이 완전히 달라요. ' +
+        '앞 20일은 계속 올라가고, 뒤 20일은 처음부터 높다가 내려와요. ' +
+        '<b>쪼개기는 데이터를 구간별로 비교할 때 써요</b> — 학습/검증 데이터 분리도 같은 원리예요.' })
     ]);
   }
 
@@ -1349,8 +1349,8 @@
         { k: '낭비 배수', v: '×' + UI.round2(ratio) }
       ]));
       host.appendChild(el('p', { class: 'small', html:
-        'n 을 두 배로 늘리면 낭비 배수도 <b>두 배</b>가 된다. 즉 이 방식의 비용은 n² 에 비례한다. ' +
-        'n = ' + n + ' 이면 벌써 ' + UI.round2(ratio) + ' 배다.' }));
+        'n 을 두 배로 늘리면 낭비 배수도 <b>두 배</b>가 돼요. 즉 이 방식의 비용은 n² 에 비례해요. ' +
+        'n = ' + n + ' 이면 벌써 ' + UI.round2(ratio) + ' 배예요.' }));
     }
 
     var ctl = UI.controls([
@@ -1362,14 +1362,14 @@
     return el('div', null, [
       UI.callout('trap',
         '반복문 안에서 <code>np.concatenate</code> 나 <code>np.append</code> 로 배열을 늘리는 것. ' +
-        'NumPy 배열은 <b>크기가 고정</b>이라 늘릴 수가 없다. 그래서 이 함수들은 매번 ' +
-        '<b>새 배열을 만들고 전체를 복사</b>한다. list 의 <code>append</code> 처럼 싼 연산이 아니다.'),
+        'NumPy 배열은 <b>크기가 고정</b>이라 늘릴 수가 없어요. 그래서 이 함수들은 매번 ' +
+        '<b>새 배열을 만들고 전체를 복사</b>해요. list 의 <code>append</code> 처럼 싼 연산이 아니에요.'),
       el('div', { class: 'stack-2' }, [
         panel('나쁜 방식 — 매번 전체 복사', null, [
           UI.code('result = np.array([])\nfor i in range(n):\n' +
             '    result = np.append(result, i)   # 매번 새 배열!')
         ]),
-        panel('좋은 방식 — 그릇을 먼저 만든다', 'r', [
+        panel('좋은 방식 — 그릇을 먼저 만들어요', 'r', [
           UI.code('result = np.zeros(n)\nfor i in range(n):\n    result[i] = i\n\n' +
             '# 또는: 리스트에 모았다가 마지막에 한 번\nresult = np.array([i for i in range(n)])')
         ])
@@ -1377,12 +1377,12 @@
       UI.card({
         kicker: '계산기',
         title: '얼마나 낭비인가',
-        note: '하나씩 붙이면 i번째에 i개를 복사한다. 전부 더하면 1+2+⋯+n 이다. 엔진이 실제로 합을 계산한다.',
+        note: '하나씩 붙이면 i번째에 i개를 복사해요. 전부 더하면 1+2+⋯+n 이에요. 엔진이 실제로 합을 계산해요.',
         body: [ctl, host]
       }),
       UI.callout('tip',
-        '정리하면 <b>"먼저 그릇, 그 다음 채우기"</b> 다. 이 장의 <code>zeros</code>·<code>ones</code>·' +
-        '<code>empty</code>·<code>*_like</code> 가 존재하는 이유가 바로 이것이다.')
+        '정리하면 <b>"먼저 그릇, 그 다음 채우기"</b> 예요. 이 장의 <code>zeros</code>·<code>ones</code>·' +
+        '<code>empty</code>·<code>*_like</code> 가 존재하는 이유가 바로 이것이에요.')
     ]);
   }
 
@@ -1393,35 +1393,35 @@
   function buildQuiz() {
     return UI.quiz([
       {
-        q: '<code>np.arange(0, 1, 0.25)</code> 와 <code>np.linspace(0, 1, 5)</code> 를 각각 실행했다. ' +
+        q: '<code>np.arange(0, 1, 0.25)</code> 와 <code>np.linspace(0, 1, 5)</code> 를 각각 실행했어요. ' +
            '두 배열의 <b>마지막 원소</b>는?',
         choices: [
-          '둘 다 1.0 — 같은 구간이니 끝값도 같다',
+          '둘 다 1.0 — 같은 구간이니 끝값도 같아요',
           'arange 는 0.75, linspace 는 1.0',
           'arange 는 1.0, linspace 는 0.75',
           '둘 다 0.75'
         ],
         answer: 1,
-        explain: 'arange 는 파이썬 range 처럼 <b>stop 을 포함하지 않는다</b> → 0, 0.25, 0.5, 0.75 (4개). ' +
-          'linspace 는 기본이 endpoint=True 라서 <b>끝값을 포함</b>한다 → 0, 0.25, 0.5, 0.75, 1.0 (5개). ' +
-          '개수도 4개와 5개로 다르다.'
+        explain: 'arange 는 파이썬 range 처럼 <b>stop 을 포함하지 않아요</b> → 0, 0.25, 0.5, 0.75 (4개). ' +
+          'linspace 는 기본이 endpoint=True 라서 <b>끝값을 포함</b>해요 → 0, 0.25, 0.5, 0.75, 1.0 (5개). ' +
+          '개수도 4개와 5개로 달라요.'
       },
       {
         q: '<code>arr3 = np.arange(30).reshape(5, 6)</code> 일 때 <code>print(np.ones_like(arr3))</code> ' +
            '가 찍는 값은?',
         choices: [
-          '<code>1.</code> — ones 계열은 항상 float64 다',
-          '<code>1</code> — arr3 의 dtype(int64)을 물려받는다',
-          'arr3 이 정수라서 TypeError 가 난다',
-          '<code>0</code> — like 계열은 값을 물려받지 않으므로 0 이다'
+          '<code>1.</code> — ones 계열은 항상 float64 예요',
+          '<code>1</code> — arr3 의 dtype(int64)을 물려받아요',
+          'arr3 이 정수라서 TypeError 가 나요',
+          '<code>0</code> — like 계열은 값을 물려받지 않으므로 0 이에요'
         ],
         answer: 1,
-        explain: '<code>*_like</code> 함수는 shape 뿐 아니라 <b>dtype 까지 물려받는다</b>. arr3 이 int64 이므로 ' +
-          '결과도 int64 이고 <code>1</code> 로 찍힌다. 반면 <code>np.ones(arr3.shape)</code> 는 dtype 을 ' +
-          '물려받을 원본이 없어서 기본값 float64 → <code>1.</code> 이 된다.'
+        explain: '<code>*_like</code> 함수는 shape 뿐 아니라 <b>dtype 까지 물려받아요</b>. arr3 이 int64 이므로 ' +
+          '결과도 int64 이고 <code>1</code> 로 찍혀요. 반면 <code>np.ones(arr3.shape)</code> 는 dtype 을 ' +
+          '물려받을 원본이 없어서 기본값 float64 → <code>1.</code> 이 돼요.'
       },
       {
-        q: '<code>a</code>, <code>b</code> 가 각각 shape <code>(3,)</code> 인 1차원 배열이다. ' +
+        q: '<code>a</code>, <code>b</code> 가 각각 shape <code>(3,)</code> 인 1차원 배열이에요. ' +
            '<code>np.concatenate((a, b))</code> 와 <code>np.stack((a, b))</code> 의 shape 는?',
         choices: [
           '(6,) 와 (2, 3)',
@@ -1430,23 +1430,23 @@
           '둘 다 (2, 3)'
         ],
         answer: 0,
-        explain: 'concatenate 는 <b>있는 축(axis=0)을 길게</b> 이어 붙인다 → (6,), ndim 은 그대로 1. ' +
-          'stack 은 <b>새 축을 만든다</b> → (2, 3), ndim 이 2 로 늘어난다. ' +
-          '원소 개수는 둘 다 6개인데 모양이 다르다.'
+        explain: 'concatenate 는 <b>있는 축(axis=0)을 길게</b> 이어 붙여요 → (6,), ndim 은 그대로 1. ' +
+          'stack 은 <b>새 축을 만들어요</b> → (2, 3), ndim 이 2 로 늘어나요. ' +
+          '원소 개수는 둘 다 6개인데 모양이 달라요.'
       },
       {
-        q: '<code>np.empty((2, 3))</code> 를 실행했더니 출력이 전부 <code>0.</code> 이었다. ' +
+        q: '<code>np.empty((2, 3))</code> 를 실행했더니 출력이 전부 <code>0.</code> 이었어요. ' +
            '이 결과로부터 옳게 말한 것은?',
         choices: [
-          'empty 는 0 으로 채우는 함수다 — zeros 와 같다',
-          '그 메모리에 우연히 0 이 남아 있었을 뿐이고, 어떤 값이 나올지는 보장되지 않는다',
-          'shape 가 작을 때만 0 이 나오고 크면 쓰레기 값이 나온다',
-          'dtype 이 float64 라서 항상 0. 이 나온다'
+          'empty 는 0 으로 채우는 함수예요 — zeros 와 같아요',
+          '그 메모리에 우연히 0 이 남아 있었을 뿐이고, 어떤 값이 나올지는 보장되지 않아요',
+          'shape 가 작을 때만 0 이 나오고 크면 쓰레기 값이 나와요',
+          'dtype 이 float64 라서 항상 0. 이 나와요'
         ],
         answer: 1,
-        explain: '<code>np.empty</code> 는 메모리를 확보만 하고 <b>초기화하지 않는다</b>. ' +
-          '따라서 이전에 그 자리에 있던 값이 그대로 보이며, 0 이 나오는 것은 우연일 뿐 보장이 아니다. ' +
-          '0 이 필요하면 <code>np.zeros</code> 를 써야 한다. 크기와도 상관없다.'
+        explain: '<code>np.empty</code> 는 메모리를 확보만 하고 <b>초기화하지 않아요</b>. ' +
+          '따라서 이전에 그 자리에 있던 값이 그대로 보이며, 0 이 나오는 것은 우연일 뿐 보장이 아니에요. ' +
+          '0 이 필요하면 <code>np.zeros</code> 를 써야 해요. 크기와도 상관없어요.'
       }
     ], { id: 'create' });
   }
